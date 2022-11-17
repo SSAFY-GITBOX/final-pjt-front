@@ -43,6 +43,8 @@ pnpm-debug.log*
 .history
 .ionide
 
+.editorconfig
+
 ### Vue ###
 # gitignore template for Vue.js projects
 #

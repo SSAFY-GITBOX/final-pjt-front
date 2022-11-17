@@ -2,7 +2,8 @@
   <div id="app">
     <nav>
       <router-link :to="{ name: 'MovieView' }">MovieView</router-link> |
-      <router-link :to="{ name: 'SignUpView' }">SIGN UP</router-link>
+      <router-link :to="{ name: 'SignUpView' }">SIGN UP</router-link> |
+			<router-link :to="{ name: 'ArticleView' }">ArticleView</router-link>
     </nav>
     <router-view/>
   </div>
