@@ -1,19 +1,28 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
 import router from '@/router'
 
 Vue.use(Vuex)
 
+
 const API_URL = 'http://127.0.0.1:8000'
 
 export default new Vuex.Store({
+	plugins: [
+		createPersistedState()
+	],
+
   state: {
     token: null,
 		articles: []
   },
 
   getters: {
+		isLogin(state) {
+			return state.token ? true : false
+		}
   },
 
   mutations: {
@@ -57,11 +66,28 @@ export default new Vuex.Store({
 				}
 			})
 				.then((res) => {
-					console.commit('GET_ARTICLES', res.data)
+					context.commit('GET_ARTICLES', res.data)
 				})
 				.catch((err) => {
 					console.log(err)
 				})
+		},
+
+		logIn(context, payload) {
+			axios({
+				method: 'post',
+				url: `${API_URL}/accounts/login/`,
+				data: {
+					username: payload.username,
+					password: payload.password,
+				}
+			})
+				.then((res) => {
+					context.commit('SAVE_TOKEN', res.data.key)
+				})
+				.catch((err) => {
+          console.log(err)
+        })
 		}
   },
 

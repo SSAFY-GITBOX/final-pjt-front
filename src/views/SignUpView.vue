@@ -19,6 +19,7 @@
   <script>
   export default {
     name: 'SignUpView',
+
     data() {
       return {
         username: null,
@@ -26,6 +27,7 @@
         password2: null,
       }
     },
+		
     methods: {
       signUp() {
         const username = this.username
