@@ -1,6 +1,8 @@
 <template>
   <div>
-		<h1>Article Page</h1>
+		<h1>GITBOX 커뮤니티</h1>
+		<router-link :to="{ name: 'ArticleCreateView' }">[게시글 작성]</router-link>
+    <hr>
 		<ArticleList/>
   </div>
 </template>

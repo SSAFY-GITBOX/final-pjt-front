@@ -1,6 +1,5 @@
 <template>
 	<div>
-		<h3>Article List</h3>
 		<ArticleListItem
 			v-for="article in this.articles"
 			:key="article.id"
