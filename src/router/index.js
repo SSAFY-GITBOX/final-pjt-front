@@ -5,6 +5,8 @@ import SignUpView from '../views/SignUpView.vue'
 import ArticleView from '../views/ArticleView.vue'
 import LogInView from '../views/LogInView.vue'
 import DetailView from '../views/DetailView.vue'
+import ArticleDetailView from '../views/ArticleDetailView.vue'
+import ArticleCreateView from '../views/ArticleCreateView.vue'
 
 // const originalPush = VueRouter.prototype.push;
 // VueRouter.prototype.push = function push(location) {
@@ -44,6 +46,18 @@ const routes = [
     path: '/:id',
     name: 'DetailView',
     component: DetailView
+  },
+
+  {
+    path: '/article/:id',
+    name: 'ArticleDetailView',
+    component: ArticleDetailView
+  },
+
+  {
+    path: '/article/create',
+    name: 'ArticleCreateView',
+    component: ArticleCreateView
   },
 ]
 

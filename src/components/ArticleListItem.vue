@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<h5>{{ article.id }}</h5>
-		<p>작성자: {{ article.username }}</p>
-		<p>{{ article.title }}</p>
+		<router-link :to="{ name: 'ArticleDetailView', params: { id: article.id } }" style="text-decoration: none;">
+      <p>{{ article.id }}. &nbsp; {{ article.title }} &nbsp; - &nbsp; {{ article.username }}</p>
+    </router-link>
 	</div>
 </template>
 
