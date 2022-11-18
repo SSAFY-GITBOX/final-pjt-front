@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import MovieView from '../views/MovieView.vue'
+import MovieListView from '../views/MovieListView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ArticleView from '../views/ArticleView.vue'
 import LogInView from '../views/LogInView.vue'
@@ -20,6 +21,12 @@ const routes = [
     path: '/movie',
     name: 'MovieView',
     component: MovieView
+  },
+
+  {
+    path: '/movielist',
+    name: 'MovieListView',
+    component: MovieListView
   },
 
   {

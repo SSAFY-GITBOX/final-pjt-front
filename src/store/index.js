@@ -16,7 +16,8 @@ export default new Vuex.Store({
 
   state: {
     token: null,
-		articles: []
+	articles: [],
+	genres: [],
   },
 
   getters: {
@@ -34,7 +35,11 @@ export default new Vuex.Store({
 
 		GET_ARTICLES(state, articles) {
 			state.articles = articles
-		}
+		},
+
+    SAVE_GENRES(state, genres) {
+      state.genres = genres
+    }
   },
 
   actions: {
@@ -56,39 +61,38 @@ export default new Vuex.Store({
           console.log(err)
         })
     },
-
-		getArticles(context) {
-			axios({
-				method: 'get',
-				url: `${API_URL}/api/v2/`,
-				headers: {
-					Authorization: `Token ${ context.state.token }`
-				}
-			})
-				.then((res) => {
-					context.commit('GET_ARTICLES', res.data)
-				})
-				.catch((err) => {
-					console.log(err)
-				})
-		},
-
-		logIn(context, payload) {
-			axios({
-				method: 'post',
-				url: `${API_URL}/accounts/login/`,
-				data: {
-					username: payload.username,
-					password: payload.password,
-				}
-			})
-				.then((res) => {
-					context.commit('SAVE_TOKEN', res.data.key)
-				})
-				.catch((err) => {
+    getArticles(context) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/api/v2/`,
+        headers: {
+          Authorization: `Token ${ context.state.token }`
+        }
+      })
+        .then((res) => {
+          context.commit('GET_ARTICLES', res.data)
+        })
+        .catch((err) => {
           console.log(err)
         })
-		}
+    },
+
+    logIn(context, payload) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/login/`,
+        data: {
+          username: payload.username,
+          password: payload.password,
+        }
+      })
+        .then((res) => {
+          context.commit('SAVE_TOKEN', res.data.key)
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   },
 
   modules: {
