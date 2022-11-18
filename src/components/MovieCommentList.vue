@@ -5,6 +5,8 @@
         v-for="(comment, index) in comments"
         :key="index"
         :comment="comment"
+        @delete-comment="deleteComment"
+        @update-comment="updateComment"
       />
     </div>
   </div>
@@ -21,6 +23,14 @@ export default {
   props: {
     comments: Array,
   },
+  methods: {
+    deleteComment(comment) {
+      this.$emit('delete-comment', comment)
+    },
+    updateComment(comment) {
+      this.$emit('update-comment', comment)
+    }
+  }
 }
 </script>
 
