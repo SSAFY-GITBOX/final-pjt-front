@@ -1,10 +1,12 @@
 <template>
   <div>
-    <MovieCommentListItem
-      v-for="(comment, index) in movie.comment_set"
-      :key="index"
-      :comment="comment"
-    />
+    <div v-if="(comments)">
+      <MovieCommentListItem
+        v-for="(comment, index) in comments"
+        :key="index"
+        :comment="comment"
+      />
+    </div>
   </div>
 </template>
 
@@ -17,8 +19,8 @@ export default {
     MovieCommentListItem
   },
   props: {
-    movie: Object,
-  }
+    comments: Array,
+  },
 }
 </script>
 

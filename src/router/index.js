@@ -6,6 +6,13 @@ import ArticleView from '../views/ArticleView.vue'
 import LogInView from '../views/LogInView.vue'
 import DetailView from '../views/DetailView.vue'
 
+// const originalPush = VueRouter.prototype.push;
+// VueRouter.prototype.push = function push(location) {
+//     return originalPush.call(this, location).catch(() => {
+//         return window.location.reload()
+//     })
+// };
+
 Vue.use(VueRouter)
 
 const routes = [

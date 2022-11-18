@@ -7,6 +7,7 @@
 			<router-link :to="{ name: 'ArticleView' }">ArticleView</router-link>
     </nav>
     <router-view/>
+    <!-- <router-view :key="$route.fullPath"/> -->
   </div>
 </template>
 
