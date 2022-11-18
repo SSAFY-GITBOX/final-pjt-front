@@ -9,7 +9,10 @@
 
 		<!-- 페이지네이션 컴포넌트 호출 -->
 		<div>
-			<MovieListPagenation/>
+			<MovieListPagenation
+				:page="page"
+				@click-pagenation="clickPagenation"
+			/>
 		</div>
 	</div>
 </template>
@@ -62,7 +65,32 @@ export default {
 				.catch((err) => {
 					console.log(err)
 				})
-			}
+		},
+		
+		// 자식이 준 이벤트
+		clickPagenation(page) {
+			const select = this.select
+			this.page = page
+			axios({
+				method: 'get',
+				url: `${API_URL}/api/v1/movies/${select}`,
+				params: {
+					page: page
+				},
+				headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        }
+			})
+				.then((res) => {
+					this.movies = res.data
+					this.movies.forEach((movie) => {
+            movie.poster_path = 'https://image.tmdb.org/t/p/original' + movie.poster_path
+          })
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
 	},
 
 	created() {
