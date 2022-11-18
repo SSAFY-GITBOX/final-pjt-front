@@ -34,7 +34,6 @@ export default {
         url: `${API_URL}/api/v1/movies/popular/init/`
       })
         .then((res) => {
-          console.log(res)
           this.popularMovies = res.data
           this.popularMovies.forEach((movie) => {
             movie.poster_path = 'https://image.tmdb.org/t/p/original' + movie.poster_path

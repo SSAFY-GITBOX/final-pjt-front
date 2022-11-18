@@ -26,7 +26,7 @@ const routes = [
   },
 
   {
-    path: '/movielist',
+    path: '/movielist/:select',
     name: 'MovieListView',
     component: MovieListView
   },
