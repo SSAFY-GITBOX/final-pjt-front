@@ -1,4 +1,4 @@
-<!-- 자동포맷해서 세미콜론 있는거에요!! -->
+<!-- 자동포맷해서 세미콜론 있는거에요!! 엔터누를때 댓글작성되는거는 안됩니다 ㅠㅠㅠ 다시해보겠습니다 -->
 
 <template>
   <div>
@@ -17,11 +17,13 @@
         <img :src="movie.poster_path" alt="" height="360" />
       </div>
       <p>{{ movie.title }}</p>
-      <hr />
-      <p>댓글</p>
+    </div>
+          
+      <!-- <p>댓글</p>
       <form @submit.prevent="createComment">
         <label for="content">내용: </label>
         <input type="text" id="content" v-model.trim="content" />
+        -- 별 평가 하는 부분 부트스트랩 --
         <div class="star-rating space-x-4 mx-auto">
           <input type="radio" id="5-stars" name="rating" value="10" />
           <label for="5-stars" class="star pr-4">★</label>
@@ -36,14 +38,71 @@
         </div>
         <br />
         <button type="submit" id="submit">작성</button>
-      </form>
+      </form> -->
+
+    <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
+    <div>
+      <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
+      <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
+      <b-modal
+        id="modal-prevent"
+        ref="modal"
+        title="댓글작성"
+        @show="resetModal"
+        @hidden="resetModal"
+        @ok="createComment"
+      >
+      
+        <form ref="form">
+          <b-form-group
+            label="댓글"
+            label-for="comment-input"
+            invalid-feedback="Comment is required"
+          >
+            <!-- 엔터 눌렀을 때도 createComment 호출 -->
+            <b-form-input
+              @keyup.enter="createComment"
+              id="comment-input"
+              v-model="content"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </form>
+      </b-modal>
     </div>
-    <hr />
-    <br />
+    <div v-if="(updatecomment)">
+      <b-modal
+        id="modal-prevent-closing"
+        ref="modal"
+        title="댓글수정"
+        @ok="updateCommentPerfect"
+        @keyup.enter="updateCommentPerfect"
+        v-model="modalshow"
+      >
+        <form ref="form">
+          <b-form-group
+            label="댓글"
+            label-for="comment-input"
+            invalid-feedback="Comment is required"
+          >
+            <b-form-input
+              id="comment-input"
+              v-model="updatedcommentcontent"
+              required
+            ></b-form-input>
+          </b-form-group>
+        </form>
+      </b-modal>
+    </div>
+
+    <br>
     <MovieCommentList 
       :comments="comments"
+      @update-comment="updateComment"
+      @delete-comment="deleteComment"
     />
   </div>
+  
 </template>
 
 <script>
@@ -51,6 +110,7 @@ import axios from "axios";
 import MovieCommentList from "@/components/MovieCommentList";
 
 const API_URL = "http://127.0.0.1:8000";
+
 
 export default {
   name: "DetailView",
@@ -63,6 +123,9 @@ export default {
       content: null,
       rating: 3,
       comments: null,
+      updatecomment: null,
+      updatedcommentcontent: null,
+      modalshow: false,
     };
   },
   created() {
@@ -74,6 +137,9 @@ export default {
       axios({
         method: "get",
         url: `${API_URL}/api/v1/movies/${this.$route.params.id}`,
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        }
       })
         .then((res) => {
           this.movie = res.data;
@@ -90,7 +156,7 @@ export default {
       const content = this.content;
       const rating = this.rating;
       if (!content) {
-        alert("제목을 입력해주세요");
+        alert("댓글을 입력해주세요");
         return;
       }
       axios({
@@ -100,9 +166,9 @@ export default {
           content: content,
           rating: rating,
         },
-        // headers: {
-        //   Authorization: `Token ${this.$store.state.token}`
-        // }
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        }
       })
         .then(() => {
           this.getMovieDetail()
@@ -112,6 +178,53 @@ export default {
           console.log(err);
         });
     },
+    deleteComment(comment) {
+      axios({
+        method: "delete",
+        url: `${API_URL}/api/v1/comments/${comment.id}/`,
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        }
+      })
+        .then(() => {
+          this.getMovieDetail()
+          console.log(this.movie) // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      
+    },
+    updateComment(comment) {  // MovieCommentList 에서 업데이트할 댓글 가져오는 메서드!!
+      this.updatecomment = comment // 업데이트할 데이터를 updatecomment 로 data에 저장해놓기! 밑에 메서드에서 쓸거임!
+      this.updatedcommentcontent = comment.content
+      this.modalshow = true  // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
+    },
+    updateCommentPerfect() { // 댓글 업데이트 장고에 엑시오스할 메서드!!
+      this.updatecomment.content = this.updatedcommentcontent
+      axios({
+        method: "put",
+        url: `${API_URL}/api/v1/comments/${this.updatecomment.id}/`,
+        data: {
+          content: this.updatedcommentcontent, // 위에 const 안 해놔서 this 붙여야함! 동작은 똑같음!
+          rating: this.rating,
+        },
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`
+        }
+      })
+        .then(() => {
+          this.getMovieDetail()
+          console.log(this.movie) // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
+   
+    resetModal() { // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
+      this.content = null
+    }
   }
 }
 </script>
