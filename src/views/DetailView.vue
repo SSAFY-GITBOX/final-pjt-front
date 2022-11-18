@@ -2,7 +2,7 @@
 
 <template>
   <div>
-    <div v-if="movie">
+    <div style="display:flex; margin-left: 30px; margin-right: 100px;" v-if="movie">
       <div v-if="movie.video_path">
         <iframe
           :src="`https://www.youtube.com/embed/${movie.video_path}`"
@@ -16,8 +16,16 @@
       <div v-else>
         <img :src="movie.poster_path" alt="" height="360" />
       </div>
-      <p>{{ movie.title }}</p>
+      <div style="text-align: left; margin-left: 20px;">
+        <h2>{{ movie.title }}</h2>
+        <p>개봉일 {{ movie.release_date }}</p><br><br><br>
+        <h4>줄거리</h4>
+        <hr>
+        <p>{{ movie.overview }}</p>
+      </div>
+      <hr>
     </div>
+    <br>
           
       <!-- <p>댓글</p>
       <form @submit.prevent="createComment">
@@ -43,7 +51,9 @@
     <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
     <div>
       <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-      <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
+      <div style="text-align: left; margin-left: 30px;">
+        <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
+      </div>
       <b-modal
         id="modal-prevent"
         ref="modal"
@@ -123,8 +133,8 @@ export default {
       content: null,
       rating: 3,
       comments: null,
-      updatecomment: null,
-      updatedcommentcontent: null,
+      updatecomment: null, // 자식에서 받아온 바꿔야할 댓글
+      updatedcommentcontent: null, // 업데이트될 댓글의 수정된 내용. 이걸 장고에 put 으로 보냄
       modalshow: false,
     };
   },
@@ -146,6 +156,7 @@ export default {
           this.movie.poster_path =
             "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set  // 이거붙어야 댓글새로고침 바로됨!!
+          console.log(this.movie)
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
         })
         .catch((err) => {
@@ -231,6 +242,8 @@ export default {
 
 
 <style>
+
+/* 별 평점 style 인데 필요없으면 나중에 지우면됨 */
 .star-rating {
   display: flex;
   flex-direction: row-reverse;
@@ -261,4 +274,5 @@ export default {
 .star-rating label:hover ~ label {
   -webkit-text-fill-color: #fff58c;
 }
+
 </style>

@@ -5,8 +5,9 @@
     <p>평점: {{ comment.rating }}</p>
     <button @click="updateComment">수정</button>
     <button @click="deleteComment">삭제</button>
-    <hr>
+    <br><br><br>
   </div>
+
 </template>
 
 <script>
