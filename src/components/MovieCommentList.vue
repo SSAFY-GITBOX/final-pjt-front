@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="(comments)">
+    <div v-if="(comments)" style="text-align: left; margin-left: 30px;">
       <MovieCommentListItem
         v-for="(comment, index) in comments"
         :key="index"
