@@ -25,7 +25,12 @@ export default new Vuex.Store({
   getters: {
 		isLogin(state) {
 			return state.token ? true : false
-		}
+		},
+    
+    // 페이지네이션 마지막 인덱스
+    selectedMoviePageEndIndex(state) {
+      return Math.ceil(state.selectedGenreMovieLength / 30)
+    },
   },
 
   mutations: {
