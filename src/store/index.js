@@ -16,8 +16,10 @@ export default new Vuex.Store({
 
   state: {
     token: null,
-	articles: [],
-	genres: [],
+    articles: [],
+    genres: [],
+    selectedGenre: null,
+    selectedGenreMovieLength: null,
   },
 
   getters: {
@@ -39,6 +41,14 @@ export default new Vuex.Store({
 
     SAVE_GENRES(state, genres) {
       state.genres = genres
+    },
+
+    SAVE_SELECTED_GENRE(state, genreId) {
+      state.selectedGenre = genreId
+    },
+
+    SAVE_SELECT_MOVIE_LENGTH(state, movie_length) {
+      state.selectedGenreMovieLength = movie_length
     }
   },
 

@@ -1,6 +1,7 @@
 <template>
   <div>
     <img :src="movie.poster_path" alt="" height="364" @click="goDetail">
+    <p>{{ movie.title }}</p>
   </div>
 </template>
 
