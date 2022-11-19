@@ -42,6 +42,7 @@
     <!-- <nav>
       <router-link :to="{ name: 'HomeView' }">Home</router-link> |
 			<router-link :to="{ name: 'ArticleView' }">Community</router-link> |
+      <TheMovieSearchBar/>
       <router-link :to="{ name: 'SignUpView' }">SIGN UP</router-link> |
 			<router-link :to="{ name: 'LogInView' }">LogIn</router-link>
     </nav> -->
@@ -49,6 +50,16 @@
     <!-- <router-view :key="$route.fullPath"/> -->
   </div>
 </template>
+
+<script>
+import TheMovieSearchBar from '@/components/TheMovieSearchBar'
+
+export default {
+  components: {
+    TheMovieSearchBar,
+  }
+}
+</script>
 
 <style>
 #app {

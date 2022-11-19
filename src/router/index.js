@@ -2,6 +2,7 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import MovieView from '../views/MovieView.vue'
+import SearchedMovieView from '../views/SearchedMovieView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ArticleView from '../views/ArticleView.vue'
 import LogInView from '../views/LogInView.vue'
@@ -26,11 +27,17 @@ const routes = [
   },
 
   {
+    path: '/movies/searched',
+    name: 'SearchedMovieView',
+    component: SearchedMovieView
+  },
+  
+  {
     path: '/movies/:select',
     name: 'MovieView',
     component: MovieView
   },
-
+  
   {
     path: '/signup',
     name: 'SignUpView',
