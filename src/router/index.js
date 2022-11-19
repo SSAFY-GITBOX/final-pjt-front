@@ -9,6 +9,7 @@ import LogInView from '../views/LogInView.vue'
 import DetailView from '../views/DetailView.vue'
 import ArticleDetailView from '../views/ArticleDetailView.vue'
 import ArticleCreateView from '../views/ArticleCreateView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 // const originalPush = VueRouter.prototype.push;
 // VueRouter.prototype.push = function push(location) {
@@ -73,6 +74,12 @@ const routes = [
     name: 'ArticleCreateView',
     component: ArticleCreateView
   },
+
+  {
+    path: '/profile',
+    name: 'ProfileView',
+    component: ProfileView
+  }
 ]
 
 const router = new VueRouter({
