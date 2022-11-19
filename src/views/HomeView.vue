@@ -125,7 +125,7 @@ export default {
     // 전체보기 클릭 시
     goMovieListByGenre() {
       const select = `genres/${this.selectedGenre}`
-      this.$router.push({ name: 'MovieView' , params: {select: select} })
+      this.$router.push({ name: 'MovieView' , params: {select: select}, query: {page: 1} })
     }
   },
 

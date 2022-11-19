@@ -4,23 +4,17 @@
       <ul class="pagination">
         <!-- 처음 -->
         <li class="page-item">
-          <a class="page-link" href="#">
-            <span @click="clickPagenation(1)">처음</span>
-          </a>
+            <span class="page-link" @click="clickPagenation(1)">처음</span>
         </li>
 
         <!-- 페이지들 -->
         <li v-for="(page_num, index) in pages" :key="index" class="page-item">
-          <a class="page-link" href="#">
-            <span @click="clickPagenation(page_num)">{{ page_num }}</span>
-          </a>
+          <span class="page-link" @click="clickPagenation(page_num)">{{ page_num }}</span>
         </li>
 
         <!-- 끝 -->
         <li class="page-item">
-          <a class="page-link" href="#">
-            <span @click="clickPagenation($store.getters.selectedMoviePageEndIndex)">끝</span>
-          </a>
+            <span class="page-link" @click="clickPagenation($store.getters.selectedMoviePageEndIndex)">끝</span>
         </li>
       </ul>
     </nav>
@@ -46,8 +40,9 @@ export default {
   methods: {
     //  클릭시 부모로 이벤트 전송
     clickPagenation(page) {
-      console.log(page)
-      this.$emit('click-pagenation', page)
+      if (page != this.page) {
+        this.$emit('click-pagenation', page)
+      }
     }
   }
 };
