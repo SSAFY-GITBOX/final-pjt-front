@@ -4,7 +4,8 @@
       <router-link :to="{ name: 'MovieView' }">MovieView</router-link> |
       <router-link :to="{ name: 'SignUpView' }">SIGN UP</router-link> |
 			<router-link :to="{ name: 'LogInView' }">LogIn</router-link> |
-			<router-link :to="{ name: 'ArticleView' }">ArticleView</router-link>
+			<router-link :to="{ name: 'ArticleView' }">ArticleView</router-link> |
+      <router-link :to="{ name: 'ProfileView' }">ProfileView</router-link>
     </nav>
     <router-view/>
     <!-- <router-view :key="$route.fullPath"/> -->
@@ -16,7 +17,7 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  /* text-align: center; */
   color: #2c3e50;
   background-color: black;
   color: white;
