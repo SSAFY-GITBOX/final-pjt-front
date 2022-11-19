@@ -1,9 +1,9 @@
 <template>
   <div>
-    <span>인기영화</span><br><br>
+    <span>최신 영화</span><br><br>
     <div style="display: flex; overflow-x: scroll;">
-        <PopularMovieItem
-        v-for="(movie, index) in popularMovies" 
+        <MovieListItem
+        v-for="(movie, index) in latestMovies" 
         :key="index"
         :movie="movie"
         />
@@ -12,30 +12,31 @@
 </template>
 
 <script>
-import PopularMovieItem from '@/components/PopularMovieItem'
+import MovieListItem from '@/components/MovieListItem'
 import axios from 'axios';
 
 const API_URL = 'http://127.0.0.1:8000'
 export default {
-  name: 'PopularMovie',
+  name: 'LetestMovieList',
   components: {
-    PopularMovieItem,
+    MovieListItem,
   },
   data() {
     return {
-      popularMovies: null,
+      latestMovies: null,
     }
   },
 
   methods: {
-    getPopularMovieList() {
+    getLatestMovieList() {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/popular/init/`
+        url: `${API_URL}/api/v1/movies/latest/init/`
       })
         .then((res) => {
-          this.popularMovies = res.data
-          this.popularMovies.forEach((movie) => {
+          this.$store.commit('LATEST_MOVIE_LENGTH', res.data.movie_length)
+          this.latestMovies = res.data.movies
+          this.latestMovies.forEach((movie) => {
             movie.poster_path = 'https://image.tmdb.org/t/p/original' + movie.poster_path
           })
         })
@@ -46,7 +47,7 @@ export default {
   },
 
   created() {
-    this.getPopularMovieList()
+    this.getLatestMovieList()
   }
 }
 

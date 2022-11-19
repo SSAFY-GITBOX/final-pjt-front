@@ -20,6 +20,7 @@ export default new Vuex.Store({
     genres: [],
     selectedGenre: null,
     selectedGenreMovieLength: null,
+    latestMovieLength: null,
   },
 
   getters: {
@@ -54,7 +55,11 @@ export default new Vuex.Store({
 
     SAVE_SELECT_MOVIE_LENGTH(state, movie_length) {
       state.selectedGenreMovieLength = movie_length
-    }
+    },
+
+    LATEST_MOVIE_LENGTH(state, movie_length) {
+      state.latestMovieLength = movie_length
+    },
   },
 
   actions: {
