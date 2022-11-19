@@ -20,8 +20,10 @@ export default {
   methods: {
     getSearchMovie() {
       const content = this.inputData
-      if (this.$route.params.content != content) {
-        this.$emit('get-search-movie', content)
+      if (content != null) {
+        if (this.$route.params.content != content && content != null && content.trim()) {
+          this.$emit('get-search-movie', content)
+        }
       }
     }
   }
