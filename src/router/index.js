@@ -28,7 +28,7 @@ const routes = [
   },
 
   {
-    path: '/movies/searched',
+    path: '/movies/search/:content',
     name: 'SearchedMovieView',
     component: SearchedMovieView
   },
