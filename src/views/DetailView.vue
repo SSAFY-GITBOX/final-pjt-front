@@ -31,6 +31,12 @@
       <hr />
     </div>
     <br>
+    <div style="text-align: left; margin-left: 50px">
+      <p>{{ movie.like_count }}명이 좋아합니다.</p>
+      <button @click="likeMovie">{{ this.likeMessage }}</button>
+    </div>
+    <br>
+    <br>
     <div style="margin-right: auto; text-align: left; margin-left: 30px">
       <img :src="actors[0].profile_path" alt="" width="200" height="200">
       <p>{{ actors[0].name }}</p>
@@ -134,9 +140,11 @@ const API_URL = "http://127.0.0.1:8000";
 
 export default {
   name: "DetailView",
+
   components: {
     MovieCommentList,
   },
+
   data() {
     return {
       movie: null,
@@ -148,10 +156,14 @@ export default {
       modalshow: false,
       actorIds: [],
       actors: [],
+      user: null,
+      likeMessage: '',
     };
   },
+  
   created() {
-    this.getMovieDetail();
+    this.getUser()
+    this.getMovieDetail()
   },
 
   methods: {
@@ -164,12 +176,13 @@ export default {
         },
       })
         .then((res) => {
-          this.movie = res.data;
-          this.actorIds = res.data.actors;
+          this.movie = res.data.movie;
+          this.actorIds = res.data.movie.actors;
           this.movie.poster_path =
             "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
+          this.likeMessage = res.data.isLiking ? "좋아요 취소" : "좋아요"
           
           this.actorIds.forEach((actorId) => {
             axios({
@@ -192,6 +205,7 @@ export default {
           console.log(err);
         });
     },
+
     createComment() {
       const content = this.content;
       const rating = this.rating;
@@ -218,6 +232,7 @@ export default {
           console.log(err);
         });
     },
+
     deleteComment(comment) {
       axios({
         method: "delete",
@@ -234,12 +249,14 @@ export default {
           console.log(err);
         });
     },
+
     updateComment(comment) {
       // MovieCommentList 에서 업데이트할 댓글 가져오는 메서드!!
       this.updatecomment = comment; // 업데이트할 데이터를 updatecomment 로 data에 저장해놓기! 밑에 메서드에서 쓸거임!
       this.updatedcommentcontent = comment.content;
       this.modalshow = true; // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
     },
+    
     updateCommentPerfect() {
       // 댓글 업데이트 장고에 엑시오스할 메서드!!
       this.updatecomment.content = this.updatedcommentcontent;
@@ -267,6 +284,42 @@ export default {
       // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
       this.content = null;
     },
+
+    // 누가 좋아하는지 알아야 하기 때문에!
+    getUser() {
+      axios({
+        method: 'get',
+        url: `${API_URL}/accounts/user/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        }
+      })
+        .then((res) => {
+          this.user = res.data
+          console.log(this.user)
+        })
+        .catch((err) => {
+          console.log('getUserError')
+          console.log(err)
+        })
+    },
+
+    likeMovie() {
+      axios({
+        method: 'post',
+        url: `${API_URL}/api/v1/movies/${this.movie.movie_id}/likes/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        }
+      })
+        .then((res) => {
+          this.likeMessage = res.data.isLiking ? "좋아요 취소" : "좋아요"
+          this.getMovieDetail()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   },
 };
 </script>
