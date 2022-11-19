@@ -2,7 +2,10 @@
 
 <template>
   <div>
-    <div style="display:flex; margin-left: 30px; margin-right: 100px;" v-if="movie">
+    <div
+      style="display: flex; margin-left: 30px; margin-right: 100px"
+      v-if="movie"
+    >
       <div v-if="movie.video_path">
         <iframe
           :src="`https://www.youtube.com/embed/${movie.video_path}`"
@@ -16,18 +19,28 @@
       <div v-else>
         <img :src="movie.poster_path" alt="" height="360" />
       </div>
-      <div style="text-align: left; margin-left: 20px;">
+      <div style="text-align: left; margin-left: 20px">
         <h2>{{ movie.title }}</h2>
-        <p>개봉일 {{ movie.release_date }}</p><br><br><br>
+        <!-- <b-button @click="likeMovie">{{ this.likeMessage }}</b-button> -->
+        <p>개봉일 {{ movie.release_date }}</p>
+        <br /><br /><br />
         <h4>줄거리</h4>
-        <hr>
+        <hr />
         <p>{{ movie.overview }}</p>
       </div>
-      <hr>
+      <hr />
     </div>
     <br>
-          
-      <!-- <p>댓글</p>
+    <div style="margin-right: auto; text-align: left; margin-left: 30px">
+      <img :src="actors[0].profile_path" alt="" width="200" height="200">
+      <p>{{ actors[0].name }}</p>
+      <img :src="actors[1].profile_path" alt="" width="200" height="200">
+      <p>{{ actors[1].name }}</p>
+      <img :src="actors[2].profile_path" alt="" width="200" height="200">
+      <p>{{ actors[2].name }}</p>
+    </div>
+
+    <!-- <p>댓글</p>
       <form @submit.prevent="createComment">
         <label for="content">내용: </label>
         <input type="text" id="content" v-model.trim="content" />
@@ -51,7 +64,7 @@
     <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
     <div>
       <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-      <div style="text-align: left; margin-left: 30px;">
+      <div style="text-align: left; margin-left: 30px">
         <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
       </div>
       <b-modal
@@ -62,7 +75,6 @@
         @hidden="resetModal"
         @ok="createComment"
       >
-      
         <form ref="form">
           <b-form-group
             label="댓글"
@@ -80,7 +92,7 @@
         </form>
       </b-modal>
     </div>
-    <div v-if="(updatecomment)">
+    <div v-if="updatecomment">
       <b-modal
         id="modal-prevent-closing"
         ref="modal"
@@ -105,14 +117,13 @@
       </b-modal>
     </div>
 
-    <br>
-    <MovieCommentList 
+    <br />
+    <MovieCommentList
       :comments="comments"
       @update-comment="updateComment"
       @delete-comment="deleteComment"
     />
   </div>
-  
 </template>
 
 <script>
@@ -120,7 +131,6 @@ import axios from "axios";
 import MovieCommentList from "@/components/MovieCommentList";
 
 const API_URL = "http://127.0.0.1:8000";
-
 
 export default {
   name: "DetailView",
@@ -136,6 +146,8 @@ export default {
       updatecomment: null, // 자식에서 받아온 바꿔야할 댓글
       updatedcommentcontent: null, // 업데이트될 댓글의 수정된 내용. 이걸 장고에 put 으로 보냄
       modalshow: false,
+      actorIds: [],
+      actors: [],
     };
   },
   created() {
@@ -148,16 +160,33 @@ export default {
         method: "get",
         url: `${API_URL}/api/v1/movies/${this.$route.params.id}`,
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
           this.movie = res.data;
+          this.actorIds = res.data.actors;
           this.movie.poster_path =
             "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
-          this.comments = this.movie.comment_set  // 이거붙어야 댓글새로고침 바로됨!!
-          console.log(this.movie)
+          this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
+          
+          this.actorIds.forEach((actorId) => {
+            axios({
+              method: "get",
+              url: `${API_URL}/api/v1/actors/${actorId}`,
+              headers: {
+                Authorization: `Token ${this.$store.state.token}`,
+              },
+            })
+              .then((res) => {
+                res.data.profile_path = 'https://image.tmdb.org/t/p/original' + res.data.profile_path
+                this.actors.push(res.data)
+              })
+              .catch((err) => {
+                console.log(err);
+              });
+          })
         })
         .catch((err) => {
           console.log(err);
@@ -178,12 +207,12 @@ export default {
           rating: rating,
         },
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then(() => {
-          this.getMovieDetail()
-          this.content = null
+          this.getMovieDetail();
+          this.content = null;
         })
         .catch((err) => {
           console.log(err);
@@ -194,25 +223,26 @@ export default {
         method: "delete",
         url: `${API_URL}/api/v1/comments/${comment.id}/`,
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then(() => {
-          this.getMovieDetail()
-          console.log(this.movie) // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
+          this.getMovieDetail();
+          console.log(this.movie); // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
         })
         .catch((err) => {
           console.log(err);
         });
-      
     },
-    updateComment(comment) {  // MovieCommentList 에서 업데이트할 댓글 가져오는 메서드!!
-      this.updatecomment = comment // 업데이트할 데이터를 updatecomment 로 data에 저장해놓기! 밑에 메서드에서 쓸거임!
-      this.updatedcommentcontent = comment.content
-      this.modalshow = true  // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
+    updateComment(comment) {
+      // MovieCommentList 에서 업데이트할 댓글 가져오는 메서드!!
+      this.updatecomment = comment; // 업데이트할 데이터를 updatecomment 로 data에 저장해놓기! 밑에 메서드에서 쓸거임!
+      this.updatedcommentcontent = comment.content;
+      this.modalshow = true; // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
     },
-    updateCommentPerfect() { // 댓글 업데이트 장고에 엑시오스할 메서드!!
-      this.updatecomment.content = this.updatedcommentcontent
+    updateCommentPerfect() {
+      // 댓글 업데이트 장고에 엑시오스할 메서드!!
+      this.updatecomment.content = this.updatedcommentcontent;
       axios({
         method: "put",
         url: `${API_URL}/api/v1/comments/${this.updatecomment.id}/`,
@@ -221,28 +251,28 @@ export default {
           rating: this.rating,
         },
         headers: {
-          Authorization: `Token ${this.$store.state.token}`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then(() => {
-          this.getMovieDetail()
-          console.log(this.movie) // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
+          this.getMovieDetail();
+          console.log(this.movie); // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
         })
         .catch((err) => {
           console.log(err);
         });
     },
-   
-    resetModal() { // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
-      this.content = null
-    }
-  }
-}
+
+    resetModal() {
+      // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
+      this.content = null;
+    },
+  },
+};
 </script>
 
 
 <style>
-
 /* 별 평점 style 인데 필요없으면 나중에 지우면됨 */
 .star-rating {
   display: flex;
@@ -274,5 +304,4 @@ export default {
 .star-rating label:hover ~ label {
   -webkit-text-fill-color: #fff58c;
 }
-
 </style>
