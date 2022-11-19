@@ -69,7 +69,7 @@
             label-for="comment-input"
             invalid-feedback="Comment is required"
           >
-            <!-- 엔터 눌렀을 때도 createComment 호출 -->
+            <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
             <b-form-input
               @keyup.enter="createComment"
               id="comment-input"
