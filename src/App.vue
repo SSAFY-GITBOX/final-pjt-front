@@ -21,10 +21,11 @@
             </ul>
           </div>
           <div>
-            <form class="d-flex" role="search">
+            <TheMovieSearchBar @get-search-movie="getSearchMovie"/>
+            <!-- <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
               <button class="btn btn-outline-success" type="submit">Search</button>
-            </form>
+            </form> -->
           </div>
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -57,6 +58,11 @@ import TheMovieSearchBar from '@/components/TheMovieSearchBar'
 export default {
   components: {
     TheMovieSearchBar,
+  },
+  methods: {
+    getSearchMovie(content) {
+      this.$router.push({ name: 'SearchedMovieView', params: {content: content}})
+    }
   }
 }
 </script>

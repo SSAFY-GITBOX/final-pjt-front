@@ -1,7 +1,12 @@
 <template>
-  <span>
-    <input type="text" v-model="inputData" @keyup.enter="getSearchMovie">
-  </span>
+  <div>
+    <form class="d-flex" @submit.prevent="getSearchMovie">
+      <input class="form-control me-2" type="search" placeholder="Search"
+        v-model="inputData"
+      >
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
+  </div>
 </template>
 
 <script>
@@ -15,7 +20,9 @@ export default {
   methods: {
     getSearchMovie() {
       const content = this.inputData
-      this.$router.push({ name: 'SearchedMovieView', params: {content: content}, query: {content: content}})
+      if (this.$route.params.content != content) {
+        this.$emit('get-search-movie', content)
+      }
     }
   }
 }
