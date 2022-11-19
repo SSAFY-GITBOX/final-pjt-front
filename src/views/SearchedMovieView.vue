@@ -57,7 +57,6 @@ export default {
         },
       })
         .then((res) => {
-          console.log(res)
           this.searchedMovies = res.data
           this.searchedMovies.forEach((movie) => {
             movie.poster_path = 'https://image.tmdb.org/t/p/original' + movie.poster_path
@@ -71,9 +70,6 @@ export default {
   created() {
     this.getSearchedMovie()
   },
-  // updated() {
-  //   this.getSearchedMovie()
-  // }
 }
 </script>
 
