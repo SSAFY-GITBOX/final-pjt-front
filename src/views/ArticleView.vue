@@ -5,31 +5,41 @@
     <!-- 게시글작성 모달창 구현하는 부분 -->
     <div>
       <div style="text-align: center">
-        <b-button v-b-modal.modal-prevent>게시글 작성</b-button>
+        <b-button v-b-modal.modal-center>게시글 작성</b-button>
       </div>
+
+
+      <!-- 여기부터 모달창 -->
       <b-modal
-        id="modal-prevent"
+        class="b-modal"
+        id="modal-center"
+        centered
         ref="modal"
         title="게시글작성"
+        size="xl"
         @show="resetModal"
         @hidden="resetModal"
         @ok="createArticle"
       >
-        <form ref="form">
-          <b-form-group
-            label="제목"
-            label-for="article-title-input"
-            invalid-feedback="Comment is required"
-          >
-            <!-- 엔터쳤을 때 메서드호출하는거는 아직 구현못함 -->
-            <b-form-input
-              @keyup.enter="createArticle"
-              id="article-title-input"
-              v-model.trim="title"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
+        <template #modal-header="{ close }">
+          <!-- Emulate built in modal header close button action -->
+          <h5>게시글 작성</h5>
+          <b-button size="sm" id="header-button" @click="close()">
+            ❌
+          </b-button>
+        </template>
+        <b-form-group
+          label="제목"
+          label-for="article-title-input"
+          invalid-feedback="Comment is required"
+        >
+          <!-- 제목 부분 -->
+          <b-form-input
+            id="article-title-input"
+            v-model.trim="title"
+            required
+          ></b-form-input>
+        </b-form-group>
         <form ref="form">
           <b-form-group
             class="modal-text"
@@ -39,10 +49,10 @@
           >
             <!-- 내용 부분은 textarea로 바꿔줬음 -->
             <b-form-textarea
-              @keyup.enter="createArticle"
               id="article-content-input"
               v-model.trim="content"
               required
+              rows="20"
             ></b-form-textarea>
           </b-form-group>
         </form>
@@ -79,19 +89,19 @@ export default {
     },
   },
 
-  created() {
-    this.getArticles();
-  },
+  // created() {
+  //   this.getArticles();
+  // },
 
   methods: {
-    getArticles() {
-      if (this.isLogin === true) {
-        this.$store.dispatch("getArticles");
-      } else {
-        alert("로그인이 필요한 서비스입니다.");
-        this.$router.push({ name: "LogInView" });
-      }
-    },
+    // getArticles() {
+    //   if (this.isLogin === true) {
+    //     this.$store.dispatch("getArticles");
+    //   } else {
+    //     alert("로그인이 필요한 서비스입니다.");
+    //     this.$router.push({ name: "LogInView" });
+    //   }
+    // },
     createArticle() {
       const title = this.title;
       const content = this.content;
@@ -115,8 +125,9 @@ export default {
       })
         .then((res) => {
           console.log(res);
+          this.$router.go();
           //   this.$router.push({ name: "ArticleView" });
-          this.getArticles();
+          // this.getArticles();
         })
         .catch((err) => {
           console.log(err);
@@ -127,9 +138,21 @@ export default {
       this.title = null;
       this.content = null;
     },
+    hideModal() {
+      this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
+    },
   },
 };
 </script>
 
 <style>
+#header-button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+}
+
+.b-modal{
+  width: 80vw;
+  height: 80vh;
+}
 </style>
