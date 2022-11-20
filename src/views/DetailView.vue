@@ -195,7 +195,7 @@ export default {
           "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
-          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
+          this.likeMessage = res.data.isLiking ? "❤" : "🤍"
           
           this.actorIds.forEach((actorId) => {
             axios({
@@ -326,7 +326,7 @@ export default {
         }
       })
         .then((res) => {
-          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
+          this.likeMessage = res.data.isLiking ? "❤" : "🤍"
           this.getMovieDetail()
         })
         .catch((err) => {
