@@ -5,8 +5,10 @@ import router from './router'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import VueCalendarHeatmap from 'vue-calendar-heatmap'
 
 Vue.use(BootstrapVue)
+Vue.use(VueCalendarHeatmap)
 
 Vue.config.productionTip = false
 
