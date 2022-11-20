@@ -1,8 +1,8 @@
 <template>
   <div>
     <!-- {{ comment }} -->
+    <p>⭐ {{ comment.rating }}</p>
     <p>댓글: {{ comment.content }}</p>
-    <p>평점: {{ comment.rating }}</p>
     <button @click="updateComment">수정</button>
     <button @click="deleteComment">삭제</button>
     <br><br><br>

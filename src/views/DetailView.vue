@@ -25,10 +25,7 @@
         <div v-if="(user, movie)" style="display: flex;">
           <h2>{{ movie.title }}</h2>
           <button class="button_css mb-5 ms-2" @click="likeMovie">{{ this.likeMessage }}</button><span style="font-size: 20px; margin-top: 6px;">({{ movie.like_count }})</span>
-          <!-- <p>{{ movie.like_count }}명이 좋아합니다.</p> -->
         </div>
-
-        <!-- <b-button @click="likeMovie">{{ this.likeMessage }}</b-button> -->
         <p>개봉일 {{ movie.release_date }}</p>
         <br /><br /><br />
         <h4>줄거리</h4>
@@ -41,8 +38,9 @@
 
     <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
     <div style="display: flex;">
-      <div v-if="(actors[0],actors[1],actors[2])" style="text-align: left; margin-left: 30px">
+      <div v-if="(actors[0],actors[1],actors[2])" style="text-align: center; margin-left: 30px">
         <h3>출연 배우</h3>
+        <br>
         <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
           <img :src="actors[0].profile_path" alt="" width="200" height="200">
         </a>
@@ -56,27 +54,6 @@
         </a>
         <p>{{ actors[2].name }}</p>
       </div>
-
-      <!-- <p>댓글</p>
-        <form @submit.prevent="createComment">
-          <label for="content">내용: </label>
-          <input type="text" id="content" v-model.trim="content" />
-          -- 별 평가 하는 부분 부트스트랩 --
-          <div class="star-rating space-x-4 mx-auto">
-            <input type="radio" id="5-stars" name="rating" value="10" />
-            <label for="5-stars" class="star pr-4">★</label>
-            <input type="radio" id="4-stars" name="rating" value="8" />
-            <label for="4-stars" class="star">★</label>
-            <input type="radio" id="3-stars" name="rating" value="6" />
-            <label for="3-stars" class="star">★</label>
-            <input type="radio" id="2-stars" name="rating" value="4" />
-            <label for="2-stars" class="star">★</label>
-            <input type="radio" id="1-star" name="rating" value="2" />
-            <label for="1-star" class="star">★</label>
-          </div>
-          <br />
-          <button type="submit" id="submit">작성</button>
-        </form> -->
 
       <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
       <div>
@@ -92,15 +69,30 @@
             @delete-comment="deleteComment"
           />
         </div>
+        <!-- modal-class 지정한거는 ok 버튼 스타일 지정하려고 한거임!! 승태참고해 -->
         <b-modal
+          :modal-class="myclass"
           id="modal-prevent"
           ref="modal"
           title="댓글작성"
           @show="resetModal"
           @hidden="resetModal"
           @ok="createComment"
+          ok-only
         >
-          <form ref="form">
+         <form ref="form">
+            <!-- 모달창에 별점 지정한 부분 -->
+            <star-rating
+              :increment="0.5"
+              :show-rating="false"
+              :border-width="4"
+              border-color="#d8d8d8"
+              :rounded-corners="true" 
+              :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
+              style="justify-content: center;"
+              v-model="rating"
+              @rating-selected ="setRating">
+            </star-rating><br>
             <b-form-group
               label="댓글"
               label-for="comment-input"
@@ -115,6 +107,10 @@
               ></b-form-input>
             </b-form-group>
           </form>
+          <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
+          <template #modal-footer>
+            <button v-b-modal.modal-close_visit class="btn btn-success btn-sm m-1">작성</button>
+          </template>
         </b-modal>
       </div>
       <div v-if="updatecomment">
@@ -127,6 +123,17 @@
           v-model="modalshow"
         >
           <form ref="form">
+            <star-rating
+              :increment="0.5"
+              :show-rating="false"
+              :border-width="4"
+              border-color="#d8d8d8"
+              :rounded-corners="true" 
+              :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
+              style="justify-content: center;"
+              v-model="updatedcommentrating"
+              @rating-selected ="setRating">
+            </star-rating><br>
             <b-form-group
               label="댓글"
               label-for="comment-input"
@@ -147,6 +154,7 @@
 
 <script>
 import axios from "axios";
+import StarRating from 'vue-star-rating'
 import MovieCommentList from "@/components/MovieCommentList";
 
 const API_URL = "http://127.0.0.1:8000";
@@ -156,21 +164,24 @@ export default {
 
   components: {
     MovieCommentList,
+    StarRating,
   },
-
+  // 마지막에 myclass 는 모달창이랑 관련된 부분
   data() {
     return {
       movie: null,
       content: null,
-      rating: 3,
+      rating: null,
       comments: null,
       updatecomment: null, // 자식에서 받아온 바꿔야할 댓글
       updatedcommentcontent: null, // 업데이트될 댓글의 수정된 내용. 이걸 장고에 put 으로 보냄
+      updatedcommentrating: null, // 별점
       modalshow: false,
       actorIds: [],
       actors: [],
       user: null,
       likeMessage: '',
+      myclass: ['myclass']
     };
   },
   
@@ -195,7 +206,7 @@ export default {
           "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
-          this.likeMessage = res.data.isLiking ? "❤" : "🤍"
+          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
           
           this.actorIds.forEach((actorId) => {
             axios({
@@ -267,6 +278,7 @@ export default {
       // MovieCommentList 에서 업데이트할 댓글 가져오는 메서드!!
       this.updatecomment = comment; // 업데이트할 데이터를 updatecomment 로 data에 저장해놓기! 밑에 메서드에서 쓸거임!
       this.updatedcommentcontent = comment.content;
+      this.updatedcommentrating = comment.rating;
       this.modalshow = true; // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
     },
     
@@ -296,6 +308,7 @@ export default {
     resetModal() {
       // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
       this.content = null;
+      this.rating = null;
     },
 
     // 누가 좋아하는지 알아야 하기 때문에!
@@ -326,12 +339,15 @@ export default {
         }
       })
         .then((res) => {
-          this.likeMessage = res.data.isLiking ? "❤" : "🤍"
+          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
           this.getMovieDetail()
         })
         .catch((err) => {
           console.log(err)
         })
+    },
+    setRating(rating) {
+      this.rating = rating
     }
   },
 };
@@ -339,37 +355,6 @@ export default {
 
 
 <style>
-/* 별 평점 style 인데 필요없으면 나중에 지우면됨 */
-.star-rating {
-  display: flex;
-  flex-direction: row-reverse;
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-  justify-content: space-around;
-  padding: 0 0.2em;
-  text-align: center;
-  width: 5em;
-}
-
-.star-rating input {
-  display: none;
-}
-
-.star-rating label {
-  -webkit-text-fill-color: transparent; /* Will override color (regardless of order) */
-  -webkit-text-stroke-width: 2.3px;
-  -webkit-text-stroke-color: #2b2a29;
-  cursor: pointer;
-}
-
-.star-rating :checked ~ label {
-  -webkit-text-fill-color: gold;
-}
-
-.star-rating label:hover,
-.star-rating label:hover ~ label {
-  -webkit-text-fill-color: #fff58c;
-}
 
 .button_css{
   font-size: x-large;
@@ -379,8 +364,15 @@ export default {
   color:#dc3545;
 }
 
+
 /* .button_css:hover{
   border-width: 3px;
   font-size: 2rem;
 } */
+
+
+/* 모달창 버튼 부분 스타일 지정 */
+.myclass > .modal-dialog > .modal-content > .modal-footer > button {
+  background-color: salmon;
+}
 </style>
