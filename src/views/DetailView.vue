@@ -20,7 +20,14 @@
         <img :src="movie.poster_path" alt="" height="360" />
       </div>
       <div style="text-align: left; margin-left: 20px">
-        <h2>{{ movie.title }}</h2>
+        
+        <!-- v-if 안적으니까 typeerror 많이 남 -->
+        <div v-if="(user, movie)" style="display: flex;">
+          <h2>{{ movie.title }}</h2>
+          <button class="button_css mb-5 ms-2" @click="likeMovie">{{ this.likeMessage }}</button><span style="font-size: 20px; margin-top: 6px;">({{ movie.like_count }})</span>
+          <!-- <p>{{ movie.like_count }}명이 좋아합니다.</p> -->
+        </div>
+
         <!-- <b-button @click="likeMovie">{{ this.likeMessage }}</b-button> -->
         <p>개봉일 {{ movie.release_date }}</p>
         <br /><br /><br />
@@ -28,107 +35,113 @@
         <hr />
         <p>{{ movie.overview }}</p>
       </div>
-      <hr />
     </div>
+    <hr>
     <br>
-    <div style="text-align: left; margin-left: 50px">
-      <p>{{ movie.like_count }}명이 좋아합니다.</p>
-      <button @click="likeMovie">{{ this.likeMessage }}</button>
-    </div>
-    <br>
-    <br>
-    <div style="margin-right: auto; text-align: left; margin-left: 30px">
-      <img :src="actors[0].profile_path" alt="" width="200" height="200">
-      <p>{{ actors[0].name }}</p>
-      <img :src="actors[1].profile_path" alt="" width="200" height="200">
-      <p>{{ actors[1].name }}</p>
-      <img :src="actors[2].profile_path" alt="" width="200" height="200">
-      <p>{{ actors[2].name }}</p>
-    </div>
 
-    <!-- <p>댓글</p>
-      <form @submit.prevent="createComment">
-        <label for="content">내용: </label>
-        <input type="text" id="content" v-model.trim="content" />
-        -- 별 평가 하는 부분 부트스트랩 --
-        <div class="star-rating space-x-4 mx-auto">
-          <input type="radio" id="5-stars" name="rating" value="10" />
-          <label for="5-stars" class="star pr-4">★</label>
-          <input type="radio" id="4-stars" name="rating" value="8" />
-          <label for="4-stars" class="star">★</label>
-          <input type="radio" id="3-stars" name="rating" value="6" />
-          <label for="3-stars" class="star">★</label>
-          <input type="radio" id="2-stars" name="rating" value="4" />
-          <label for="2-stars" class="star">★</label>
-          <input type="radio" id="1-star" name="rating" value="2" />
-          <label for="1-star" class="star">★</label>
-        </div>
-        <br />
-        <button type="submit" id="submit">작성</button>
-      </form> -->
-
-    <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
-    <div>
-      <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-      <div style="text-align: left; margin-left: 30px">
-        <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
+    <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
+    <div style="display: flex;">
+      <div v-if="(actors[0],actors[1],actors[2])" style="text-align: left; margin-left: 30px">
+        <h3>출연 배우</h3>
+        <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
+          <img :src="actors[0].profile_path" alt="" width="200" height="200">
+        </a>
+        <p>{{ actors[0].name }}</p>
+        <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
+          <img :src="actors[1].profile_path" alt="" width="200" height="200">
+        </a>
+        <p>{{ actors[1].name }}</p>
+        <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
+          <img :src="actors[2].profile_path" alt="" width="200" height="200">
+        </a>
+        <p>{{ actors[2].name }}</p>
       </div>
-      <b-modal
-        id="modal-prevent"
-        ref="modal"
-        title="댓글작성"
-        @show="resetModal"
-        @hidden="resetModal"
-        @ok="createComment"
-      >
-        <form ref="form">
-          <b-form-group
-            label="댓글"
-            label-for="comment-input"
-            invalid-feedback="Comment is required"
-          >
-            <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
-            <b-form-input
-              @keyup.enter="createComment"
-              id="comment-input"
-              v-model="content"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
-      </b-modal>
-    </div>
-    <div v-if="updatecomment">
-      <b-modal
-        id="modal-prevent-closing"
-        ref="modal"
-        title="댓글수정"
-        @ok="updateCommentPerfect"
-        @keyup.enter="updateCommentPerfect"
-        v-model="modalshow"
-      >
-        <form ref="form">
-          <b-form-group
-            label="댓글"
-            label-for="comment-input"
-            invalid-feedback="Comment is required"
-          >
-            <b-form-input
-              id="comment-input"
-              v-model="updatedcommentcontent"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
-      </b-modal>
-    </div>
 
-    <br />
-    <MovieCommentList
-      :comments="comments"
-      @update-comment="updateComment"
-      @delete-comment="deleteComment"
-    />
+      <!-- <p>댓글</p>
+        <form @submit.prevent="createComment">
+          <label for="content">내용: </label>
+          <input type="text" id="content" v-model.trim="content" />
+          -- 별 평가 하는 부분 부트스트랩 --
+          <div class="star-rating space-x-4 mx-auto">
+            <input type="radio" id="5-stars" name="rating" value="10" />
+            <label for="5-stars" class="star pr-4">★</label>
+            <input type="radio" id="4-stars" name="rating" value="8" />
+            <label for="4-stars" class="star">★</label>
+            <input type="radio" id="3-stars" name="rating" value="6" />
+            <label for="3-stars" class="star">★</label>
+            <input type="radio" id="2-stars" name="rating" value="4" />
+            <label for="2-stars" class="star">★</label>
+            <input type="radio" id="1-star" name="rating" value="2" />
+            <label for="1-star" class="star">★</label>
+          </div>
+          <br />
+          <button type="submit" id="submit">작성</button>
+        </form> -->
+
+      <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
+      <div>
+        <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
+        <div style="margin-left: 100px;">
+          <div style="text-align: left; margin-left: 30px">
+            <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
+          </div>
+          <br>
+          <MovieCommentList
+            :comments="comments"
+            @update-comment="updateComment"
+            @delete-comment="deleteComment"
+          />
+        </div>
+        <b-modal
+          id="modal-prevent"
+          ref="modal"
+          title="댓글작성"
+          @show="resetModal"
+          @hidden="resetModal"
+          @ok="createComment"
+        >
+          <form ref="form">
+            <b-form-group
+              label="댓글"
+              label-for="comment-input"
+              invalid-feedback="Comment is required"
+            >
+              <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
+              <b-form-input
+                @keyup.enter="createComment"
+                id="comment-input"
+                v-model="content"
+                required
+              ></b-form-input>
+            </b-form-group>
+          </form>
+        </b-modal>
+      </div>
+      <div v-if="updatecomment">
+        <b-modal
+          id="modal-prevent-closing"
+          ref="modal"
+          title="댓글수정"
+          @ok="updateCommentPerfect"
+          @keyup.enter="updateCommentPerfect"
+          v-model="modalshow"
+        >
+          <form ref="form">
+            <b-form-group
+              label="댓글"
+              label-for="comment-input"
+              invalid-feedback="Comment is required"
+            >
+              <b-form-input
+                id="comment-input"
+                v-model="updatedcommentcontent"
+                required
+              ></b-form-input>
+            </b-form-group>
+          </form>
+        </b-modal>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -179,10 +192,10 @@ export default {
           this.movie = res.data.movie;
           this.actorIds = res.data.movie.actors;
           this.movie.poster_path =
-            "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
+          "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
-          this.likeMessage = res.data.isLiking ? "좋아요 취소" : "좋아요"
+          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
           
           this.actorIds.forEach((actorId) => {
             axios({
@@ -313,7 +326,7 @@ export default {
         }
       })
         .then((res) => {
-          this.likeMessage = res.data.isLiking ? "좋아요 취소" : "좋아요"
+          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
           this.getMovieDetail()
         })
         .catch((err) => {
@@ -357,4 +370,17 @@ export default {
 .star-rating label:hover ~ label {
   -webkit-text-fill-color: #fff58c;
 }
+
+.button_css{
+  font-size: x-large;
+  background-color:white;
+  border-radius:5px;
+  border:1px solid white;
+  color:#dc3545;
+}
+
+/* .button_css:hover{
+  border-width: 3px;
+  font-size: 2rem;
+} */
 </style>
