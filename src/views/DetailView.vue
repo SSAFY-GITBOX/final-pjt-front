@@ -20,11 +20,14 @@
         <img :src="movie.poster_path" alt="" height="360" />
       </div>
       <div style="text-align: left; margin-left: 20px">
-        
         <!-- v-if 안적으니까 typeerror 많이 남 -->
-        <div v-if="(user, movie)" style="display: flex;">
+        <div v-if="(user, movie)" style="display: flex">
           <h2>{{ movie.title }}</h2>
-          <button class="button_css mb-5 ms-2" @click="likeMovie">{{ this.likeMessage }}</button><span style="font-size: 20px; margin-top: 6px;">({{ movie.like_count }})</span>
+          <button class="button_css mb-5 ms-2" @click="likeMovie">
+            {{ this.likeMessage }}</button
+          ><span style="font-size: 20px; margin-top: 6px"
+            >({{ movie.like_count }})</span
+          >
         </div>
         <p>개봉일 {{ movie.release_date }}</p>
         <br /><br /><br />
@@ -33,24 +36,27 @@
         <p>{{ movie.overview }}</p>
       </div>
     </div>
-    <hr>
-    <br>
+    <hr />
+    <br />
 
     <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
-    <div style="display: flex;">
-      <div v-if="(actors[0],actors[1],actors[2])" style="text-align: center; margin-left: 30px">
+    <div style="display: flex">
+      <div
+        v-if="(actors[0], actors[1], actors[2])"
+        style="text-align: center; margin-left: 30px"
+      >
         <h3>출연 배우</h3>
-        <br>
+        <br />
         <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-          <img :src="actors[0].profile_path" alt="" width="200" height="200">
+          <img :src="actors[0].profile_path" alt="" width="200" height="200" />
         </a>
         <p>{{ actors[0].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-          <img :src="actors[1].profile_path" alt="" width="200" height="200">
+          <img :src="actors[1].profile_path" alt="" width="200" height="200" />
         </a>
         <p>{{ actors[1].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-          <img :src="actors[2].profile_path" alt="" width="200" height="200">
+          <img :src="actors[2].profile_path" alt="" width="200" height="200" />
         </a>
         <p>{{ actors[2].name }}</p>
       </div>
@@ -58,11 +64,11 @@
       <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
       <div>
         <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-        <div style="margin-left: 100px;">
+        <div style="margin-left: 100px">
           <div style="text-align: left; margin-left: 30px">
             <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
           </div>
-          <br>
+          <br />
           <MovieCommentList
             :comments="comments"
             @update-comment="updateComment"
@@ -80,19 +86,24 @@
           @ok="createComment"
           ok-only
         >
-         <form ref="form">
+          <form ref="form">
             <!-- 모달창에 별점 지정한 부분 -->
             <star-rating
               :increment="0.5"
               :show-rating="false"
               :border-width="4"
               border-color="#d8d8d8"
-              :rounded-corners="true" 
-              :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
-              style="justify-content: center;"
+              :rounded-corners="true"
+              :star-points="[
+                23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
+                19, 31, 17,
+              ]"
+              style="justify-content: center"
               v-model="rating"
-              @rating-selected ="setRating">
-            </star-rating><br>
+              @rating-selected="setRating"
+            >
+            </star-rating
+            ><br />
             <b-form-group
               label="댓글"
               label-for="comment-input"
@@ -109,7 +120,13 @@
           </form>
           <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
           <template #modal-footer>
-            <button v-b-modal.modal-close_visit class="btn btn-success btn-sm m-1">작성</button>
+            <button
+              v-b-modal.modal-close_visit
+              class="btn btn-success btn-sm m-1"
+              @click="createComment"
+            >
+              작성
+            </button>
           </template>
         </b-modal>
       </div>
@@ -128,12 +145,17 @@
               :show-rating="false"
               :border-width="4"
               border-color="#d8d8d8"
-              :rounded-corners="true" 
-              :star-points="[23,2, 14,17, 0,19, 10,34, 7,50, 23,43, 38,50, 36,34, 46,19, 31,17]"
-              style="justify-content: center;"
+              :rounded-corners="true"
+              :star-points="[
+                23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
+                19, 31, 17,
+              ]"
+              style="justify-content: center"
               v-model="updatedcommentrating"
-              @rating-selected ="setRating">
-            </star-rating><br>
+              @rating-selected="setRating"
+            >
+            </star-rating
+            ><br />
             <b-form-group
               label="댓글"
               label-for="comment-input"
@@ -154,7 +176,7 @@
 
 <script>
 import axios from "axios";
-import StarRating from 'vue-star-rating'
+import StarRating from "vue-star-rating";
 import MovieCommentList from "@/components/MovieCommentList";
 
 const API_URL = "http://127.0.0.1:8000";
@@ -180,14 +202,14 @@ export default {
       actorIds: [],
       actors: [],
       user: null,
-      likeMessage: '',
-      myclass: ['myclass']
+      likeMessage: "",
+      myclass: ["myclass"],
     };
   },
-  
+
   created() {
-    this.getUser()
-    this.getMovieDetail()
+    this.getUser();
+    this.getMovieDetail();
   },
 
   methods: {
@@ -203,11 +225,11 @@ export default {
           this.movie = res.data.movie;
           this.actorIds = res.data.movie.actors;
           this.movie.poster_path =
-          "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
+            "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
-          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
-          
+          this.likeMessage = res.data.isLiking ? "💗" : "🤍";
+
           this.actorIds.forEach((actorId) => {
             axios({
               method: "get",
@@ -217,13 +239,14 @@ export default {
               },
             })
               .then((res) => {
-                res.data.profile_path = 'https://image.tmdb.org/t/p/original' + res.data.profile_path
-                this.actors.push(res.data)
+                res.data.profile_path =
+                  "https://image.tmdb.org/t/p/original" + res.data.profile_path;
+                this.actors.push(res.data);
               })
               .catch((err) => {
                 console.log(err);
               });
-          })
+          });
         })
         .catch((err) => {
           console.log(err);
@@ -232,7 +255,8 @@ export default {
 
     createComment() {
       const content = this.content;
-      const rating = this.rating;
+      const rating = this.rating * 2;
+      console.log(rating);
       if (!content) {
         alert("댓글을 입력해주세요");
         return;
@@ -281,7 +305,7 @@ export default {
       this.updatedcommentrating = comment.rating;
       this.modalshow = true; // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
     },
-    
+
     updateCommentPerfect() {
       // 댓글 업데이트 장고에 엑시오스할 메서드!!
       this.updatecomment.content = this.updatedcommentcontent;
@@ -314,62 +338,59 @@ export default {
     // 누가 좋아하는지 알아야 하기 때문에!
     getUser() {
       axios({
-        method: 'get',
+        method: "get",
         url: `${API_URL}/accounts/user/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          this.user = res.data
-          console.log(this.user)
+          this.user = res.data;
+          console.log(this.user);
         })
         .catch((err) => {
-          console.log('getUserError')
-          console.log(err)
-        })
+          console.log("getUserError");
+          console.log(err);
+        });
     },
 
     likeMovie() {
       axios({
-        method: 'post',
+        method: "post",
         url: `${API_URL}/api/v1/movies/${this.movie.movie_id}/likes/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          this.likeMessage = res.data.isLiking ? "💗" : "🤍"
-          this.getMovieDetail()
+          this.likeMessage = res.data.isLiking ? "💗" : "🤍";
+          this.getMovieDetail();
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
     setRating(rating) {
-      this.rating = rating
-    }
+      this.rating = rating;
+    },
   },
 };
 </script>
 
 
 <style>
-
-.button_css{
+.button_css {
   font-size: x-large;
-  background-color:white;
-  border-radius:5px;
-  border:1px solid white;
-  color:#dc3545;
+  background-color: white;
+  border-radius: 5px;
+  border: 1px solid white;
+  color: #dc3545;
 }
-
 
 /* .button_css:hover{
   border-width: 3px;
   font-size: 2rem;
 } */
-
 
 /* 모달창 버튼 부분 스타일 지정 */
 .myclass > .modal-dialog > .modal-content > .modal-footer > button {
