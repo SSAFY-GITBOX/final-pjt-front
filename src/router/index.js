@@ -76,7 +76,7 @@ const routes = [
   },
 
   {
-    path: '/profile',
+    path: '/profile/:id',
     name: 'ProfileView',
     component: ProfileView
   }

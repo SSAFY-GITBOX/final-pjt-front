@@ -16,6 +16,7 @@ export default new Vuex.Store({
 
   state: {
     token: null,
+    userPk: null,
     articles: [],
     genres: [],
     selectedGenre: null,
@@ -38,6 +39,11 @@ export default new Vuex.Store({
     // 회원가입 && 로그인
     SAVE_TOKEN(state, token) {
       state.token = token
+    },
+    
+    SAVE_USER_PK(state, userPk) {
+      console.log(userPk)
+      state.userPk = userPk
       router.push({ name: 'ArticleView' })
     },
 
@@ -108,6 +114,20 @@ export default new Vuex.Store({
       })
         .then((res) => {
           context.commit('SAVE_TOKEN', res.data.key)
+          axios({
+            method: 'get',
+            url: `${API_URL}/accounts/user/`,
+            headers: {
+              Authorization: `Token ${ context.state.token }`
+            }
+          })
+          .then((res) => {
+            console.log(res)
+            context.commit('SAVE_USER_PK', res.data.pk)
+          })
+          .catch((err) => {
+            console.log(err)
+          })
         })
         .catch((err) => {
           console.log(err)

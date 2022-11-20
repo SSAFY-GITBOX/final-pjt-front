@@ -30,6 +30,9 @@
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
+                <router-link class="nav-link" :to="{ name: 'ProfileView', params: { id: this.$store.state.userPk } }">Profile</router-link>
+              </li>
+              <li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'SignUpView' }">SignUp</router-link>
               </li>
               <li class="nav-item">
