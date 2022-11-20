@@ -10,13 +10,18 @@
     <!-- 버튼들 b-button 으로 해놨음 -->
     <b-button @click="likeArticle">{{ this.likeMessage }}</b-button><br><br>
     <!-- <button @click="updateArticle">수정</button> -->
-    <div v-if="($store.state.userPk === article.user)">
+    <div v-if="($store.state.userPk === article?.user)">
       <b-button v-b-modal.modal-center>수정</b-button>
       <b-button @click="deleteArticle" style="margin-left: 10px">삭제</b-button>
     </div>
     <hr>
     <h3>댓글 ({{ article?.articlecomment_count }})</h3>
+    <!-- 댓글 생성 컴포넌트 -->
+    <ArticleCreateComment
+      @create-comment="createComment"
+    />
     <div v-if="article?.articlecomment_count">
+      <!-- 댓글 리스트 컴포넌트 -->
       <ArticleCommentList
         :comments="article?.articlecomment_set"
         @update-comment="updateComment"
@@ -84,6 +89,7 @@
 <script>
 import axios from 'axios'
 import ArticleCommentList from '@/components/ArticleCommentList.vue'
+import ArticleCreateComment from '@/components/ArticleCreateComment.vue'
 
 const API_URL = 'http://127.0.0.1:8000'
 
@@ -91,7 +97,8 @@ export default {
   name: 'ArticleDetailView',
 
   components: {
-    ArticleCommentList
+    ArticleCommentList,
+    ArticleCreateComment
   },
 
   data() {
@@ -199,8 +206,42 @@ export default {
         })
     },
 
-    updateComment(commentId) {
-      console.log(commentId)
+    createComment(content) {
+      axios({
+        method: 'post',
+        url: `${API_URL}/api/v2/${this.$route.params.id}/comments/`,
+        headers: {
+					Authorization: `Token ${ this.$store.state.token }`
+				},
+        data: {
+          content: content,
+        },
+      })
+        .then(() => {
+          this.getArticleDetail()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    },  
+
+    updateComment(payload) {
+      axios({
+        method: 'put',
+        url: `${API_URL}/api/v2/comments/${payload.commentId}/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        },
+        data: {
+          content: payload.content,
+        },
+      })
+        .then(() => {
+          this.getArticleDetail()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
     },
 
     deleteComment(commentId) {
