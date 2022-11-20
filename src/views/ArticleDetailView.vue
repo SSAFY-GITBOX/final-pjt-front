@@ -10,8 +10,10 @@
     <!-- 버튼들 b-button 으로 해놨음 -->
     <b-button @click="likeArticle">{{ this.likeMessage }}</b-button><br><br>
     <!-- <button @click="updateArticle">수정</button> -->
-    <b-button v-b-modal.modal-prevent>수정</b-button>
-    <b-button @click="deleteArticle" style="margin-left: 10px">삭제</b-button>
+    <div v-if="($store.state.userPk === article.user)">
+      <b-button v-b-modal.modal-center>수정</b-button>
+      <b-button @click="deleteArticle" style="margin-left: 10px">삭제</b-button>
+    </div>
     <hr>
     <h3>댓글 ({{ article?.articlecomment_count }})</h3>
     <div v-if="article?.articlecomment_count">
@@ -26,29 +28,37 @@
     </div>
     <!-- 게시글 수정 모달창 구현 부분 -->
     <div>
+      <!-- 여기부터 모달창 -->
       <b-modal
-        id="modal-prevent"
+        class="b-modal"
+        id="modal-center"
+        centered
         ref="modal"
-        title="게시글수정"
+        title="게시글작성"
+        size="xl"
         @show="resetModal"
         @hidden="resetModal"
         @ok="updateArticle"
       >
-        <form ref="form">
-          <b-form-group
-            label="제목"
-            label-for="article-title-input"
-            invalid-feedback="Comment is required"
-          >
-            <!-- 엔터쳤을 때 메서드호출하는거는 아직 구현못함 -->
-            <b-form-input
-              @keyup.enter="createArticle"
-              id="article-title-input"
-              v-model.trim="title"
-              required
-            ></b-form-input>
-          </b-form-group>
-        </form>
+        <template #modal-header="{ close }">
+          <!-- Emulate built in modal header close button action -->
+          <h5>게시글 수정</h5>
+          <b-button size="sm" id="header-button" @click="close()">
+            ❌
+          </b-button>
+        </template>
+        <b-form-group
+          label="제목"
+          label-for="article-title-input"
+          invalid-feedback="Comment is required"
+        >
+          <!-- 제목 부분 -->
+          <b-form-input
+            id="article-title-input"
+            v-model.trim="initTitle"
+            required
+          ></b-form-input>
+        </b-form-group>
         <form ref="form">
           <b-form-group
             class="modal-text"
@@ -58,10 +68,10 @@
           >
             <!-- 내용 부분은 textarea로 바꿔줬음 -->
             <b-form-textarea
-              @keyup.enter="createArticle"
               id="article-content-input"
-              v-model.trim="content"
+              v-model.trim="initContent"
               required
+              rows="20"
             ></b-form-textarea>
           </b-form-group>
         </form>
@@ -87,6 +97,8 @@ export default {
   data() {
     return {
       article: null,
+      initTitle: null,
+      initContent: null,
       likeMessage: '',
     }
   },
@@ -107,6 +119,8 @@ export default {
         .then((res) => {
           this.article = res.data.article
           this.likeMessage = res.data.isLiking ? "좋아요 취소" : "좋아요"
+          this.initTitle = this.article.title
+          this.initContent = this.article.content
         })
         .catch((err) => {
           console.log(err)
@@ -130,8 +144,41 @@ export default {
         })
     },
 
+    resetModal() {
+      // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
+      this.title = null;
+      this.content = null;
+    },
+
+    hideModal() {
+      this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
+    },
+
     updateArticle() {
-      console.log("updateArticle")
+      if (!this.initTitle) {
+        alert("제목을 입력해주세요");
+        return;
+      } else if (!this.initContent) {
+        alert("내용을 입력해주세요");
+        return;
+      }
+      axios({
+        method: 'put',
+        url: `${API_URL}/api/v2/${this.$route.params.id}/`,
+        headers: {
+					Authorization: `Token ${ this.$store.state.token }`
+				},
+        data: {
+          title: this.initTitle,
+          content: this.initContent,
+        },
+      })
+        .then(() => {
+          this.getArticleDetail()
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
 
     deleteArticle() {

@@ -15,7 +15,7 @@
         <!-- 제목 -->
         <div>
           <router-link
-            :to="{ name: 'ArticleDetailView', params: { id: article.user } }"
+            :to="{ name: 'ArticleDetailView', params: { id: article.id } }"
             style="text-decoration: none"
           >
             {{ article.title }}
