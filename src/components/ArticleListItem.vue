@@ -1,20 +1,43 @@
 <template>
-	<div>
-		<router-link :to="{ name: 'ArticleDetailView', params: { id: article.id } }" style="text-decoration: none;">
-      <p>{{ article.id }}. &nbsp; {{ article.title }} &nbsp; - &nbsp; {{ article.username }}</p>
-    </router-link>
-	</div>
+  <div>
+    <div style="display: flex; justify-content: space-between;" >
+      <!-- 유저이름 -->
+      <div style="display: flex;" >
+        <div style="padding: 0px 20px; width: 100px; ">
+          <router-link
+            :to="{ name: 'ArticleDetailView', params: { id: article.user } }"
+            style="text-decoration: none"
+          >
+            {{ article.username }}
+          </router-link>
+        </div>
+        <!-- 제목 -->
+        <div>
+          <router-link
+            :to="{ name: 'ArticleDetailView', params: { id: article.user } }"
+            style="text-decoration: none"
+          >
+            {{ article.title }}
+          </router-link>
+        </div>
+      </div>
+      <!-- 작성시간 -->
+      <div style="padding: 0px 20px; width: 130px; ">
+        {{ article.created_at.substr(0, 10) }}
+      </div>
+    </div>
+    <hr />
+  </div>
 </template>
 
 <script>
 export default {
-	name: 'ArticleListItem',
-	props: {
-		article: Object
-	}
-}
+  name: "ArticleListItem",
+  props: {
+    article: Object,
+  },
+};
 </script>
 
 <style>
-
 </style>

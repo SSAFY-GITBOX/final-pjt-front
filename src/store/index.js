@@ -16,7 +16,6 @@ export default new Vuex.Store({
 
   state: {
     token: null,
-    articles: [],
     genres: [],
     selectedGenre: null,
     selectedGenreMovieLength: null,
@@ -40,10 +39,6 @@ export default new Vuex.Store({
       state.token = token
       router.push({ name: 'ArticleView' })
     },
-
-		GET_ARTICLES(state, articles) {
-			state.articles = articles
-		},
 
     SAVE_GENRES(state, genres) {
       state.genres = genres
@@ -76,21 +71,6 @@ export default new Vuex.Store({
         .then((res) => {
           console.log(res)
           context.commit('SAVE_TOKEN', res.data.key)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    getArticles(context) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/api/v2/`,
-        headers: {
-          Authorization: `Token ${ context.state.token }`
-        }
-      })
-        .then((res) => {
-          context.commit('GET_ARTICLES', res.data)
         })
         .catch((err) => {
           console.log(err)
