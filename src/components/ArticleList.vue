@@ -59,7 +59,6 @@ export default {
         },
       })
       .then(({ data }) => {
-        console.log(data)
         if (data.length) {
           this.page += 1;
           this.articles.push(...data);

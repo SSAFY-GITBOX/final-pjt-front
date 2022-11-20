@@ -2,10 +2,11 @@
   <div>
     <div style="display: flex; justify-content: space-between;" >
       <!-- 유저이름 -->
+      <!-- 프로필 페이 -->
       <div style="display: flex;" >
         <div style="padding: 0px 20px; width: 100px; ">
           <router-link
-            :to="{ name: 'ArticleDetailView', params: { id: article.user } }"
+            :to="{ name: 'ProfileView', params: { id: article.user } }"
             style="text-decoration: none"
           >
             {{ article.username }}
