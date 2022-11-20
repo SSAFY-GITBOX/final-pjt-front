@@ -1,7 +1,5 @@
 <template>
   <div class="w-100 h-100 mx-3 mb-5">
-    
-
     <!-- 프로필 -->
     <div id="profile_image" class="mb-5 mx-3">
       <form @submit.prevent="imageUpload" enctype="multipart/form-data">
@@ -25,6 +23,15 @@
       </form>
 
       <h2 class="mt-3">{{ user.username }}</h2>
+
+      <div v-if="$store.state.userPk != userPk">
+        <button class="btn btn-secondary" @click="follow">
+          {{ followMessage }}
+        </button>
+      </div>
+
+      <br>
+      <p>{{ user.followers_cnt }} followers &nbsp; • &nbsp; {{ user.followings_cnt }} followings</p>
     </div>
 
     <!-- 좋아하는 영화 -->
@@ -101,8 +108,6 @@
         </router-link>
       </div>
     </details>
-    
-    
   </div>
 </template>
 
@@ -118,6 +123,7 @@ export default {
     return {
       user: null,
       profileImage: null,
+      followMessage: '',
 
       // 잔디용
       max_count: 6,
@@ -132,11 +138,17 @@ export default {
     this.today = cur.getFullYear() + '-' + (cur.getMonth() + 1) + '-' + cur.getDate()
   },
 
+  computed: {
+    userPk() {
+      return this.$route.params.id
+    }
+  },
+
   methods: {
     getUserInfo() {
       axios({
         method: 'get',
-        url: `${API_URL}/accounts/profile/${ this.$store.state.userPk }/`,
+        url: `${API_URL}/accounts/profile/${ this.userPk }/`,
         headers: {
           Authorization: `Token ${ this.$store.state.token }`
         }
@@ -145,9 +157,14 @@ export default {
           console.log(res)
           this.user = res.data.user
           this.acts = res.data.acts
+          this.followMessage = res.data.isFollowing? "Unfollow" : "Follow"
+        })
+        .catch((err) => {
+          console.log(err)
         })
     },
 
+    // 본인일 때만 가능하도록 해야함
     imageUpload() {
       console.log('imageUpload')
       axios({
@@ -186,6 +203,25 @@ export default {
         reader.readAsDataURL(event.target.files[0])
       }
     },
+
+    // 팔로우
+    follow() {
+      axios({
+        method: 'post',
+        url: `${API_URL}/accounts/profile/${ this.userPk }/follow/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        }
+      })
+        .then((res) => {
+          console.log(res)
+          this.followMessage = res.data.isFollowing? "Unfollow" : "Follow"
+          this.getUserInfo()
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
