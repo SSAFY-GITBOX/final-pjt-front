@@ -48,15 +48,15 @@
         <h3>출연 배우</h3>
         <br />
         <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-          <img :src="actors[0].profile_path" alt="" width="200" height="200" />
+          <img :src="actors[0].profile_path" alt="" width="140" height="180" />
         </a>
         <p>{{ actors[0].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-          <img :src="actors[1].profile_path" alt="" width="200" height="200" />
+          <img :src="actors[1].profile_path" alt="" width="140" height="180" />
         </a>
         <p>{{ actors[1].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-          <img :src="actors[2].profile_path" alt="" width="200" height="200" />
+          <img :src="actors[2].profile_path" alt="" width="140" height="180" />
         </a>
         <p>{{ actors[2].name }}</p>
       </div>
@@ -309,6 +309,7 @@ export default {
     updateCommentPerfect() {
       // 댓글 업데이트 장고에 엑시오스할 메서드!!
       this.updatecomment.content = this.updatedcommentcontent;
+      this.rating= this.updatedcommentrating * 2;
       axios({
         method: "put",
         url: `${API_URL}/api/v1/comments/${this.updatecomment.id}/`,

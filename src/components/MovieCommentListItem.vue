@@ -3,9 +3,11 @@
     <!-- {{ comment }} -->
     <p>⭐ {{ comment.rating }}</p>
     <p>댓글: {{ comment.content }}</p>
-    <button @click="updateComment">수정</button>
-    <button @click="deleteComment">삭제</button>
-    <br><br><br>
+    <div v-if="$store.state.userPk === comment.user">
+      <button @click="updateComment" class="mx-1">수정</button>
+      <button @click="deleteComment">삭제</button>
+    </div>
+    <br>
   </div>
 
 </template>
