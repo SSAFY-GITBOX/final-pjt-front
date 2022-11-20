@@ -8,7 +8,6 @@ import ArticleView from '../views/ArticleView.vue'
 import LogInView from '../views/LogInView.vue'
 import DetailView from '../views/DetailView.vue'
 import ArticleDetailView from '../views/ArticleDetailView.vue'
-import ArticleCreateView from '../views/ArticleCreateView.vue'
 import ProfileView from '../views/ProfileView.vue'
 
 // const originalPush = VueRouter.prototype.push;
@@ -67,12 +66,6 @@ const routes = [
     path: '/article/:id',
     name: 'ArticleDetailView',
     component: ArticleDetailView
-  },
-
-  {
-    path: '/article/create',
-    name: 'ArticleCreateView',
-    component: ArticleCreateView
   },
 
   {
