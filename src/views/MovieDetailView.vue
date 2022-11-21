@@ -1,7 +1,7 @@
 <!-- 자동포맷해서 세미콜론 있는거에요!! 엔터누를때 댓글작성되는거는 안됩니다 ㅠㅠㅠ 다시해보겠습니다 -->
 
 <template>
-  <div id="movie-view-div">
+  <div id="movie-detail-div">
     <div
       style="display: flex; margin-left: 30px; margin-right: 100px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif;"
       v-if="movie"
@@ -426,7 +426,7 @@ export default {
 
 
 <style>
-#movie-view-div{
+#movie-detail-div{
   background-color: #f4f3ea;
   padding: 3% 5%;
   display: flex;
