@@ -6,6 +6,7 @@ import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import VueCalendarHeatmap from 'vue-calendar-heatmap'
+import '@fortawesome/fontawesome-free/js/all.js'
 
 
 Vue.use(BootstrapVue)

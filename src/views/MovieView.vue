@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="movie-view-div">
     <!-- 무비 리스트 아이템 컴포넌트 호출 -->
     <div style="display: flex; flex-wrap: wrap">
       <div v-for="(movie, movie_id) in movies" :key="movie_id">
