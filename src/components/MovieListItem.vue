@@ -21,6 +21,7 @@ export default {
 
 <style>
 #movie-list-item-div {
+  padding-top: 20px;
   padding-right: 20px;
 } 
 

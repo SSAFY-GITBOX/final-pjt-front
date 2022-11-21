@@ -1,7 +1,7 @@
 <template>
   <div id="latest-movie-list">
     <div id="latest-movie-list-header">
-      <h4>최신 영화를 감상해보세요!</h4>
+      <h4 class="mb-0">최신 영화를 감상해보세요!</h4>
       <div style="display: flex;">
         <div class="icon-div" @click="leftScroll">
           <i class="fas fa-angle-left fa-lg"></i>
@@ -110,7 +110,7 @@ export default {
 
 .icon-div{
   width: 20px;
-  margin-bottom: 8px;
-  padding: 5px 0px 5px 5px;
+  padding: 5px 0px 0px 5px;
 }
+
 </style>

@@ -6,14 +6,16 @@
 
     <div id="home-genre-movie-div">
       <!-- 장르별 영화 버튼 -->
+      <h4>장르별 영화를 감상해 보세요!</h4>
       <div id="genre-movie-header">
-        <div style="display: flex">
-          <div v-for="(genre, genre_id) in genres" :key="genre_id">
-            <button @click="getGenreMovie(genre.id)">{{ genre.name }}</button>
+        <div style="display: flex" class="genre-btn-div">
+          <div v-for="(genre, genre_id) in genres" :key="genre_id" id="genre-btn-div">
+            <button class="bn632-hover bn20" @click="getGenreMovie(genre.id)">{{ genre.name }}</button>
+            <span style="padding: 10px"></span>
           </div>
         </div>
         <div>
-          <button @click="goMovieListByGenre">전체보기</button>
+          <button class="bn632-hover bn20" @click="goMovieListByGenre">더 보기  <i class="fas fa-angle-right fa-lg"></i> </button>
         </div>
       </div>
       <!-- 장르별 영화 응답 -->
@@ -23,13 +25,13 @@
             <MovieListItem :movie="movie" />
           </div>
         </div>
-        <div id="scroll-btn-div">
-          <div class="icon-div" @click="leftScroll">
-            <i class="fas fa-angle-left fa-lg"></i>
-          </div>
-          <div class="icon-div" @click="rightScroll">
-            <i class="fas fa-angle-right fa-lg"></i>
-          </div>
+      </div>
+      <div id="scroll-btn-div">
+        <div class="genre-icon-div" @click="leftScroll">
+          <i class="fas fa-angle-left fa-2x"></i>
+        </div>
+        <div class="genre-icon-div" @click="rightScroll">
+          <i class="fas fa-angle-right fa-2x"></i>
         </div>
       </div>
     </div>
@@ -191,19 +193,83 @@ export default {
 
 #genre-movie-body {
   width: 100%;
-  position: relative;
   display: flex;
   overflow: auto;
   scroll-behavior: smooth;
 }
 
+#genre-movie-body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera*/
+}
+
 #scroll-btn-div {
   width: 100%;
+  height: 0px;
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  top: 45%;
-  left: 0%;
-  z-index: 1;
+  position: relative;
+  top: -220px;
+}
+
+.genre-icon-div {
+  width: 30px;
+  height: 40px;
+  padding: 5px 5px 5px 5px;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+#genre-movie-header{
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+.genre-btn-div {
+  width: 93%;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.bn632-hover {
+  white-space: nowrap;
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+  cursor: pointer;
+  /* margin: 20px; */
+  margin-top: 10px;
+  padding: 0px 20px;
+  height: 55px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+  /* moz-transition: all .4s ease-in-out; */
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.bn632-hover:hover {
+  background-position: 100% 0;
+  /* moz-transition: all .4s ease-in-out; */
+  -o-transition: all .4s ease-in-out;
+  -webkit-transition: all .4s ease-in-out;
+  transition: all .4s ease-in-out;
+}
+
+.bn632-hover:focus {
+  outline: none;
+}
+
+.bn632-hover.bn20 {
+  background-image: linear-gradient(
+    to right,
+    #667eea,
+    #764ba2,
+    #6b8dd6,
+    #8e37d7
+  );
+  box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
 }
 </style>
