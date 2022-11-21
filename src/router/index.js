@@ -6,7 +6,7 @@ import SearchedMovieView from '../views/SearchedMovieView.vue'
 import SignUpView from '../views/SignUpView.vue'
 import ArticleView from '../views/ArticleView.vue'
 import LogInView from '../views/LogInView.vue'
-import DetailView from '../views/DetailView.vue'
+import MovieDetailView from '../views/MovieDetailView.vue'
 import ArticleDetailView from '../views/ArticleDetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 
@@ -58,8 +58,8 @@ const routes = [
   
   {
     path: '/:id',
-    name: 'DetailView',
-    component: DetailView
+    name: 'MovieDetailView',
+    component: MovieDetailView
   },
 
   {

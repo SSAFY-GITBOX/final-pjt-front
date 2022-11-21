@@ -31,7 +31,10 @@ export default {
     getLatestMovieList() {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v1/movies/latest/init/`
+        url: `${API_URL}/api/v1/movies/latest/init/`,
+        headers: {
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
           this.$store.commit('LATEST_MOVIE_LENGTH', res.data.movie_length)

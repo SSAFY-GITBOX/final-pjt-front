@@ -13,7 +13,7 @@ export default {
   methods: {
     goDetail() {
       console.log(this.movie)
-      this.$router.push({ name: "DetailView", params: { id: this.movie.movie_id }})
+      this.$router.push({ name: "MovieDetailView", params: { id: this.movie.movie_id }})
     }
   }
 }
