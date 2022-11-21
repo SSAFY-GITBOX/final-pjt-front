@@ -1,38 +1,56 @@
 <!-- 자동포맷해서 세미콜론 있는거에요!! 엔터누를때 댓글작성되는거는 안됩니다 ㅠㅠㅠ 다시해보겠습니다 -->
 
 <template>
-  <div>
+  <div id="movie-view-div">
     <div
-      style="display: flex; margin-left: 30px; margin-right: 100px"
+      style="display: flex; margin-left: 30px; margin-right: 100px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif;"
       v-if="movie"
     >
-      <div v-if="movie.video_path">
-        <iframe
-          :src="`https://www.youtube.com/embed/${movie.video_path}`"
-          width="640"
-          height="360"
-          frameborder="0"
-          allowfullscreen
-        >
-        </iframe>
-      </div>
-      <div v-else>
-        <img :src="movie.poster_path" alt="" height="360" />
-      </div>
+      <img :src="movie.poster_path" alt="" width="600" height="800" /><br><br>
       <div style="text-align: left; margin-left: 20px">
         <!-- v-if 안적으니까 typeerror 많이 남 -->
         <div v-if="(user, movie)" style="display: flex">
-          <h2>{{ movie.title }}</h2>
-          <button class="button_css mb-5 ms-2" @click="likeMovie">
+          <h1 style="font-weight: bold;">{{ movie.title }}</h1>
+          <button class="button_css mb-2 ms-2" @click="likeMovie">
             {{ this.likeMessage }}</button
-          ><span style="font-size: 20px; margin-top: 6px"
+          ><span style="font-size: 20px; margin-top: 9px"
             >({{ movie.like_count }})</span
           >
         </div>
-        <p>개봉일 {{ movie.release_date }}</p>
-        <p>평점 {{ movie.vote_average }}</p>
-        <br /><br /><br />
-        <h4>줄거리</h4>
+        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p>
+        <div v-if="movie.video_path">
+        <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> 감상하기</b-button>
+          <b-modal
+            id="modal-center" 
+            centered title=""
+            size="xl"
+            :header-bg-variant="black"
+            :body-bg-variant="black"
+            :footer-bg-variant="black"
+            :header-border-variant="black"
+            :body-border-variant="black"
+            :footer-border-variant="black"
+          >
+          <iframe
+            :src="`https://www.youtube.com/embed/${movie.video_path}`"
+            width="1100"
+            height="650"
+            frameborder="0"
+            allowfullscreen
+          >
+          </iframe>
+          <template #modal-header="{ close }">
+            <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+              ✖
+            </b-button>
+          </template>
+          <template #modal-footer>
+            <p></p>
+          </template>
+          </b-modal>
+        </div>
+        <br><br><br><br>
+        <p>줄거리</p>
         <hr />
         <p>{{ movie.overview }}</p>
       </div>
@@ -44,20 +62,20 @@
     <div style="display: flex">
       <div
         v-if="(actors[0], actors[1], actors[2])"
-        style="text-align: center; margin-left: 30px"
+        style="text-align: center; margin-left: 30px; width: 300px;"
       >
-        <h3>출연 배우</h3>
+        <h3>출연</h3>
         <br />
         <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-          <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="140" height="180" />
+          <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
         </a>
         <p>{{ actors[0].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-          <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="140" height="180" />
+          <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
         </a>
         <p>{{ actors[1].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-          <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="140" height="180" />
+          <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
         </a>
         <p>{{ actors[2].name }}</p>
       </div>
@@ -65,20 +83,21 @@
       <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
       <div>
         <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-        <div style="margin-left: 100px">
+        <div style="margin-left: 100px;">
           <div style="text-align: left; margin-left: 30px">
-            <b-button v-b-modal.modal-prevent>댓글 작성</b-button>
+            <b-button v-b-modal.modal-prevent style="width: 120px; height: 50px;">댓글 작성</b-button>
           </div>
-          <br />
-          <MovieCommentList
-            :comments="comments"
-            @update-comment="updateComment"
-            @delete-comment="deleteComment"
-          />
+          <br><br>
+            <MovieCommentList
+              :comments="comments"
+              @update-comment="updateComment"
+              @delete-comment="deleteComment"
+            />
         </div>
         <!-- modal-class 지정한거는 ok 버튼 스타일 지정하려고 한거임!! 승태참고해 -->
         <b-modal
           :modal-class="myclass"
+          centered
           id="modal-prevent"
           ref="modal"
           title="댓글작성"
@@ -108,14 +127,19 @@
               invalid-feedback="Comment is required"
             >
               <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
-              <b-form-input
+              <b-form-textarea
                 @keyup.enter="createComment"
                 id="comment-input"
                 v-model="content"
                 required
-              ></b-form-input>
+              ></b-form-textarea>
             </b-form-group>
           </form>
+          <template #modal-header="{ close }">
+            <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+              ✖
+            </b-button>
+          </template>
           <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
           <template #modal-footer>
             <button
@@ -131,6 +155,7 @@
       <div v-if="updatecomment">
         <b-modal
           :modal-class="myclass"
+          centered
           id="modal-prevent-closing"
           ref="modal"
           title="댓글수정"
@@ -159,13 +184,18 @@
               label-for="comment-input"
               invalid-feedback="Comment is required"
             >
-              <b-form-input
+              <b-form-textarea
                 id="comment-input"
                 v-model="updatedcommentcontent"
                 required
-              ></b-form-input>
+              ></b-form-textarea>
             </b-form-group>
           </form>
+          <template #modal-header="{ close }">
+            <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+              ✖
+            </b-button>
+          </template>
           <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
           <template #modal-footer>
             <button
@@ -213,6 +243,7 @@ export default {
       user: null,
       likeMessage: "",
       myclass: ["myclass"],
+      black: "dark",
     };
   },
 
@@ -237,8 +268,7 @@ export default {
             "https://image.tmdb.org/t/p/original" + this.movie.poster_path;
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
-          this.likeMessage = res.data.isLiking ? "💗" : "🤍";
-          console.log(this.movie)
+          this.likeMessage = res.data.isLiking ? "🖤" : "🤍";
 
           this.actorIds.forEach((actorId) => {
             axios({
@@ -377,7 +407,7 @@ export default {
         },
       })
         .then((res) => {
-          this.likeMessage = res.data.isLiking ? "💗" : "🤍";
+          this.likeMessage = res.data.isLiking ? "🖤" : "🤍";
           this.getMovieDetail();
         })
         .catch((err) => {
@@ -396,22 +426,33 @@ export default {
 
 
 <style>
+#movie-view-div{
+  background-color: #f4f3ea;
+  padding: 3% 5%;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  color: black;
+}
+
+/* 마우스 올려놨을떄의 css */
+button:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+
 .button_css {
   font-size: x-large;
-  background-color: white;
+  background-color: #f4f3ea;
   border-radius: 5px;
-  border: 1px solid white;
+  border: 1px solid #f4f3ea;
   color: #dc3545;
 }
 
-/* .button_css:hover{
-  border-width: 3px;
-  font-size: 2rem;
-} */
-
 /* 모달창 버튼 부분 스타일 지정 */
 .myclass > .modal-dialog > .modal-content > .modal-footer > button {
-  background-color: salmon;
+  background-color: #d3ac2b;
   border: white;
 }
+
 </style>
