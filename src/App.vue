@@ -20,7 +20,7 @@
               </li>
             </ul>
           </div>
-          <div>
+          <div v-if="$store.getters.isLogin">
             <TheMovieSearchBar @get-search-movie="getSearchMovie"/>
             <!-- <form class="d-flex" role="search">
               <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
@@ -29,15 +29,22 @@
           </div>
           <div>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-              <li class="nav-item">
-                <router-link class="nav-link" :to="{ name: 'ProfileView', params: { id: this.$store.state.userPk } }">Profile</router-link>
-              </li>
-              <li class="nav-item">
+							<div v-if="$store.getters.isLogin">
+								<li class="nav-item">
+									<router-link	router-link class="nav-link" :to="{ name: 'ProfileView', params: { id: this.$store.state.userPk } }">Profile</router-link>
+								</li>
+								<li class="nav-item">
+									<button class="nav-link" @click="logOut" style="border: none; background: none;">LogOut</button>
+								</li>
+							</div>
+							<div v-else>
+								<li class="nav-item">
                 <router-link class="nav-link" :to="{ name: 'SignUpView' }">SignUp</router-link>
-              </li>
-              <li class="nav-item">
-                <router-link class="nav-link" :to="{ name: 'LogInView' }">LogIn</router-link>
-              </li>
+								</li>
+								<li class="nav-item">
+									<router-link class="nav-link" :to="{ name: 'LogInView' }">LogIn</router-link>
+								</li>
+							</div>
             </ul>
           </div>
         </div>
@@ -63,10 +70,22 @@ export default {
   components: {
     TheMovieSearchBar,
   },
+
+	created() {
+		if (!this.$store.getters.isLogin) {
+			this.$router.push({ name: 'LogInView' })
+		}
+	},
+	
   methods: {
     getSearchMovie(content) {
       this.$router.push({ name: 'SearchedMovieView', params: {content: content}})
-    }
+    },
+
+		logOut() {
+			this.$store.dispatch('logOut')
+			this.$router.go()
+		}
   }
 }
 </script>
