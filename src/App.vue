@@ -57,7 +57,6 @@
       <router-link :to="{ name: 'SignUpView' }">SIGN UP</router-link> |
 			<router-link :to="{ name: 'LogInView' }">LogIn</router-link>
     </nav> -->
-    <br>
     <router-view/>
     <!-- <router-view :key="$route.fullPath"/> -->
   </div>
