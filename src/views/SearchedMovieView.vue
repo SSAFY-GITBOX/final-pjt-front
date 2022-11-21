@@ -22,16 +22,16 @@
             <MovieListItem :movie="searchedMovie" />
           </div>
           <div id="content-div">
-            <h4>
+            <h4 class="one-line">
               <b>{{ searchedMovie.title }}</b>
             </h4>
-            <h5>
+            <h5 class="one-line">
               <span v-for="(genre, index) in searchedMovie.genres" :key="index">
                 <span v-if="index != 0">, </span>
                 {{ genre.name }}</span
               >
             </h5>
-            <p>{{ searchedMovie.overview }}</p>
+            <p id="overview">{{ searchedMovie.overview }}</p>
           </div>
         </div>
         <hr>
@@ -116,7 +116,10 @@ export default {
 
 #searched-movie-div {
   background-color: yellow;
-
+  padding: 0px 20px;
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border-radius: 20px;
 }
 
 #content-div {
@@ -128,5 +131,22 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
+}
+
+.one-line{
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+#overview {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 11;
+  -webkit-box-orient: vertical;
+
 }
 </style>
