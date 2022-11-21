@@ -38,13 +38,19 @@ export default new Vuex.Store({
     // 회원가입 && 로그인
     SAVE_TOKEN(state, token) {
       state.token = token
+			state.isLogin = true
     },
     
     SAVE_USER_PK(state, userPk) {
-      console.log(userPk)
       state.userPk = userPk
-      router.push({ name: 'ArticleView' })
+      router.push({ name: 'HomeView' })
     },
+
+		LOGOUT(state) {
+			state.token = null,
+			state.userPk = null,
+			state.isLogin = false
+		},
 
     SAVE_GENRES(state, genres) {
       state.genres = genres
@@ -74,12 +80,24 @@ export default new Vuex.Store({
           password2: payload.password2,
         }
       })
-        .then((res) => {
-          console.log(res)
-          context.commit('SAVE_TOKEN', res.data.key)
+        .then((res1) => {
+          context.commit('SAVE_TOKEN', res1.data.key)
+					axios({
+            method: 'get',
+            url: `${API_URL}/accounts/user/`,
+            headers: {
+              Authorization: `Token ${ context.state.token }`
+            }
+          })
+          .then((res2) => {
+            context.commit('SAVE_USER_PK', res2.data.pk)
+          })
+          .catch((err2) => {
+            console.log(err2)
+          })
         })
-        .catch((err) => {
-          console.log(err)
+        .catch((err1) => {
+          console.log(err1)
         })
     },
 
@@ -92,8 +110,8 @@ export default new Vuex.Store({
           password: payload.password,
         }
       })
-        .then((res) => {
-          context.commit('SAVE_TOKEN', res.data.key)
+        .then((res1) => {
+          context.commit('SAVE_TOKEN', res1.data.key)
           axios({
             method: 'get',
             url: `${API_URL}/accounts/user/`,
@@ -101,18 +119,36 @@ export default new Vuex.Store({
               Authorization: `Token ${ context.state.token }`
             }
           })
-          .then((res) => {
-            console.log(res)
-            context.commit('SAVE_USER_PK', res.data.pk)
+          .then((res2) => {
+            context.commit('SAVE_USER_PK', res2.data.pk)
           })
-          .catch((err) => {
-            console.log(err)
+          .catch((err2) => {
+            console.log(err2)
           })
         })
-        .catch((err) => {
-          console.log(err)
+        .catch((err1) => {
+					alert('잘못된 요청입니다.')
+          console.log(err1)
         })
-    }
+    },
+
+		logOut(context) {
+			context.commit('LOGOUT')
+			// axios({
+			// 	method: 'post',
+			// 	url: `${ API_URL }/accounts/logout/`,
+			// 	headers: {
+			// 		Authorization: `Token ${ context.state.token }`
+			// 	}
+			// })
+			// 	.then(() => {
+			// 		context.commit('LOGOUT')
+			// 	})
+			// 	.catch((err) => {
+			// 		console('logout err')
+			// 		console.log(err)
+			// 	})
+		}
   },
 
   modules: {

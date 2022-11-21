@@ -89,9 +89,11 @@ export default {
     },
   },
 
-  // created() {
-  //   this.getArticles();
-  // },
+  created() {
+		if (!this.$store.getters.isLogin) {
+			this.$router.push({ name: 'LogInView' })
+		}
+  },
 
   methods: {
     // getArticles() {

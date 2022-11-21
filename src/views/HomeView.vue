@@ -34,6 +34,7 @@ const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: 'HomeView',
+	
   components: {
     LatestMovieList,
     MovieListItem,
@@ -130,6 +131,10 @@ export default {
   },
 
   created() {
+		if (!this.$store.getters.isLogin) {
+			this.$router.push({ name: 'LogInView' })
+		}
+
     if (this.$store.state.genres.length === 0) {
       this.init()
     } else {
