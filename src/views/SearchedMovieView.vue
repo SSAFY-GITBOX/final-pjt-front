@@ -1,8 +1,8 @@
 <template>
   <div id="searched-movie-view-div">
-    <h2>
+    <h2 style="padding: 20px;">
       <b
-        >'<span style="color: crimson">{{ content }}</span
+        >'<span style="color: crimson;">{{ content }}</span
         >'(으)로 검색한 결과 ({{ searchedMovies.length }})</b
       >
     </h2>
@@ -10,14 +10,12 @@
       <p>검색 결과가 없습니다</p>
     </div>
     <div v-else>
-      <div style="display: flex; flex-direction: column"
-          v-for="(searchedMovie, movie_id) in searchedMovies"
-          :key="movie_id"
+      <div
+        style="display: flex; flex-direction: column"
+        v-for="(searchedMovie, movie_id) in searchedMovies"
+        :key="movie_id"
       >
-        <div
-        id="searched-movie-div"
-          style="display: flex; padding-bottom: 20px"
-        >
+        <div id="searched-movie-div">
           <div id="poster-div">
             <MovieListItem :movie="searchedMovie" />
           </div>
@@ -34,7 +32,7 @@
             <p id="overview">{{ searchedMovie.overview }}</p>
           </div>
         </div>
-        <hr>
+        <hr />
       </div>
     </div>
   </div>
@@ -115,8 +113,9 @@ export default {
 }
 
 #searched-movie-div {
+  display: flex;
   background-color: yellow;
-  padding: 0px 20px;
+  padding: 10px 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 20px;
@@ -133,7 +132,7 @@ export default {
   justify-content: space-evenly;
 }
 
-.one-line{
+.one-line {
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;
@@ -147,6 +146,5 @@ export default {
   display: -webkit-box;
   -webkit-line-clamp: 11;
   -webkit-box-orient: vertical;
-
 }
 </style>
