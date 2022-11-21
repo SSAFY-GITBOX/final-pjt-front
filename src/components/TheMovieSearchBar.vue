@@ -23,6 +23,7 @@ export default {
       if (content != null) {
         if (this.$route.params.content != content && content != null && content.trim()) {
           this.$emit('get-search-movie', content)
+          this.inputData = ''
         }
       }
     }
