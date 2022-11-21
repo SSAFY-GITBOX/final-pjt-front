@@ -30,6 +30,7 @@
           >
         </div>
         <p>개봉일 {{ movie.release_date }}</p>
+        <p>평점 {{ movie.vote_average }}</p>
         <br /><br /><br />
         <h4>줄거리</h4>
         <hr />
@@ -48,15 +49,15 @@
         <h3>출연 배우</h3>
         <br />
         <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-          <img :src="actors[0].profile_path" alt="" width="140" height="180" />
+          <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="140" height="180" />
         </a>
         <p>{{ actors[0].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-          <img :src="actors[1].profile_path" alt="" width="140" height="180" />
+          <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="140" height="180" />
         </a>
         <p>{{ actors[1].name }}</p>
         <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-          <img :src="actors[2].profile_path" alt="" width="140" height="180" />
+          <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="140" height="180" />
         </a>
         <p>{{ actors[2].name }}</p>
       </div>
@@ -83,8 +84,6 @@
           title="댓글작성"
           @show="resetModal"
           @hidden="resetModal"
-          @ok="createComment"
-          ok-only
         >
           <form ref="form">
             <!-- 모달창에 별점 지정한 부분 -->
@@ -102,8 +101,7 @@
               v-model="rating"
               @rating-selected="setRating"
             >
-            </star-rating
-            ><br />
+            </star-rating><br />
             <b-form-group
               label="댓글"
               label-for="comment-input"
@@ -132,10 +130,10 @@
       </div>
       <div v-if="updatecomment">
         <b-modal
+          :modal-class="myclass"
           id="modal-prevent-closing"
           ref="modal"
           title="댓글수정"
-          @ok="updateCommentPerfect"
           @keyup.enter="updateCommentPerfect"
           v-model="modalshow"
         >
@@ -168,6 +166,16 @@
               ></b-form-input>
             </b-form-group>
           </form>
+          <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
+          <template #modal-footer>
+            <button
+              v-b-modal.modal-close_visit
+              class="btn btn-success btn-sm m-1"
+              @click="updateCommentPerfect"
+            >
+              작성
+            </button>
+          </template>
         </b-modal>
       </div>
     </div>
@@ -178,6 +186,7 @@
 import axios from "axios";
 import StarRating from "vue-star-rating";
 import MovieCommentList from "@/components/MovieCommentList";
+import img from "../assets/actorimage.png"
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -229,6 +238,7 @@ export default {
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
           this.likeMessage = res.data.isLiking ? "💗" : "🤍";
+          console.log(this.movie)
 
           this.actorIds.forEach((actorId) => {
             axios({
@@ -275,6 +285,8 @@ export default {
         .then(() => {
           this.getMovieDetail();
           this.content = null;
+          this.rating = null;
+          this.$bvModal.hide('modal-prevent') // ok 버튼을 덮어씌워서 이거 써줘야 모달창 닫힘!!!
         })
         .catch((err) => {
           console.log(err);
@@ -302,7 +314,7 @@ export default {
       // MovieCommentList 에서 업데이트할 댓글 가져오는 메서드!!
       this.updatecomment = comment; // 업데이트할 데이터를 updatecomment 로 data에 저장해놓기! 밑에 메서드에서 쓸거임!
       this.updatedcommentcontent = comment.content;
-      this.updatedcommentrating = comment.rating;
+      this.updatedcommentrating = comment.rating / 2;
       this.modalshow = true; // 모델창띄우는 부트스트랩에 modalshow 로 v-model 해놓고, true 로 바꾸면 모달창 띄워짐!!
     },
 
@@ -323,6 +335,7 @@ export default {
       })
         .then(() => {
           this.getMovieDetail();
+          this.$bvModal.hide('modal-prevent-closing') // ok 버튼을 덮어씌워서 이거 써줘야 모달창 닫힘!!!
           console.log(this.movie); // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
         })
         .catch((err) => {
@@ -374,6 +387,9 @@ export default {
     setRating(rating) {
       this.rating = rating;
     },
+    replaceByDefault(e) {
+      e.target.src = img
+    },
   },
 };
 </script>
@@ -396,5 +412,6 @@ export default {
 /* 모달창 버튼 부분 스타일 지정 */
 .myclass > .modal-dialog > .modal-content > .modal-footer > button {
   background-color: salmon;
+  border: white;
 }
 </style>
