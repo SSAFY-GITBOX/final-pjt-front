@@ -212,6 +212,7 @@ export default {
   width: 100%;
   height: 0px;
   padding-left: 15px; 
+  padding-right: 15px;
   display: flex;
   justify-content: space-between;
   position: relative;
