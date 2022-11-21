@@ -7,7 +7,7 @@
       :show-rating="false"
       :read-only="true"
       :border-width="4"
-      :star-size="15"
+      :star-size="25"
       border-color="#d8d8d8"
       :rounded-corners="true"
       :star-points="[
@@ -17,13 +17,14 @@
       style="justify-content: left"
       v-model="rating"
     >
-    </star-rating>
-    <p style="margin-left: 3px;">{{comment.username}}: {{ comment.content }}</p>
+    </star-rating><br>
+    <p style="margin-left: 3px; font-size: x-large;">{{ comment.content }}</p>
+    <p style="font-size: large; margin-left: 2px;">{{ comment.username }} | {{ comment.created_at.substr(0, 10) }}</p>
     <div v-if="$store.state.userPk === comment.user">
-      <button @click="updateComment" class="mx-1">수정</button>
-      <button @click="deleteComment">삭제</button>
+      <b-button @click="updateComment" class="mx-1">수정</b-button>
+      <b-button @click="deleteComment">삭제</b-button>
     </div>
-    <br>
+    <br><br><br><br>
   </div>
 
 </template>
