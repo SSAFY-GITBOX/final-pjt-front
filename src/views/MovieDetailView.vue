@@ -191,7 +191,7 @@ import img from "../assets/actorimage.png"
 const API_URL = "http://127.0.0.1:8000";
 
 export default {
-  name: "DetailView",
+  name: "MovieDetailView",
 
   components: {
     MovieCommentList,

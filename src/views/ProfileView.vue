@@ -1,198 +1,130 @@
 <template>
-  <div class="w-100 h-100 mx-3 mb-5">
-    <!-- 프로필 -->
-    <div id="profile" class="mb-5 mx-3">
-			<div v-if="profileImageUrl">
-				<img
-				:src="profileImageUrl"
-				class="rounded-circle shadow"
-				style="width: 200px; height: 200px;"
-				>
-			</div>
-			<div v-else>
-				<img
-				class="rounded-circle shadow"
-				style="width: 200px; height: 200px;"
-				id="preview-image"
-				src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image"
-				>
-			</div>
-
-      <h2 class="my-3">{{ user?.username }}</h2>
-
-      <div v-if="$store.state.userPk != userPk">
-        <button class="btn btn-secondary" @click="follow">
-          {{ followMessage }}
-        </button>
-      </div>
-			<div v-else>
-				<button class="btn btn-secondary" @click="editProfile">
-          Edit profile
-        </button>
-			</div>
-
-      <br>
-      <p>{{ user?.followers_cnt }} followers &nbsp; • &nbsp; {{ user?.followings_cnt }} followings</p>
-    </div>
-
-    <!-- 좋아하는 영화 -->
-    <div class="mb-5">
-      <details class="mx-3">
-        <summary>좋아하는 영화 목록</summary>
-        <div
-          v-for="movie in user?.like_movies"
-          :key=movie.movie_id
-        >
-          <router-link :to="{ name: 'DetailView', params: { id: movie.movie_id } }" style="text-decoration: none;" class="mx-3">
-            {{ movie.title }}
-          </router-link>
+  <div id="profile" class="container show-grid mt-5">
+    <div class="row">
+      <div class="col-sm-12 col-md-4">
+        <!-- 프로필 정보 -->
+        <div id="ProfileInfo">
+          <ProfileInfo
+            :user="user"
+            :profile-image-url="profileImageUrl"
+            :follow-message="followMessage"
+            @follow="follow"
+          />
         </div>
-      </details>
-    </div>
-
-    <!-- 좋아하는 게시글 -->
-    <div class="mb-5">
-      <details class="mx-3">
-        <summary>좋아하는 게시글</summary>
-        <div
-          v-for="article in user?.like_articles"
-          :key=article.id
-        >
-          <router-link :to="{ name: 'ArticleDetailView', params: { id: article.id } }" style="text-decoration: none;" class="mx-3">
-            {{ article.title }}
-          </router-link>
+      </div>
+      <div class="col-sm-12 col-md-8">
+        
+        <!-- 좋아요한 영화, 게시글 -->
+        <div id="ProfileLike">
+          <ProfileLike
+          :like-movies="user?.like_movies"
+          :like-articles="user?.like_articles"
+        />
         </div>
-      </details>
+        
+        <!-- 잔디 -->
+        <div id="ProfileGrass">
+          <ProfileGrass
+            :max-count="maxCount"
+            :acts="acts"
+            :today="today" 
+            :user="user"
+          />
+        </div>
+      </div>
     </div>
-
-    <!-- 잔디 -->
-    <calendar-heatmap
-      :values="acts"
-      :end-date="today"
-      :max="max_count"
-      class="w-75"
-    />
-    <br>
-
-    <!-- 활동 내역 -->
-    <details>
-      <summary class="mx-3">상세보기</summary>
-      <br>
-      <br>
-      <h3>Movie 댓글</h3>
-      <div
-        v-for="comment in user?.comment_set"
-        :key=comment.id
-      >
-        <router-link :to="{ name: 'DetailView', params: { id: comment.movie } }" style="text-decoration: none;">
-          {{ comment.content }} - {{ comment.created_at.substr(0, 10) }}
-        </router-link>
-      </div>
-      <hr>
-      <h3>Community 게시글</h3>
-      <div
-        v-for="(article, index) in user?.article_set"
-        :key=index
-      >
-        <router-link :to="{ name: 'ArticleDetailView', params: { id: article.id } }" style="text-decoration: none;">
-          {{ article.title }} - {{ article.created_at.substr(0, 10) }}
-        </router-link>
-      </div>
-      <hr>
-      <h3>Community 댓글</h3>
-      <div
-        v-for="articlecomment in user?.articlecomment_set"
-        :key=articlecomment.id
-      >
-        <router-link :to="{ name: 'ArticleDetailView', params: { id: articlecomment.article } }" style="text-decoration: none;">
-          {{ articlecomment.content }} - {{ articlecomment.created_at.substr(0, 10) }}
-        </router-link>
-      </div>
-    </details>
   </div>
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
+import ProfileInfo from "@/components/ProfileInfo.vue";
+import ProfileLike from "@/components/ProfileLike.vue";
+import ProfileGrass from "@/components/ProfileGrass.vue";
 
-const API_URL = 'http://127.0.0.1:8000'
+const API_URL = "http://127.0.0.1:8000";
 
 export default {
-  name: 'ProfileView',
+  name: "ProfileView",
+
+  components: {
+    ProfileInfo,
+    ProfileLike,
+    ProfileGrass,
+  },
 
   data() {
     return {
+      // for ProfileItem
       user: null,
-			profileImageUrl: '',
-      followMessage: '',
+      profileImageUrl: "",
+      followMessage: "",
 
-      // 잔디용
-      max_count: 6,
+      // for ProfileGrass
+      maxCount: 6,
       acts: [],
-      today: '',
-    }
+      today: "",
+    };
   },
 
   created() {
-    this.getUserInfo()
-    const cur = new Date()
-    this.today = cur.getFullYear() + '-' + (cur.getMonth() + 1) + '-' + cur.getDate()
+    this.getUserInfo();
+    const cur = new Date();
+    this.today =
+      cur.getFullYear() + "-" + (cur.getMonth() + 1) + "-" + cur.getDate();
   },
 
   computed: {
     userPk() {
-      return this.$route.params.id
-    }
+      return this.$route.params.id;
+    },
   },
 
   methods: {
     getUserInfo() {
       axios({
-        method: 'get',
-        url: `${API_URL}/accounts/profile/${ this.userPk }/`,
+        method: "get",
+        url: `${API_URL}/accounts/profile/${this.userPk}/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          this.user = res.data.user
-          this.acts = res.data.acts
-					this.profileImageUrl = `http://127.0.0.1:8000${this.user?.profile_image_url}`
-          this.followMessage = res.data.isFollowing? "Unfollow" : "Follow"
+          this.user = res.data.user;
+          this.acts = res.data.acts;
+          if (this.user?.profile_image_url) {
+            this.profileImageUrl = `http://127.0.0.1:8000${this.user?.profile_image_url}`;
+          }
+          this.followMessage = res.data.isFollowing ? "Unfollow" : "Follow";
+          console.log(this.user)
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
 
-    // 팔로우
     follow() {
       axios({
-        method: 'post',
-        url: `${API_URL}/accounts/profile/${ this.userPk }/follow/`,
+        method: "post",
+        url: `${API_URL}/accounts/profile/${this.user.id}/follow/`,
         headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        }
+          Authorization: `Token ${this.$store.state.token}`,
+        },
       })
         .then((res) => {
-          this.followMessage = res.data.isFollowing? "Unfollow" : "Follow"
-          this.getUserInfo()
+          this.followMessage = res.data.isFollowing ? "Unfollow" : "Follow";
+          this.getUserInfo();
         })
         .catch((err) => {
-          console.log(err)
-        })
+          console.log(err);
+        });
     },
-
-		// 유저 프로필 수정
-		editProfile() {
-			this.$router.push({ name: 'EditProfileView' })
-		}
-  }
-}
+  },
+};
 </script>
 
 <style>
-  summary {
-    display: block;
-  }
+summary {
+  display: block;
+}
 </style>
