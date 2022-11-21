@@ -1,9 +1,17 @@
 <template>
   <div id="movie-view-div">
     <!-- 무비 리스트 아이템 컴포넌트 호출 -->
-    <div style="display: flex; flex-wrap: wrap">
-      <div v-for="(movie, movie_id) in movies" :key="movie_id">
-        <MovieListItem :movie="movie" />
+    <h2>
+      <b
+        >'<span style="color: crimson">{{ genre?.name }}</span
+        >' 장르 전체 보기</b
+      >
+    </h2>
+    <div class="container text-center">
+      <div class="row" id="movielist-body-div">
+        <div class="col-2" id="movielist-item-div" v-for="(movie, movie_id) in movies" :key="movie_id">
+          <MovieListItem :movie="movie" />
+        </div>
       </div>
     </div>
 
@@ -33,6 +41,7 @@ export default {
       select: this.$route.params.select,
       movies: [],
       page: 1,
+      genre: null,
     };
   },
 
@@ -60,6 +69,9 @@ export default {
             movie.poster_path =
               "https://image.tmdb.org/t/p/original" + movie.poster_path;
           });
+          this.genre = this.$store.state.genres.find((genre) => {
+            return genre.id === this.$store.state.selectedGenre
+          })
         })
         .catch((err) => {
           console.log(err);
@@ -87,4 +99,23 @@ export default {
 </script>
 
 <style>
+#movie-view-div{
+  background-color: pink;
+  padding: 3% 5%;
+  padding-left: auto;
+  padding-right: auto;
+  display: flex;
+  flex-direction: column;
+  /* text-align: start; */
+}
+
+#movielist-body-div{
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+#movielist-item-div{
+  width: 20%;
+}
 </style>

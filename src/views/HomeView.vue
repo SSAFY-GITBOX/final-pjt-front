@@ -6,7 +6,7 @@
 
     <div id="home-genre-movie-div">
       <!-- 장르별 영화 버튼 -->
-      <h4>장르별 영화를 감상해 보세요!</h4>
+      <h4 style="padding:20px 20px 0px 20px; margin: 0px">장르별 영화를 감상해 보세요!</h4>
       <div id="genre-movie-header">
         <div style="display: flex" class="genre-btn-div">
           <div v-for="(genre, genre_id) in genres" :key="genre_id" id="genre-btn-div">
@@ -183,15 +183,16 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1% 1%;
+  padding: 20px 20px;
   background-color: yellow;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 #genre-movie-header {
   width: 100%;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
 }
@@ -210,6 +211,7 @@ export default {
 #scroll-btn-div {
   width: 100%;
   height: 0px;
+  padding-left: 15px; 
   display: flex;
   justify-content: space-between;
   position: relative;
@@ -221,6 +223,10 @@ export default {
   height: 40px;
   padding: 5px 5px 5px 5px;
   background-color: rgba(255, 255, 255, 0.5);
+}
+
+.genre-icon-div:hover{
+  cursor: pointer;
 }
 
 #genre-movie-header{

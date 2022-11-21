@@ -6,6 +6,9 @@
         <div class="icon-div" @click="leftScroll">
           <i class="fas fa-angle-left fa-lg"></i>
         </div>
+        <div style="width: 10px;">
+          
+        </div>
         <div class="icon-div" @click="rightScroll">
           <i class="fas fa-angle-right fa-lg"></i>
         </div>
@@ -83,15 +86,16 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  padding: 1% 1%;
+  padding: 20px 20px;
   background-color: yellow;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
-  border-radius: 10px;
+  border-radius: 20px;
 }
 
 #latest-movie-list-header {
   width: 100%;
+  padding: 20px;
   display: flex;
   justify-content: space-between;
 }
@@ -111,6 +115,10 @@ export default {
 .icon-div{
   width: 20px;
   padding: 5px 0px 0px 5px;
+}
+
+.icon-div:hover{
+  cursor: pointer;
 }
 
 </style>

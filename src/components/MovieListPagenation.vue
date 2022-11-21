@@ -1,24 +1,28 @@
 <template>
-  <div>
-    <nav aria-label="Page navigation example">
+  <div id="pagenation-div">
+    <div class="outer-div">
       <ul class="pagination">
-        <!-- 처음 -->
-        <li class="page-item">
-            <span class="page-link" @click="clickPagenation(1)">처음</span>
-        </li>
-
-        <!-- 페이지들 -->
-        <li v-for="(page_num, index) in pages" :key="index" class="page-item">
-          <span class="page-link" @click="clickPagenation(page_num)">{{ page_num }}</span>
-        </li>
-
-        <!-- 끝 -->
-        <li class="page-item">
-            <span class="page-link" @click="clickPagenation($store.getters.selectedMoviePageEndIndex)">끝</span>
-        </li>
-      </ul>
-    </nav>
+      <!-- 처음 -->
+      <li class="page-item">
+        <span id="pageBtn" class="page-link" @click="clickPagenation(1)">
+          <i class="fas fa-angle-double-left"></i>
+        </span>
+      </li>
+      
+      <!-- 페이지들 -->
+      <li v-for="(page_num, index) in pages" :key="index" class="page-item" >
+        <span id="pageBtn" :class="{selectedBtn: page_num == page}" class="page-link"  @click="clickPagenation(page_num)">{{ page_num }}</span>
+      </li>
+      
+      <!-- 끝 -->
+      <li class="page-item">
+        <span id="pageBtn" class="page-link" @click="clickPagenation($store.getters.selectedMoviePageEndIndex)">
+          <i class="fas fa-angle-double-right"></i>
+        </span>
+      </li>
+    </ul>
   </div>
+</div>
 </template>
 
 <script>
@@ -49,4 +53,31 @@ export default {
 </script>
 
 <style>
+#pagenation-div{
+  width: 100%;
+}
+
+.outer-div {
+  margin-top: 20px;
+  margin-right: 20px;
+  padding-top: 16px;
+  background-color : yellow;
+  display : flex;
+  justify-content: center;
+  align-items : center;
+}
+
+#pageBtn{
+  background-color: pink;
+  border: 0;
+  color: white;
+}
+
+#pageBtn:hover{
+  background-color: red;
+}
+
+.selectedBtn{
+  font-weight: 700;
+}
 </style>
