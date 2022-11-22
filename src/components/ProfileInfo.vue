@@ -20,11 +20,11 @@
 
     <!-- 유저 이름 -->
     <div id="username">
-      <h2 class="ms-5 mt-4">{{ user?.username }}</h2>
+      <h2 class="mt-4">{{ user?.username }}</h2>
     </div>
 
     <!-- 반응형 버튼 - 본인일 때는 프로필 수정, 아닐 때는 팔로우 버튼 -->
-    <div id="responsive-botton" class="ms-5">
+    <div id="responsive-botton">
       <div v-if="$store.state.userPk != user?.id">
         <button class="btn btn-secondary" @click="follow">
           {{ followMessage }}
@@ -32,13 +32,13 @@
       </div>
       <div v-else>
         <button class="btn btn-secondary" @click="editProfile">
-          Edit profile
+          프로필 수정
         </button>
       </div>
     </div>
 
     <!-- 팔로우, 팔로워 수 -->
-    <div id="friends" class="ms-4 mt-2 mb-5">
+    <div id="friends" class="mt-2 mb-5">
       <button @click="viewFollowerList">
         <span>{{ user?.followers_cnt }}</span> followers
       </button>
@@ -88,7 +88,7 @@ export default {
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
-  text-align: start;
+  align-items: center;
 }
 
 #profile-div button:hover {

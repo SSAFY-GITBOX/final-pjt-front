@@ -1,56 +1,82 @@
 <template>
   <div id="edit-profile-view-div">
-		<div id="image" class="my-4">
-			<form @submit.prevent="updateImage" enctype="multipart/form-data">
-				<div v-if="user?.profile_image">
-					<img
-						:src="user?.profile_image"
-						class="rounded-circle shadow"
-						style="width: 200px; height: 200px"
-					/>
-				</div>
-				<div v-else>
-					<img
-						class="rounded-circle shadow"
-						style="width: 200px; height: 200px"
-						id="preview-image"
-						src="https://dummyimage.com/500x500/ffffff/000000.png&text=preview+image"
-					/>
-				</div>
+    <div id="profile-image-div" class="my-4">
+      <form @submit.prevent="updateImage" enctype="multipart/form-data">
+        <div v-if="user?.profile_image_url">
+          <img
+            :src="profileImageUrl"
+            id="preview-image"
+            class="rounded-circle shadow"
+            style="width: 200px; height: 200px"
+          />
+        </div>
+        <div v-else>
+          <img
+            src="../assets/default_profile_image.png"
+            id="preview-image"
+            class="rounded-circle shadow"
+            style="width: 200px; height: 200px"
+          />
+        </div>
 
-				<h2 class="my-3"> {{ changedUsername }} </h2>
+        <h2 class="mt-4">{{ changedUsername }}</h2>
+        <div id="image-change">
+          <button id="delete-image" @clikc="deleteImage">이미지 삭제</button>
+          <div class="filebox">
+            <label for="file" class="ms-2">이미지 변경</label>
+            <input
+              type="file"
+              id="file"
+              class="ms-5"
+              @change="onChange"
+            /><br />
+          </div>
+        </div>
 
-				<br />
-				<input type="file" id="file" @change="onChange" /><br /><br />
-				<input type="submit" value="update image" class="btn btn-secondary" />
-			</form>
-		</div>
+        <input type="submit" value="적용하기" class="btn btn-warning mt-3" />
+      </form>
+    </div>
 
-		<div id="username" class="my-5">
-			<details>
-				<summary>change username</summary>
-				<form @submit.prevent="updateUsername">
-					<label for="username" class="mt-4"> username : &nbsp; </label>
-					<input type="text" id="username" v-model="inputUsername" /><br /><br />
-					<input type="submit" value="update username" class="btn btn-secondary" />
-				</form>
-			</details>
-		</div>
+    <div id="username" class="mt-3">
+      <details>
+        <summary>닉네임 변경</summary>
+        <form @submit.prevent="updateUsername">
+          <label for="username"></label>
+          <input
+            type="text"
+            id="username"
+            class="ms-1 mt-2 w-50"
+            v-model="inputUsername"
+          /><br /><br />
+          <input type="submit" value="적용하기" class="btn btn-warning" />
+        </form>
+      </details>
+    </div>
 
-		<div id="password" class="my-5">
-			<details>
-				<summary>change password</summary>
-				<form @submit.prevent="updatePassword">
-					<label for="new_password" class="mt-4"> new password : &nbsp; </label>
-					<input type="password" id="new_password" v-model="newPassword1" /><br /><br />
+    <div id="password" class="mt-5">
+      <details>
+        <summary>비밀번호 변경</summary>
+        <form @submit.prevent="updatePassword">
+          <label for="new_password" class="mt-4"> 새 비밀번호 : &nbsp; </label>
+          <input
+            type="password"
+            id="new_password"
+						class="w-50"
+            v-model="newPassword1"
+          /><br /><br />
 
-					<label for="new_password_2"> new password confirmation : &nbsp; </label>
-					<input type="password" id="new_password_2" v-model="newPassword2" /><br /><br />
+          <label for="new_password_2"> 비밀번호 확인 : &nbsp; </label>
+          <input
+            type="password"
+            id="new_password_2"
+						class="w-50"
+            v-model="newPassword2"
+          /><br /><br />
 
-					<input type="submit" value="update password" class="btn btn-secondary" />
-				</form>
-			</details>
-		</div>
+          <input type="submit" value="적용하기" class="btn btn-warning" />
+        </form>
+      </details>
+    </div>
   </div>
 </template>
 
@@ -97,7 +123,9 @@ export default {
         .then((res) => {
           this.user = res.data.user
 					this.changedUsername = this.user.username
-					this.profileUrl = this.user.profile_image_url? this.user.profile_image_url : null
+					if (this.user?.profile_image_url && this.user?.profile_image_url.charAt(0) != "h") {
+            this.profileImageUrl = `http://127.0.0.1:8000${this.user?.profile_image_url}`;
+          }
         })
         .catch((err) => {
           console.log(err)
@@ -136,11 +164,31 @@ export default {
         .then(() => {
 					this.getUserInfo()
 					this.profileImageUrl = `http://127.0.0.1:8000${this.user?.profile_image_url}`
+					alert('프로필 이미지가 변경되었습니다.')
         })
         .catch((err) => {
           console.log(err);
         });
     },
+
+		// 이미지 삭제
+		deleteImage() {
+			axios({
+				method: "delete",
+				url: `${ API_URL }/accounts/profile_image/${ this.userPk }/`,
+				headers: {
+					'Content-Type': 'multipart/form-data',
+					Authorization: `Token ${ this.$store.state.token }`,
+				}
+			})
+				.then(() => {
+					this.getUserInfo()
+					this.profileImageUrl = null
+				})
+				.catch((err) => {
+					console.log(err);
+				})
+		},
 
 		// 유저 이름 업데이트
 		updateUsername() {
@@ -190,11 +238,60 @@ export default {
 </script>
 
 <style>
-	#edit-profile-view-div {
-		background-color: pink;
-		padding: 3% 5%;
-		display: flex;
-		flex-direction: column;
-		text-align: start;
-	}
+#edit-profile-view-div {
+  background-color: pink;
+  padding: 3% 5%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#image-change {
+  display: flex;
+  justify-content: center;
+}
+
+#delete-image {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  color: #999;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: 0.25em;
+}
+
+.filebox label {
+  display: inline-block;
+  padding: 0.5em 0.75em;
+  color: #999;
+  font-size: inherit;
+  line-height: normal;
+  vertical-align: middle;
+  background-color: #fdfdfd;
+  cursor: pointer;
+  border: 1px solid #ebebeb;
+  border-bottom-color: #e2e2e2;
+  border-radius: 0.25em;
+}
+
+.filebox label:hover {
+  transform: scale(1.1);
+}
+
+/* 인풋 파일 숨기기 */
+.filebox input[type="file"] {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
 </style>

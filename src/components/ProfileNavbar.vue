@@ -7,10 +7,10 @@
             <a id="nav-acts" class="nav-link" :class="{selected: onGrass} " @click="viewActs">활동 내역</a>
           </li>
           <li class="nav-item">
-            <a id="nav-movies" class="nav-link" :class="{selected: onLikeMovies}" @click="viewLikingMovies">찜한 영화</a>
+            <a id="nav-movies" class="nav-link" :class="{selected: onLikeMovies}" @click="viewLikeMovies">찜한 영화</a>
           </li>
           <li class="nav-item">
-            <a id="nav-articles" class="nav-link" :class="{selected: onLikeArticles}" @click="viewLikingArticles">좋아하는 게시글</a>
+            <a id="nav-articles" class="nav-link" :class="{selected: onLikeArticles}" @click="viewLikeArticles">좋아하는 게시글</a>
           </li>
         </ul>
       </div>
@@ -33,19 +33,19 @@ export default {
       this.$emit("view-acts");
     },
 
-    viewLikingMovies() {
-      this.$emit("view-liking-movies");
+    viewLikeMovies() {
+      this.$emit("view-like-movies");
     },
 
-    viewLikingArticles() {
-      this.$emit("view-liking-articles");
+    viewLikeArticles() {
+      this.$emit("view-like-articles");
     },
   },
 };
 </script>
 
 <style>
-.navbar {
+#profile-navbar .navbar {
   display: flex;
 }
 
@@ -57,11 +57,15 @@ export default {
   font-weight: bold;
 }
 
-.nav-item:hover {
+#profile-navbar a {
+  font-size: 22px;
+}
+
+#profile-navbar .nav-item:hover {
   cursor: pointer;
 }
 
-.selected {
+#profile-navbar .selected {
 	font-weight: bold !important;
 	color: black !important;
 }

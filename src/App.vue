@@ -12,11 +12,11 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
               <li class="nav-item">
                 <!-- <a class="nav-link active" aria-current="page" href="#">Home</a> -->
-                <router-link class="nav-link" :to="{ name: 'HomeView' }">Home</router-link>
+                <router-link class="nav-link" :to="{ name: 'HomeView' }">홈</router-link>
               </li>
               <li class="nav-item">
                 <!-- <a class="nav-link" href="#">Link</a> -->
-                <router-link class="nav-link" :to="{ name: 'ArticleView' }">Community</router-link>
+                <router-link class="nav-link" :to="{ name: 'ArticleView' }">커뮤니티</router-link>
               </li>
             </ul>
           </div>
@@ -31,18 +31,18 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
 							<div v-if="$store.getters.isLogin">
 								<li class="nav-item">
-									<router-link	router-link class="nav-link" :to="{ name: 'ProfileView', params: { id: this.$store.state.userPk } }">Profile</router-link>
+									<router-link	router-link class="nav-link" :to="{ name: 'ProfileView', params: { id: this.$store.state.userPk } }">내 프로필</router-link>
 								</li>
 								<li class="nav-item">
-									<button class="nav-link" @click="logOut" style="border: none; background: none; transform: none;">LogOut</button>
+									<button class="nav-link" @click="logOut" style="border: none; background: none; transform: none;">로그아웃</button>
 								</li>
 							</div>
 							<div v-else>
 								<li class="nav-item">
-                <router-link class="nav-link" :to="{ name: 'SignUpView' }">SignUp</router-link>
+                <router-link class="nav-link" :to="{ name: 'SignUpView' }">회원가입</router-link>
 								</li>
 								<li class="nav-item">
-									<router-link class="nav-link" :to="{ name: 'LogInView' }">LogIn</router-link>
+									<router-link class="nav-link" :to="{ name: 'LogInView' }">로그인</router-link>
 								</li>
 							</div>
             </ul>
@@ -50,15 +50,7 @@
         </div>
       </div>
     </nav>
-    <!-- <nav>
-      <router-link :to="{ name: 'HomeView' }">Home</router-link> |
-			<router-link :to="{ name: 'ArticleView' }">Community</router-link> |
-      <TheMovieSearchBar/>
-      <router-link :to="{ name: 'SignUpView' }">SIGN UP</router-link> |
-			<router-link :to="{ name: 'LogInView' }">LogIn</router-link>
-    </nav> -->
     <router-view/>
-    <!-- <router-view :key="$route.fullPath"/> -->
   </div>
 </template>
 
