@@ -3,23 +3,26 @@
 <template>
   <div id="movie-detail-div">
     <div
-      style="display: flex; margin-left: 30px; margin-right: 100px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif;"
-      v-if="movie"
+    style="display: flex; padding: 30px 30px 30px 30px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;"
+    v-if="movie"
     >
-      <img :src="movie.poster_path" alt="" width="600" height="800" /><br><br>
-      <div style="text-align: left; margin-left: 20px">
-        <!-- v-if 안적으니까 typeerror 많이 남 -->
-        <div v-if="(user, movie)" style="display: flex">
-          <h1 style="font-weight: bold;">{{ movie.title }}</h1>
-          <button class="button_css mb-2 ms-2" @click="likeMovie">
-            {{ this.likeMessage }}</button
+    <img :src="movie.poster_path" alt="" width="540" height="800"/>
+    <div style="text-align: left; margin-left: 100px; margin-right: 100px;">
+      <!-- v-if 안적으니까 typeerror 많이 남 -->
+      <br>
+      <div v-if="(user, movie)" style="display: flex">
+        <h1 style="font-weight: bold;">{{ movie.title }}</h1>
+        <button class="button_css mb-2 ms-2" @click="likeMovie">
+          {{ this.likeMessage }}</button
           ><span style="font-size: 20px; margin-top: 9px"
-            >({{ movie.like_count }})</span
+          >({{ movie.like_count }})</span
           >
         </div>
-        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p>
+        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
+        <p>{{ movie.overview }}</p><br><br>
         <div v-if="movie.video_path">
-        <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> 감상하기</b-button>
+        <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> Play Trailer</b-button>
+        <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;">댓글 쓰기</b-button>
           <b-modal
             id="modal-center" 
             centered title=""
@@ -50,164 +53,174 @@
           </b-modal>
         </div>
         <br><br><br><br>
-        <p>줄거리</p>
-        <hr />
-        <p>{{ movie.overview }}</p>
       </div>
     </div>
+    <br>
     <hr />
     <br />
 
     <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
-    <div style="display: flex">
+    <div style="padding: 20px 30px; font-size: large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;">
+      <h3 style="margin-left: 30px; margin-top: 10px; font-weight: bold;">Cast</h3>
       <div
         v-if="(actors[0], actors[1], actors[2])"
-        style="text-align: center; margin-left: 30px; width: 300px;"
+        style="text-align: center; margin-left: 30px;"
       >
-        <h3>출연</h3>
         <br />
-        <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-          <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
-        </a>
-        <p>{{ actors[0].name }}</p>
-        <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-          <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
-        </a>
-        <p>{{ actors[1].name }}</p>
-        <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-          <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
-        </a>
-        <p>{{ actors[2].name }}</p>
-      </div>
-
-      <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
-      <div>
-        <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-        <div style="margin-left: 100px;">
-          <div style="text-align: left; margin-left: 30px">
-            <b-button v-b-modal.modal-prevent style="width: 120px; height: 50px;">댓글 작성</b-button>
+        <div style="display: flex;">
+          <div style="margin-right: 60px;">
+            <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
+              <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
+            </a>
+            <p>{{ actors[0].name }}</p>
           </div>
-          <br><br>
-            <MovieCommentList
-              :comments="comments"
-              @update-comment="updateComment"
-              @delete-comment="deleteComment"
-            />
+          <div style="margin-right: 60px;">
+            <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
+              <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
+            </a>
+            <p>{{ actors[1].name }}</p>
+          </div>
+          <div>
+            <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
+              <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
+            </a>
+            <p>{{ actors[2].name }}</p>
+          </div>
         </div>
-        <!-- modal-class 지정한거는 ok 버튼 스타일 지정하려고 한거임!! 승태참고해 -->
-        <b-modal
-          :modal-class="myclass"
-          centered
-          id="modal-prevent"
-          ref="modal"
-          title="댓글작성"
-          @show="resetModal"
-          @hidden="resetModal"
-        >
-          <form ref="form">
-            <!-- 모달창에 별점 지정한 부분 -->
-            <star-rating
-              :increment="0.5"
-              :show-rating="false"
-              :border-width="4"
-              border-color="#d8d8d8"
-              :rounded-corners="true"
-              :star-points="[
-                23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
-                19, 31, 17,
-              ]"
-              style="justify-content: center"
-              v-model="rating"
-              @rating-selected="setRating"
-            >
-            </star-rating><br />
-            <b-form-group
-              label="댓글"
-              label-for="comment-input"
-              invalid-feedback="Comment is required"
-            >
-              <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
-              <b-form-textarea
-                @keyup.enter="createComment"
-                id="comment-input"
-                v-model="content"
-                required
-              ></b-form-textarea>
-            </b-form-group>
-          </form>
-          <template #modal-header="{ close }">
-            <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-              ✖
-            </b-button>
-          </template>
-          <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
-          <template #modal-footer>
-            <button
-              v-b-modal.modal-close_visit
-              class="btn btn-success btn-sm m-1"
-              @click="createComment"
-            >
-              작성
-            </button>
-          </template>
-        </b-modal>
       </div>
-      <div v-if="updatecomment">
-        <b-modal
-          :modal-class="myclass"
-          centered
-          id="modal-prevent-closing"
-          ref="modal"
-          title="댓글수정"
-          @keyup.enter="updateCommentPerfect"
-          v-model="modalshow"
-        >
-          <form ref="form">
-            <star-rating
-              :increment="0.5"
-              :show-rating="false"
-              :border-width="4"
-              border-color="#d8d8d8"
-              :rounded-corners="true"
-              :star-points="[
-                23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
-                19, 31, 17,
-              ]"
-              style="justify-content: center"
-              v-model="updatedcommentrating"
-              @rating-selected="setRating"
-            >
-            </star-rating
-            ><br />
-            <b-form-group
-              label="댓글"
-              label-for="comment-input"
-              invalid-feedback="Comment is required"
-            >
-              <b-form-textarea
-                id="comment-input"
-                v-model="updatedcommentcontent"
-                required
-              ></b-form-textarea>
-            </b-form-group>
-          </form>
-          <template #modal-header="{ close }">
-            <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-              ✖
-            </b-button>
-          </template>
-          <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
-          <template #modal-footer>
-            <button
-              v-b-modal.modal-close_visit
-              class="btn btn-success btn-sm m-1"
-              @click="updateCommentPerfect"
-            >
-              작성
-            </button>
-          </template>
-        </b-modal>
+    </div>
+    <br><br>
+    <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
+    <div>
+      <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
+      <div style="padding: 20px 30px; font-size: large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;">
+        <!-- <b-button v-b-modal.modal-prevent style="width: 120px; height: 50px;">댓글 작성</b-button> -->
+        <h3 style="margin-left: 30px; margin-top: 30px; font-weight: bold;">GITBOX 사용자 댓글</h3><br>
+          <MovieCommentList
+            :comments="comments"
+            @update-comment="updateComment"
+            @delete-comment="deleteComment"
+          />
       </div>
+      <!-- modal-class 지정한거는 ok 버튼 스타일 지정하려고 한거임!! 승태참고해 -->
+      <b-modal
+        :modal-class="myclass"
+        centered
+        id="modal-prevent"
+        ref="modal"
+        size="lg"
+        title="댓글작성"
+        @show="resetModal"
+        @hidden="resetModal"
+      >
+        <form ref="form">
+          <br><br>
+          <!-- 모달창에 별점 지정한 부분 -->
+          <star-rating
+            :increment="0.5"
+            :show-rating="false"
+            :border-width="4"
+            border-color="#d8d8d8"
+            :rounded-corners="true"
+            :star-points="[
+              23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
+              19, 31, 17,
+            ]"
+            style="justify-content: center"
+            v-model="rating"
+            @rating-selected="setRating"
+          >
+          </star-rating><br><br>
+          <b-form-group
+            label="댓글"
+            label-for="comment-input"
+            label-size="lg"
+            invalid-feedback="Comment is required"
+          >
+            <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
+            <b-form-textarea
+              @keyup.enter="createComment"
+              id="comment-input"
+              v-model="content"
+              required
+            ></b-form-textarea>
+          </b-form-group>
+        </form>
+        <template #modal-header="{ close }">
+          <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+            ✖
+          </b-button>
+        </template>
+        <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
+        <template #modal-footer>
+          <button
+            v-b-modal.modal-close_visit
+            class="btn btn-success btn-lg m-1"
+            @click="createComment"
+          >
+            작성
+          </button>
+        </template>
+      </b-modal>
+    </div>
+    <div v-if="updatecomment">
+      <b-modal
+        :modal-class="myclass"
+        centered
+        id="modal-prevent-closing"
+        ref="modal"
+        size="lg"
+        title="댓글수정"
+        @keyup.enter="updateCommentPerfect"
+        v-model="modalshow"
+      >
+        <form ref="form">
+          <br><br>
+          <star-rating
+            :increment="0.5"
+            :show-rating="false"
+            :border-width="4"
+            border-color="#d8d8d8"
+            :rounded-corners="true"
+            :star-points="[
+              23, 2, 14, 17, 0, 19, 10, 34, 7, 50, 23, 43, 38, 50, 36, 34, 46,
+              19, 31, 17,
+            ]"
+            style="justify-content: center"
+            v-model="updatedcommentrating"
+            @rating-selected="setRating"
+          >
+          </star-rating
+          ><br><br>
+          <b-form-group
+            label="댓글"
+            label-for="comment-input"
+            label-size="lg"
+            invalid-feedback="Comment is required"
+          >
+            <b-form-textarea
+              id="comment-input"
+              v-model="updatedcommentcontent"
+              required
+            ></b-form-textarea>
+          </b-form-group>
+        </form>
+        <template #modal-header="{ close }">
+          <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+            ✖
+          </b-button>
+        </template>
+        <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
+        <template #modal-footer>
+          <button
+            v-b-modal.modal-close_visit
+            class="btn btn-success btn-lg m-1"
+            @click="updateCommentPerfect"
+          >
+            작성
+          </button>
+        </template>
+      </b-modal>
     </div>
   </div>
 </template>
@@ -427,7 +440,7 @@ export default {
 
 <style>
 #movie-detail-div{
-  background-color: #f4f3ea;
+  background-color: #e0e7e9;
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
@@ -443,9 +456,9 @@ button:hover {
 
 .button_css {
   font-size: x-large;
-  background-color: #f4f3ea;
+  background-color: white;
   border-radius: 5px;
-  border: 1px solid #f4f3ea;
+  border: 1px solid white;
   color: #dc3545;
 }
 
