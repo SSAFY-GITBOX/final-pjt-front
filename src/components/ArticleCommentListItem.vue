@@ -1,14 +1,23 @@
 <template>
   <div>
     <div v-if="!isUpdate">
-      {{ comment.username }} : {{ comment.content }}
+      <div style="display: flex; flex-direction: column;">
+        <div>
+          {{ comment.username }}
+        </div>
+        <div>
+          <textarea name="" id="" style="width:100%;" rows="3" :value="comment.content">
+          </textarea>
+        </div>
+      </div>
+
       <div v-if="$store.state.userPk === comment?.user" style="display: inline-block;">
         <button @click="clickUpdateBtn">수정</button>
         <button @click="deleteComment" style="margin-left: 5px">삭제</button>
       </div>
     </div>
     <div v-else>
-      <textarea name="" id="" cols="100" rows="3" v-model.trim="inputData">
+      <textarea name="" id="" style="width:100%;" rows="3" v-model.trim="inputData">
       </textarea>
       <button @click="clickUpdateCencelBtn">취소</button>
       <button @click="updateComment">완료</button>

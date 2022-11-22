@@ -1,9 +1,10 @@
 <template>
   <div>
     <!-- <input type="textarea" v-model.trim="inputData" @keyup.enter="createComment"> -->
-    <textarea name="" id="" cols="100" rows="3" v-model.trim="inputData">
+    <textarea name="" id="" style="width:100%;" rows="3" v-model.trim="inputData">
     </textarea>
     <button @click="createComment">작성</button>
+    <hr>
   </div>
 </template>
 
