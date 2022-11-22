@@ -9,8 +9,8 @@
           :on-like-movies="onLikeMovies"
           :on-like-articles="onLikeArticles"
           @view-acts="viewActs"
-          @view-liking-movies="viewLikingMovies"
-          @view-liking-articles="viewLikingArticles"
+          @view-like-movies="viewLikeMovies"
+          @view-like-articles="viewLikeArticles"
         />
       </div>
     </div>
@@ -152,13 +152,10 @@ export default {
           this.user = res.data.user;
           this.acts = res.data.acts;
           this.actsTotalCnt = res.data.acts_total_cnt;
-          if (
-            this.user?.profile_image_url &&
-            this.user?.profile_image_url.charAt(0) != "h"
-          ) {
+          if (this.user?.profile_image_url && this.user?.profile_image_url.charAt(0) != "h") {
             this.profileImageUrl = `http://127.0.0.1:8000${this.user?.profile_image_url}`;
           }
-          this.followMessage = res.data.isFollowing ? "Unfollow" : "Follow";
+          this.followMessage = res.data.isFollowing ? "언팔로우" : "팔로우";
           this.user.like_movies.forEach((movie) => {
             movie.poster_path =
               "https://image.tmdb.org/t/p/original" + movie.poster_path;
@@ -194,14 +191,14 @@ export default {
       (this.onFollowerList = false), (this.onFollowList = false);
     },
 
-    viewLikingMovies() {
+    viewLikeMovies() {
       this.onGrass = false;
       this.onLikeMovies = true;
       this.onLikeArticles = false;
       (this.onFollowerList = false), (this.onFollowList = false);
     },
 
-    viewLikingArticles() {
+    viewLikeArticles() {
       this.onGrass = false;
       this.onLikeMovies = false;
       this.onLikeArticles = true;

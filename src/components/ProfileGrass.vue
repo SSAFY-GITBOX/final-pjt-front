@@ -18,21 +18,21 @@
     <!-- 활동 내역 for 잔디 -->
     <div id="acts">
       <details class="ms-3">
-        <summary class="mb-3">상세 보기</summary>
+        <summary class="mb-3">활동 상세 보기</summary>
 
-        <h4>Movie 댓글</h4>
-        <div v-for="comment in user?.comment_set" :key="comment.id">
+        <h4>영화 감상평</h4>
+        <div v-for="comment in orderdMovieComments" :key="comment.id">
           <router-link
             :to="{ name: 'MovieDetailView', params: { id: comment.movie } }"
 						class="btn shadow-sm p-1 mb-2 rounded"
           >
-            {{ comment.content }} - {{ comment.created_at.substr(0, 10) }}
+          <span id="movie-title">{{ comment.movie_title }}</span> {{ comment.content }} - {{ comment.created_at.substr(0, 10) }}
           </router-link>
         </div>
 				<br>
 
-        <h4>Community 게시글</h4>
-        <div v-for="(article, index) in user?.article_set" :key="index">
+        <h4>작성 게시글</h4>
+        <div v-for="(article, index) in orderdArticles" :key="index">
           <router-link
             :to="{ name: 'ArticleDetailView', params: { id: article.id } }"
 						class="btn shadow-sm p-1 mb-2 rounded"
@@ -42,9 +42,9 @@
         </div>
 				<br>
 
-        <h4>Community 댓글</h4>
+        <h4>작성 댓글</h4>
         <div
-          v-for="articlecomment in user?.articlecomment_set"
+          v-for="articlecomment in orderdArticleComments"
           :key="articlecomment.title"
         >
           <router-link
@@ -64,6 +64,8 @@
 </template>
 
 <script>
+import lodash from 'lodash'
+
 export default {
   name: "ProfileGrass",
 
@@ -74,6 +76,24 @@ export default {
     maxCount: Number,
     user: Object,
   },
+
+  created() {
+    console.log(this.user)
+  },
+
+  computed: {
+    orderdMovieComments() {
+      return lodash.orderBy(this.user?.comment_set, 'created_at', 'desc')
+    },
+
+    orderdArticles() {
+      return lodash.orderBy(this.user?.article_set, 'created_at', 'desc')
+    },
+
+    orderdArticleComments() {
+      return lodash.orderBy(this.user?.articlecomment_set, 'created_at', 'desc')
+    }
+  }
 };
 </script>
 
@@ -90,6 +110,12 @@ export default {
 	text-decoration: none;
 	color: black;
 	margin-left: 1rem;
+}
+
+#acts #movie-title {
+  font-size: 19px;
+  color: blue;
+  margin-right: 0.5rem;
 }
 
 #grass {

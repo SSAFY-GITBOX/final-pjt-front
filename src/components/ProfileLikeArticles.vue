@@ -1,7 +1,7 @@
 <template>
   <div id="like-articles-div">
     <!-- 좋아하는 게시글 -->
-    <div v-for="article in likeArticles" :key="article.id" class="ms-2">
+    <div v-for="article in orderdLikeArticles" :key="article.id" class="ms-2">
       <router-link
         :to="{ name: 'ArticleDetailView', params: { id: article.id } }"
 				class="btn shadow-sm p-3 mb-2 rounded"
@@ -14,12 +14,20 @@
 </template>
 
 <script>
+import lodash from 'lodash'
+
 export default {
   name: "ProfileLikeArticles",
 
   props: {
     likeArticles: Array,
   },
+
+  computed: {
+    orderdLikeArticles() {
+      return lodash.orderBy(this.likeArticles, 'created_at', 'desc')
+    }
+  }
 };
 </script>
 
