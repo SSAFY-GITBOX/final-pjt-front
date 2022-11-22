@@ -45,19 +45,19 @@
             ></b-form-input>
           </b-form-group>
           <div style="padding-top: 20px">
-          <form ref="form">
-            <b-form-group
-              class="modal-text"
-              label="내용"
-              label-for="article-content-input"
-              invalid-feedback="Comment is required"
-            >
-              <!-- 내용 부분은 textarea로 바꿔줬음 -->
+            <form ref="form">
+              <b-form-group
+                class="modal-text"
+                label="내용"
+                label-for="article-content-input"
+                invalid-feedback="Comment is required"
+              >
+                <!-- 내용 부분은 textarea로 바꿔줬음 -->
                 <b-form-textarea
-                id="article-content-input"
-                v-model.trim="content"
-                required
-                rows="20"
+                  id="article-content-input"
+                  v-model.trim="content"
+                  required
+                  rows="20"
                 ></b-form-textarea>
               </b-form-group>
             </form>
@@ -65,11 +65,15 @@
 
           <!-- 푸터 -->
           <div id="article-modal-footer">
-            <div style="padding-left: 16px; padding-top: 16px;">
-              <b-button size="sm" variant="primary" @click="ok()"> OK </b-button>
+            <div style="padding-left: 16px; padding-top: 16px">
+              <b-button size="sm" variant="primary" @click="ok()">
+                OK
+              </b-button>
             </div>
-            <div style="padding-left: 16px; padding-top: 16px;">
-              <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
+            <div style="padding-left: 16px; padding-top: 16px">
+              <b-button size="sm" variant="danger" @click="cancel()"
+                >Cancel</b-button
+              >
             </div>
           </div>
         </template>
@@ -194,23 +198,22 @@ export default {
   justify-content: space-between;
 }
 
-#article-modal-footer{
+#article-modal-footer {
   display: flex;
   justify-content: flex-end;
 }
 
-#modal-center___BV_modal_body_{
+#modal-center___BV_modal_body_ {
   background-color: yellow;
   border-radius: 0.5rem;
   font-family: "DOHYEON";
 }
 
-#article-title-input{
+#article-title-input {
   background-color: pink;
 }
 
-#article-content-input{
+#article-content-input {
   background-color: pink;
 }
-
 </style>
