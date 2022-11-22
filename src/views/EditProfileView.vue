@@ -39,7 +39,7 @@
 
     <div id="username" class="mt-3">
       <details>
-        <summary>닉네임 변경</summary>
+        <summary>아이디 변경</summary>
         <form @submit.prevent="updateUsername">
           <label for="username"></label>
           <input
@@ -204,6 +204,7 @@ export default {
 			})
 				.then((res) => {
 					this.changedUsername = res.data.username
+          alert('아이디가 변경되었습니다.')
 				})
 				.catch((err) => {
 					console.log(err)
