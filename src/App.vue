@@ -34,7 +34,7 @@
 									<router-link	router-link class="nav-link" :to="{ name: 'ProfileView', params: { id: this.$store.state.userPk } }">Profile</router-link>
 								</li>
 								<li class="nav-item">
-									<button class="nav-link" @click="logOut" style="border: none; background: none;">LogOut</button>
+									<button class="nav-link" @click="logOut" style="border: none; background: none; transform: none;">LogOut</button>
 								</li>
 							</div>
 							<div v-else>
