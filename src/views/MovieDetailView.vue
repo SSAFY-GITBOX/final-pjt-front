@@ -3,7 +3,7 @@
 <template>
   <div class="show-grid" id="movie-detail-div">
     <div
-    style="display: flex; width: 100%; overflow: auto; padding: 30px 30px 30px 30px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;"
+    style="display: flex; width: 100%; overflow: auto; padding: 30px 30px 30px 30px; font-size: x-large; background-color: white; border-radius: 20px;"
     v-if="movie"
     >
       <div>
@@ -76,7 +76,7 @@
     <br />
 
     <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
-    <div style="width: 100%; overflow: auto; padding: 20px 30px; font-size: large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;">
+    <div style="width: 100%; overflow: auto; padding: 20px 30px; font-size: large; background-color: white; border-radius: 20px;">
       <h3 style="margin-left: 30px; margin-top: 10px; font-weight: bold;">Cast</h3>
       <div
         v-if="(actors[0], actors[1], actors[2])"
@@ -110,7 +110,7 @@
     <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
     <div>
       <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-      <div style="padding: 20px 30px; font-size: large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;">
+      <div style="padding: 20px 30px; font-size: large; background-color: white; border-radius: 20px;">
         <!-- <b-button v-b-modal.modal-prevent style="width: 120px; height: 50px;">댓글 작성</b-button> -->
         <h3 style="margin-left: 30px; margin-top: 30px; font-weight: bold;">GITBOX 사용자 댓글</h3><br>
           <MovieCommentList
@@ -463,6 +463,7 @@ export default {
   flex-direction: column;
   text-align: start;
   color: black;
+  /* font-family: "DOHYEON"; */
 }
 
 /* 마우스 올려놨을떄의 css */
