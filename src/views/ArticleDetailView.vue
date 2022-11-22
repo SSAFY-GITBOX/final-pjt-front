@@ -1,6 +1,6 @@
 <template>
   <div id="article-detail-div">
-    <div>
+    <div id="article-div">
       <!-- 작성자 -->
       <div id="article-writer-div">
         <div v-if="articleUser_profile_path">
@@ -57,7 +57,6 @@
       <b-button v-b-modal.modal-center>수정</b-button>
       <b-button @click="deleteArticle" style="margin-left: 10px">삭제</b-button>
     </div>
-
 
 
     <hr />
@@ -356,6 +355,13 @@ export default {
   text-align: start;
 }
 
+#article-div {
+  background-color: yellow;
+  padding: 20px;
+  border-radius: 20px;
+  margin-bottom: 16px;
+}
+
 #article-writer-div {
   display: flex;
   justify-content: flex-start;
@@ -392,10 +398,5 @@ export default {
 #article-like-icon-div{
   width: 50px;
   height: 50px;
-
-  /* display: flex; justify-content: center; align-items: center;
-  border-radius: 25px;
-  padding-top: 5px;
-  border: 1px solid black; */
 }
 </style>
