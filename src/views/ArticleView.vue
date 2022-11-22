@@ -196,7 +196,7 @@ export default {
 
 #article-modal-footer{
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 
 #modal-center___BV_modal_body_{
