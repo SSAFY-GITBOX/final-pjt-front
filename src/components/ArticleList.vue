@@ -3,6 +3,9 @@
     <div style="display: flex; justify-content: space-between;" >
       <div style="display: flex;">
         <div style="padding: 0px 20px; width: 100px; ">
+          글 번호
+        </div>
+        <div style="padding: 0px 20px; width: 100px; ">
           작성자
         </div>
         <div>
@@ -15,9 +18,10 @@
     </div>
     <hr>
     <ArticleListItem
-      v-for="(article, article_id) in articles"
-      :key="article_id"
+      v-for="(article, index) in articles"
+      :key="index"
       :article="article"
+      :index="index"
     />
 
     <infinite-loading @infinite="infiniteHandler"></infinite-loading>

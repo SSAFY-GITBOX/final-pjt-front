@@ -1,15 +1,12 @@
 <template>
-  <div>
+  <div id="article-view-div">
     <h1>GITBOX 커뮤니티</h1>
-    <!-- <router-link :to="{ name: 'ArticleCreateView' }">[게시글 작성]</router-link> -->
     <!-- 게시글작성 모달창 구현하는 부분 -->
     <div>
-      <div style="text-align: center">
+      <div style="text-align: end; padding-right: 20px">
         <b-button v-b-modal.modal-center>게시글 작성</b-button>
       </div>
 
-
-      <!-- 여기부터 모달창 -->
       <b-modal
         class="b-modal"
         id="modal-center"
@@ -21,41 +18,66 @@
         @hidden="resetModal"
         @ok="createArticle"
       >
-        <template #modal-header="{ close }">
-          <!-- Emulate built in modal header close button action -->
-          <h5>게시글 작성</h5>
-          <b-button size="sm" id="header-button" @click="close()">
-            ❌
-          </b-button>
+        <!-- 기존 모달 헤더 삭제-->
+        <template #modal-header>
+          <div></div>
         </template>
-        <b-form-group
-          label="제목"
-          label-for="article-title-input"
-          invalid-feedback="Comment is required"
-        >
-          <!-- 제목 부분 -->
-          <b-form-input
-            id="article-title-input"
-            v-model.trim="title"
-            required
-          ></b-form-input>
-        </b-form-group>
-        <form ref="form">
+
+        <!-- 모달 바디 -->
+        <template #default="{ close, ok, cancel }">
+          <div id="article-modal-header">
+            <h5>게시글 작성</h5>
+            <b-button size="sm" id="header-button" @click="close()">
+              ❌
+            </b-button>
+          </div>
+
           <b-form-group
-            class="modal-text"
-            label="내용"
-            label-for="article-content-input"
+            label="제목"
+            label-for="article-title-input"
             invalid-feedback="Comment is required"
           >
-            <!-- 내용 부분은 textarea로 바꿔줬음 -->
-            <b-form-textarea
-              id="article-content-input"
-              v-model.trim="content"
+            <!-- 제목 부분 -->
+            <b-form-input
+              id="article-title-input"
+              v-model.trim="title"
               required
-              rows="20"
-            ></b-form-textarea>
+            ></b-form-input>
           </b-form-group>
-        </form>
+          <div style="padding-top: 20px">
+          <form ref="form">
+            <b-form-group
+              class="modal-text"
+              label="내용"
+              label-for="article-content-input"
+              invalid-feedback="Comment is required"
+            >
+              <!-- 내용 부분은 textarea로 바꿔줬음 -->
+                <b-form-textarea
+                id="article-content-input"
+                v-model.trim="content"
+                required
+                rows="20"
+                ></b-form-textarea>
+              </b-form-group>
+            </form>
+          </div>
+
+          <!-- 푸터 -->
+          <div id="article-modal-footer">
+            <div style="padding-left: 16px; padding-top: 16px;">
+              <b-button size="sm" variant="primary" @click="ok()"> OK </b-button>
+            </div>
+            <div style="padding-left: 16px; padding-top: 16px;">
+              <b-button size="sm" variant="danger" @click="cancel()">Cancel</b-button>
+            </div>
+          </div>
+        </template>
+
+        <!-- 기존 모달 푸터 삭제 -->
+        <template #modal-footer>
+          <div></div>
+        </template>
       </b-modal>
     </div>
     <hr />
@@ -90,20 +112,12 @@ export default {
   },
 
   created() {
-		if (!this.$store.getters.isLogin) {
-			this.$router.push({ name: 'LogInView' })
-		}
+    if (!this.$store.getters.isLogin) {
+      this.$router.push({ name: "LogInView" });
+    }
   },
 
   methods: {
-    // getArticles() {
-    //   if (this.isLogin === true) {
-    //     this.$store.dispatch("getArticles");
-    //   } else {
-    //     alert("로그인이 필요한 서비스입니다.");
-    //     this.$router.push({ name: "LogInView" });
-    //   }
-    // },
     createArticle() {
       const title = this.title;
       const content = this.content;
@@ -128,15 +142,12 @@ export default {
         .then((res) => {
           console.log(res);
           this.$router.go();
-          //   this.$router.push({ name: "ArticleView" });
-          // this.getArticles();
         })
         .catch((err) => {
           console.log(err);
         });
     },
     resetModal() {
-      // 모달창 닫히거나 하면 input 값 초기화시키는 메서드
       this.title = null;
       this.content = null;
     },
@@ -153,8 +164,53 @@ export default {
   border: none;
 }
 
-.b-modal{
+.b-modal {
   width: 80vw;
   height: 80vh;
 }
+
+#article-view-div {
+  background-color: pink;
+  padding: 3% 5%;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#modal-center___BV_modal_header_ {
+  height: 0px;
+  padding: 0px;
+  border: 0;
+}
+
+#modal-center___BV_modal_footer_ {
+  height: 0px;
+  padding: 0px;
+  border: 0;
+}
+
+#article-modal-header {
+  display: flex;
+  justify-content: space-between;
+}
+
+#article-modal-footer{
+  display: flex;
+  justify-content: end;
+}
+
+#modal-center___BV_modal_body_{
+  background-color: yellow;
+  border-radius: 0.5rem;
+  font-family: "DOHYEON";
+}
+
+#article-title-input{
+  background-color: pink;
+}
+
+#article-content-input{
+  background-color: pink;
+}
+
 </style>
