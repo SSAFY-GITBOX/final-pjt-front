@@ -36,18 +36,23 @@
                 :body-border-variant="black"
                 :footer-border-variant="black"
               >
-              <iframe
+              <template #default="{ close }">
+                <div id="article-modal-header">
+                  <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+                    ✖
+                  </b-button>
+                </div>
+                <iframe
                 :src="`https://www.youtube.com/embed/${movie.video_path}`"
                 width="1100"
                 height="650"
                 frameborder="0"
                 allowfullscreen
-              >
+                >
               </iframe>
-              <template #modal-header="{ close }">
-                <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-                  ✖
-                </b-button>
+            </template>
+              <template #modal-header>
+                <div></div>
               </template>
               <template #modal-footer>
                 <p></p>
@@ -480,4 +485,7 @@ button:hover {
   border: white;
 }
 
+#modal-center___BV_modal_content_{
+  width: 1132px;
+}
 </style>
