@@ -34,7 +34,7 @@
 
       <!-- 내용 -->
       <div id="article-content-div">
-        <p style="margin: 0px;">내용 : {{ article?.content }}</p>
+        <p style="margin: 0px;">{{ article?.content }}</p>
       </div>
 
       <!-- 좋아요 -->
@@ -208,11 +208,9 @@ export default {
           })
             .then((res) => {
               this.articleUser = res.data.user;
-              console.log(this.articleUser);
               if (this.articleUser.profile_image_url != null) {
                 this.articleUser_profile_path = `http://127.0.0.1:8000${this.articleUser?.profile_image_url}`;
               }
-              console.log(this.articleUser_profile_path);
             })
             .catch((err) => {
               console.log(err);
@@ -231,8 +229,7 @@ export default {
           Authorization: `Token ${this.$store.state.token}`,
         },
       })
-        .then((res) => {
-          this.likeMessage = res.data.isLiking ? "좋아요 취소" : "좋아요";
+        .then(() => {
           this.getArticleDetail();
         })
         .catch((err) => {
@@ -284,8 +281,7 @@ export default {
           Authorization: `Token ${this.$store.state.token}`,
         },
       })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           alert("게시글이 삭제되었습니다.");
           this.$router.push({ name: "ArticleView" });
         })
