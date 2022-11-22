@@ -1,57 +1,68 @@
 <!-- 자동포맷해서 세미콜론 있는거에요!! 엔터누를때 댓글작성되는거는 안됩니다 ㅠㅠㅠ 다시해보겠습니다 -->
 
 <template>
-  <div id="movie-detail-div">
+  <div class="show-grid" id="movie-detail-div">
     <div
-    style="display: flex; padding: 30px 30px 30px 30px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;"
+    style="display: flex; width: 100%; overflow: auto; padding: 30px 30px 30px 30px; font-size: x-large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;"
     v-if="movie"
     >
-    <img :src="movie.poster_path" alt="" width="540" height="800"/>
-    <div style="text-align: left; margin-left: 100px; margin-right: 100px;">
-      <!-- v-if 안적으니까 typeerror 많이 남 -->
-      <br>
-      <div v-if="(user, movie)" style="display: flex">
-        <h1 style="font-weight: bold;">{{ movie.title }}</h1>
-        <button class="button_css mb-2 ms-2" @click="likeMovie">
-          {{ this.likeMessage }}</button
-          ><span style="font-size: 20px; margin-top: 9px"
-          >({{ movie.like_count }})</span
-          >
-        </div>
-        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
-        <p>{{ movie.overview }}</p><br><br>
-        <div v-if="movie.video_path">
-        <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> Play Trailer</b-button>
-        <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;">댓글 쓰기</b-button>
-          <b-modal
-            id="modal-center" 
-            centered title=""
-            size="xl"
-            :header-bg-variant="black"
-            :body-bg-variant="black"
-            :footer-bg-variant="black"
-            :header-border-variant="black"
-            :body-border-variant="black"
-            :footer-border-variant="black"
-          >
-          <iframe
-            :src="`https://www.youtube.com/embed/${movie.video_path}`"
-            width="1100"
-            height="650"
-            frameborder="0"
-            allowfullscreen
-          >
-          </iframe>
-          <template #modal-header="{ close }">
-            <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-              ✖
-            </b-button>
-          </template>
-          <template #modal-footer>
-            <p></p>
-          </template>
-          </b-modal>
-        </div>
+      <div>
+        <img :src="movie.poster_path" alt="" width="540" height="800"/>
+      </div>
+      <div style="text-align: left; margin-left: 100px; margin-right: 100px;">
+        <!-- v-if 안적으니까 typeerror 많이 남 -->
+        <br>
+        <div v-if="(user, movie)" style="display: flex">
+          <h1 style="font-weight: bold;">{{ movie.title }}</h1>
+          <button class="button_css mb-2 ms-2" @click="likeMovie">
+            {{ this.likeMessage }}</button
+            ><span style="font-size: 20px; margin-top: 9px"
+            >({{ movie.like_count }})</span
+            >
+          </div>
+          <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
+          <p>{{ movie.overview }}</p><br><br>
+          <div v-if="movie.video_path" style="display: flex;">
+            <div>
+              <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> Play Trailer</b-button>
+              <b-modal
+                id="modal-center" 
+                centered
+                size="xl"
+                :header-bg-variant="black"
+                :body-bg-variant="black"
+                :footer-bg-variant="black"
+                :header-border-variant="black"
+                :body-border-variant="black"
+                :footer-border-variant="black"
+              >
+              <iframe
+                :src="`https://www.youtube.com/embed/${movie.video_path}`"
+                width="1100"
+                height="650"
+                frameborder="0"
+                allowfullscreen
+              >
+              </iframe>
+              <template #modal-header="{ close }">
+                <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+                  ✖
+                </b-button>
+              </template>
+              <template #modal-footer>
+                <p></p>
+              </template>
+              </b-modal>
+            </div>
+            <div>
+              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;">댓글 쓰기</b-button>
+            </div>
+          </div>
+          <div v-else>
+            <div>
+              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;">댓글 쓰기</b-button>
+            </div>
+          </div>
         <br><br><br><br>
       </div>
     </div>
@@ -60,29 +71,30 @@
     <br />
 
     <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
-    <div style="padding: 20px 30px; font-size: large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;">
+    <div style="width: 100%; overflow: auto; padding: 20px 30px; font-size: large; font-family:Verdana, Geneva, Tahoma, sans-serif; background-color: white; border-radius: 20px;">
       <h3 style="margin-left: 30px; margin-top: 10px; font-weight: bold;">Cast</h3>
       <div
         v-if="(actors[0], actors[1], actors[2])"
-        style="text-align: center; margin-left: 30px;"
+        style="text-align: center; margin-left: 30px; margin-right: 30px;"
       >
         <br />
         <div style="display: flex;">
           <div style="margin-right: 60px;">
             <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-              <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
+              <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="200" height="210">
             </a>
             <p>{{ actors[0].name }}</p>
           </div>
           <div style="margin-right: 60px;">
             <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-              <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
+              <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="200" height="210" />
             </a>
             <p>{{ actors[1].name }}</p>
           </div>
-          <div>
+          <!-- 패딩입혀줘야 화면 줄어들 때 3번째 배우 이미지가 딱 안 맞고 오른쪽에 여백생김 -->
+          <div style="padding-right: 60px;">
             <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-              <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="200" height="180" />
+              <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="200" height="210" />
             </a>
             <p>{{ actors[2].name }}</p>
           </div>
@@ -147,7 +159,7 @@
           </b-form-group>
         </form>
         <template #modal-header="{ close }">
-          <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+          <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
             ✖
           </b-button>
         </template>
