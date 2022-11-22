@@ -192,7 +192,8 @@ export default {
 
 #genre-movie-header {
   width: 100%;
-  padding: 20px;
+  padding: 20px; 
+  padding-bottom: 0px;
   display: flex;
   justify-content: space-between;
 }
@@ -231,6 +232,7 @@ export default {
 }
 
 #genre-movie-header{
+  padding-top: 0px;
   flex-wrap: nowrap;
   width: 100%;
 }

@@ -96,6 +96,7 @@ export default {
 #latest-movie-list-header {
   width: 100%;
   padding: 20px;
+  padding-bottom: 0px;
   display: flex;
   justify-content: space-between;
 }
