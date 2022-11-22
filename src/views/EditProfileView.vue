@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="edit-profile-view-div">
 		<div id="image" class="my-4">
 			<form @submit.prevent="updateImage" enctype="multipart/form-data">
 				<div v-if="user?.profile_image">
@@ -190,4 +190,11 @@ export default {
 </script>
 
 <style>
+	#edit-profile-view-div {
+		background-color: pink;
+		padding: 3% 5%;
+		display: flex;
+		flex-direction: column;
+		text-align: start;
+	}
 </style>

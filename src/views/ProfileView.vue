@@ -1,35 +1,69 @@
 <template>
-  <div id="profile" class="container show-grid mt-5">
+  <div id="profile-view-div" class="show-grid">
+    <!-- 프로필 navbar -->
+    <div class="row mb-4">
+      <div class="col-4 col-offset-4"></div>
+      <div class="col-8">
+        <ProfileNavbar
+          :on-grass="onGrass"
+          :on-like-movies="onLikeMovies"
+          :on-like-articles="onLikeArticles"
+          @view-acts="viewActs"
+          @view-liking-movies="viewLikingMovies"
+          @view-liking-articles="viewLikingArticles"
+        />
+      </div>
+    </div>
+
     <div class="row">
+      <!-- 프로필 정보 -->
       <div class="col-sm-12 col-md-4">
-        <!-- 프로필 정보 -->
         <div id="ProfileInfo">
           <ProfileInfo
             :user="user"
             :profile-image-url="profileImageUrl"
             :follow-message="followMessage"
             @follow="follow"
+            @view-follower-list="viewFollowerList"
+            @view-follow-list="viewFollowList"
           />
         </div>
       </div>
+
       <div class="col-sm-12 col-md-8">
-        
-        <!-- 좋아요한 영화, 게시글 -->
-        <div id="ProfileLike">
-          <ProfileLike
-          :like-movies="user?.like_movies"
-          :like-articles="user?.like_articles"
-        />
-        </div>
-        
         <!-- 잔디 -->
-        <div id="ProfileGrass">
+        <div id="ProfileGrass" v-if="onGrass">
           <ProfileGrass
-            :max-count="maxCount"
+            :acts-total-cnt="actsTotalCnt"
             :acts="acts"
-            :today="today" 
+            :max-count="maxCount"
+            :today="today"
             :user="user"
           />
+        </div>
+
+        <!-- 찜한 영화 -->
+        <div id="ProfileLikeMovies" v-if="onLikeMovies">
+          <ProfileLikeMovies :like-movies="user?.like_movies" />
+        </div>
+
+        <!-- 좋아요한 게시글 -->
+        <div id="ProfileLikeArticles" v-if="onLikeArticles">
+          <ProfileLikeArticles :like-articles="user?.like_articles" />
+        </div>
+
+        <!-- 팔로워 목록 -->
+        <div id="ProfileFollower" v-if="onFollowerList">
+          <ProfileFollower
+            :follower-list="user?.followers"
+          />
+        </div>
+
+        <!-- 팔로우 목록 -->
+        <div id="ProfileFollow" v-if="onFollowList">
+          <ProfileFollow
+						:follow-list="user?.followings"
+					/>
         </div>
       </div>
     </div>
@@ -39,8 +73,12 @@
 <script>
 import axios from "axios";
 import ProfileInfo from "@/components/ProfileInfo.vue";
-import ProfileLike from "@/components/ProfileLike.vue";
+import ProfileLikeMovies from "@/components/ProfileLikeMovies.vue";
+import ProfileLikeArticles from "@/components/ProfileLikeArticles.vue";
 import ProfileGrass from "@/components/ProfileGrass.vue";
+import ProfileNavbar from "@/components/ProfileNavbar.vue";
+import ProfileFollower from "@/components/ProfileFollower.vue";
+import ProfileFollow from "@/components/ProfileFollow.vue";
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -49,35 +87,56 @@ export default {
 
   components: {
     ProfileInfo,
-    ProfileLike,
+    ProfileLikeMovies,
+    ProfileLikeArticles,
     ProfileGrass,
+    ProfileNavbar,
+    ProfileFollower,
+    ProfileFollow,
   },
 
   data() {
     return {
+      // userPk
+      userPk: "",
+
       // for ProfileItem
       user: null,
       profileImageUrl: "",
       followMessage: "",
 
       // for ProfileGrass
-      maxCount: 6,
+      actsTotalCnt: 0,
       acts: [],
+      maxCount: 6,
       today: "",
+
+      // on
+      onGrass: true,
+      onLikeMovies: false,
+      onLikeArticles: false,
+      onFollowerList: false,
+      onFollowList: false,
     };
   },
 
   created() {
+    this.userPk = this.$route.params.id;
     this.getUserInfo();
     const cur = new Date();
-    this.today =
-      cur.getFullYear() + "-" + (cur.getMonth() + 1) + "-" + cur.getDate();
-  },
+    this.today = cur.getFullYear() + "-" + (cur.getMonth() + 1) + "-" + cur.getDate();
 
-  computed: {
-    userPk() {
-      return this.$route.params.id;
-    },
+    this.$watch(
+      () => this.$route.params.id,
+      () => {
+        this.userPk = this.$route.params.id;
+        this.getUserInfo();
+        const cur = new Date();
+        this.today =
+          cur.getFullYear() + "-" + (cur.getMonth() + 1) + "-" + cur.getDate();
+				this.$router.go()
+      }
+    )
   },
 
   methods: {
@@ -92,11 +151,19 @@ export default {
         .then((res) => {
           this.user = res.data.user;
           this.acts = res.data.acts;
-          if (this.user?.profile_image_url) {
+          this.actsTotalCnt = res.data.acts_total_cnt;
+          if (
+            this.user?.profile_image_url &&
+            this.user?.profile_image_url.charAt(0) != "h"
+          ) {
             this.profileImageUrl = `http://127.0.0.1:8000${this.user?.profile_image_url}`;
           }
           this.followMessage = res.data.isFollowing ? "Unfollow" : "Follow";
-          console.log(this.user)
+          this.user.like_movies.forEach((movie) => {
+            movie.poster_path =
+              "https://image.tmdb.org/t/p/original" + movie.poster_path;
+          });
+					console.log(this.user)
         })
         .catch((err) => {
           console.log(err);
@@ -119,6 +186,43 @@ export default {
           console.log(err);
         });
     },
+
+    viewActs() {
+      this.onGrass = true;
+      this.onLikeMovies = false;
+      this.onLikeArticles = false;
+      (this.onFollowerList = false), (this.onFollowList = false);
+    },
+
+    viewLikingMovies() {
+      this.onGrass = false;
+      this.onLikeMovies = true;
+      this.onLikeArticles = false;
+      (this.onFollowerList = false), (this.onFollowList = false);
+    },
+
+    viewLikingArticles() {
+      this.onGrass = false;
+      this.onLikeMovies = false;
+      this.onLikeArticles = true;
+      (this.onFollowerList = false), (this.onFollowList = false);
+    },
+
+    viewFollowerList() {
+      this.onGrass = false;
+      this.onLikeMovies = false;
+      this.onLikeArticles = false;
+      this.onFollowerList = true;
+      this.onFollowList = false;
+    },
+
+    viewFollowList() {
+      this.onGrass = false;
+      this.onLikeMovies = false;
+      this.onLikeArticles = false;
+      this.onFollowerList = false;
+      this.onFollowList = true;
+    },
   },
 };
 </script>
@@ -126,5 +230,13 @@ export default {
 <style>
 summary {
   display: block;
+}
+
+#profile-view-div {
+  background-color: pink;
+  padding: 3% 5%;
+  display: flex;
+  flex-direction: column;
+  text-align: start;
 }
 </style>
