@@ -45,7 +45,9 @@ export default {
 	created() {
 		if (!this.$store.getters.isLogin) {
 			this.$router.push({ name: 'LogInView' })
-		}
+		} else {
+      this.$router.push({ name: 'HomeView' })
+    }
 	},
 	
   methods: {
