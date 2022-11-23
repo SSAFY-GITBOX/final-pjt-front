@@ -180,7 +180,6 @@ export default {
       this.page = 1
       this.searchData = content
       this.searchedArticles = []
-      console.log(this)
       this.infiniteHandler()
     },
 
