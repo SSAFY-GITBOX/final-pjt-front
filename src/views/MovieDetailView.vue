@@ -79,30 +79,19 @@
     <div style="width: 100%; overflow: auto; padding: 20px 30px; font-size: large; background-color: white; border-radius: 20px;">
       <h3 style="margin-left: 30px; margin-top: 10px; font-weight: bold;">Cast</h3>
       <div
-        v-if="(actors[0], actors[1], actors[2])"
+        v-if="actors"
         style="text-align: center; margin-left: 30px; margin-right: 30px;"
       >
         <br />
         <div style="display: flex;">
-          <div style="margin-right: 60px;">
-            <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-              <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="140" height="210">
-            </a>
-            <p>{{ actors[0].name }}</p>
-          </div>
-          <div style="margin-right: 60px;">
-            <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-              <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="140" height="210" />
-            </a>
-            <p>{{ actors[1].name }}</p>
-          </div>
-          <!-- 패딩입혀줘야 화면 줄어들 때 3번째 배우 이미지가 딱 안 맞고 오른쪽에 여백생김 -->
-          <div style="padding-right: 60px;">
-            <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-              <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="140" height="210" />
-            </a>
-            <p>{{ actors[2].name }}</p>
-          </div>
+					<div v-for="actor in actors" :key=actor.id>
+						<div style="margin-right: 30px; padding-right: 30px;">
+							<a :href="`https://www.themoviedb.org/person/${actor.actor_id}`">
+								<img :src="actor.profile_path" alt="" @error="replaceByDefault" width="140" height="210">
+							</a>
+							<p>{{ actor.name }}</p>
+						</div>
+					</div>
         </div>
       </div>
     </div>
@@ -300,6 +289,7 @@ export default {
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
           this.likeMessage = res.data.isLiking ? "🖤" : "🤍";
+					console.log(this.movie)
 
           this.actorIds.forEach((actorId) => {
             axios({
