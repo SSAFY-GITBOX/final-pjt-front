@@ -28,7 +28,7 @@
           <div id="article-modal-header">
             <h5>게시글 작성</h5>
             <b-button size="sm" id="header-button" @click="close()">
-              ❌
+              <b-icon-x-circle-fill style="color: black"></b-icon-x-circle-fill>
             </b-button>
           </div>
 
