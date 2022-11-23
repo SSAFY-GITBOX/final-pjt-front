@@ -3,110 +3,184 @@
 <template>
   <div class="show-grid" id="movie-detail-div">
     <div
-    style="display: flex; width: 100%; overflow: auto; padding: 30px 30px 30px 30px; font-size: x-large; background-color: white; border-radius: 20px;"
-    v-if="movie"
+      style="
+        display: flex;
+        width: 100%;
+        overflow: auto;
+        padding: 30px 30px 30px 30px;
+        font-size: x-large;
+        background-color: white;
+        border-radius: 20px;
+      "
+      v-if="movie"
     >
       <div>
-        <img :src="movie.poster_path" alt="" width="540" height="800"/>
+        <img :src="movie.poster_path" alt="" width="540" height="800" />
       </div>
-      <div style="text-align: left; margin-left: 100px; margin-right: 100px;">
+      <div style="text-align: left; margin-left: 100px; margin-right: 100px">
         <!-- v-if 안적으니까 typeerror 많이 남 -->
-        <br>
+        <br />
         <div v-if="(user, movie)" style="display: flex">
-          <h1 style="font-weight: bold;">{{ movie.title }}</h1>
+          <h1 style="font-weight: bold">{{ movie.title }}</h1>
           <button class="button_css mb-2 ms-2" @click="likeMovie">
             {{ this.likeMessage }}</button
-            ><span style="font-size: 20px; margin-top: 9px"
+          ><span style="font-size: 20px; margin-top: 9px"
             >({{ movie.like_count }})</span
+          >
+        </div>
+        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p>
+        <br /><br />
+        <p>{{ movie.overview }}</p>
+        <br /><br />
+        <div v-if="movie.video_path" style="display: flex">
+          <div>
+            <b-button
+              v-b-modal.modal-center
+              style="
+                background-color: #d3ac2b;
+                border: white;
+                width: 200px;
+                height: 70px;
+                font-size: x-large;
+              "
+              ><b-icon-caret-right-fill></b-icon-caret-right-fill> Play
+              Trailer</b-button
             >
-          </div>
-          <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
-          <p>{{ movie.overview }}</p><br><br>
-          <div v-if="movie.video_path" style="display: flex;">
-            <div>
-              <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> Play Trailer</b-button>
-              <b-modal
-                id="modal-center" 
-                centered
-                size="xl"
-                :header-bg-variant="black"
-                :body-bg-variant="black"
-                :footer-bg-variant="black"
-                :header-border-variant="black"
-                :body-border-variant="black"
-                :footer-border-variant="black"
-              >
+            <b-modal
+              id="modal-center"
+              centered
+              size="xl"
+              :header-bg-variant="black"
+              :body-bg-variant="black"
+              :footer-bg-variant="black"
+              :header-border-variant="black"
+              :body-border-variant="black"
+              :footer-border-variant="black"
+            >
               <template #default="{ close }">
                 <div id="article-modal-header">
-                  <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-                  <b-icon-x-circle-fill></b-icon-x-circle-fill>
+                  <b-button
+                    size="sm"
+                    id="header-button"
+                    style="margin-left: auto; text-align: right"
+                    @click="close()"
+                  >
+                    <b-icon-x-circle-fill></b-icon-x-circle-fill>
                   </b-button>
                 </div>
                 <iframe
-                :src="`https://www.youtube.com/embed/${movie.video_path}`"
-                width="1100"
-                height="650"
-                frameborder="0"
-                allowfullscreen
+                  :src="`https://www.youtube.com/embed/${movie.video_path}`"
+                  width="1100"
+                  height="650"
+                  frameborder="0"
+                  allowfullscreen
                 >
-              </iframe>
-            </template>
+                </iframe>
+              </template>
               <template #modal-header>
                 <div></div>
               </template>
               <template #modal-footer>
                 <p></p>
               </template>
-              </b-modal>
-            </div>
-            <div>
-              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
-            </div>
+            </b-modal>
           </div>
-          <div v-else>
-            <div>
-              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
-            </div>
+          <div>
+            <b-button
+              v-b-modal.modal-prevent
+              style="
+                background-color: #d3ac2b;
+                border: white;
+                width: 200px;
+                height: 70px;
+                font-size: x-large;
+                margin-left: 30px;
+              "
+              ><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button
+            >
           </div>
-        <br><br><br><br>
+        </div>
+        <div v-else>
+          <div>
+            <b-button
+              v-b-modal.modal-prevent
+              style="
+                background-color: #d3ac2b;
+                border: white;
+                width: 200px;
+                height: 70px;
+                font-size: x-large;
+              "
+              ><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button
+            >
+          </div>
+        </div>
+        <br /><br /><br /><br />
       </div>
     </div>
-    <br>
+    <br />
     <hr />
     <br />
 
     <!-- 배우이미지띄우기, 이미지 클릭시 배우프로필 페이지로 이동!! -->
-    <div style="width: 100%; overflow: auto; padding: 20px 30px; font-size: large; background-color: white; border-radius: 20px;">
-      <h3 style="margin-left: 30px; margin-top: 10px; font-weight: bold;">Cast</h3>
+    <div
+      style="
+        width: 100%;
+        overflow: auto;
+        padding: 20px 30px;
+        font-size: large;
+        background-color: white;
+        border-radius: 20px;
+      "
+    >
+      <h3 style="margin-left: 30px; margin-top: 10px; font-weight: bold">
+        Cast
+      </h3>
       <div
         v-if="actors"
-        style="text-align: center; margin-left: 30px; margin-right: 30px;"
+        style="text-align: center; margin-left: 30px; margin-right: 30px"
       >
         <br />
-        <div style="display: flex;">
-					<div v-for="actor in actors" :key=actor.id>
-						<div style="margin-right: 30px; padding-right: 30px;">
-							<a :href="`https://www.themoviedb.org/person/${actor.actor_id}`">
-								<img :src="actor.profile_path" alt="" @error="replaceByDefault" width="140" height="210">
-							</a>
-							<p>{{ actor.name }}</p>
-						</div>
-					</div>
+        <div style="display: flex">
+          <div v-for="actor in actors" :key="actor.id">
+            <div style="margin-right: 30px; padding-right: 30px">
+              <a :href="`https://www.themoviedb.org/person/${actor.actor_id}`">
+                <img
+                  :src="actor.profile_path"
+                  alt=""
+                  @error="replaceByDefault"
+                  width="140"
+                  height="210"
+                />
+              </a>
+              <p>{{ actor.name }}</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <br><br>
+    <br /><br />
     <!-- ---댓글 작성 모달띄우기(부트스트랩)--- -->
     <div>
       <!-- 댓글작성 누르는데 댓글수정창도 같이 떠서 id 부분을 밑에 수정창이랑 다르게 만들었음 -->
-      <div style="padding: 20px 30px; font-size: large; background-color: white; border-radius: 20px;">
+      <div
+        style="
+          padding: 20px 30px;
+          font-size: large;
+          background-color: white;
+          border-radius: 20px;
+        "
+      >
         <!-- <b-button v-b-modal.modal-prevent style="width: 120px; height: 50px;">댓글 작성</b-button> -->
-        <h3 style="margin-left: 30px; margin-top: 30px; font-weight: bold;">GITBOX 사용자 댓글</h3><br>
-          <MovieCommentList
-            :comments="comments"
-            @update-comment="updateComment"
-            @delete-comment="deleteComment"
-          />
+        <h3 style="margin-left: 30px; margin-top: 30px; font-weight: bold">
+          GITBOX 사용자 댓글
+        </h3>
+        <br />
+        <MovieCommentList
+          :comments="comments"
+          @update-comment="updateComment"
+          @delete-comment="deleteComment"
+        />
       </div>
       <!-- modal-class 지정한거는 ok 버튼 스타일 지정하려고 한거임!! 승태참고해 -->
       <b-modal
@@ -120,7 +194,7 @@
         @hidden="resetModal"
       >
         <form ref="form">
-          <br><br>
+          <br /><br />
           <!-- 모달창에 별점 지정한 부분 -->
           <star-rating
             :increment="0.5"
@@ -136,7 +210,8 @@
             v-model="rating"
             @rating-selected="setRating"
           >
-          </star-rating><br><br>
+          </star-rating
+          ><br /><br />
           <b-form-group
             label="댓글"
             label-for="comment-input"
@@ -153,9 +228,16 @@
           </b-form-group>
         </form>
         <template #modal-header="{ close }">
-          <span size="lg" style="margin-right: auto; text-align: left;">댓글 작성</span>
-          <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-            <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
+          <span size="lg" style="margin-right: auto; text-align: left"
+            >댓글 작성</span
+          >
+          <b-button
+            size="lg"
+            id="header-button"
+            style="margin-left: auto; text-align: right"
+            @click="close()"
+          >
+            <b-icon-x-circle-fill style="color: black"></b-icon-x-circle-fill>
           </b-button>
         </template>
         <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
@@ -182,7 +264,7 @@
         v-model="modalshow"
       >
         <form ref="form">
-          <br><br>
+          <br /><br />
           <star-rating
             :increment="0.5"
             :show-rating="false"
@@ -198,7 +280,7 @@
             @rating-selected="setRating"
           >
           </star-rating
-          ><br><br>
+          ><br /><br />
           <b-form-group
             label="댓글"
             label-for="comment-input"
@@ -213,8 +295,13 @@
           </b-form-group>
         </form>
         <template #modal-header="{ close }">
-          <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-            <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
+          <b-button
+            size="lg"
+            id="header-button"
+            style="margin-left: auto; text-align: right"
+            @click="close()"
+          >
+            <b-icon-x-circle-fill style="color: black"></b-icon-x-circle-fill>
           </b-button>
         </template>
         <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
@@ -236,7 +323,7 @@
 import axios from "axios";
 import StarRating from "vue-star-rating";
 import MovieCommentList from "@/components/MovieCommentList";
-import img from "../assets/actorimage.png"
+import img from "../assets/actorimage.png";
 
 const API_URL = "http://127.0.0.1:8000";
 
@@ -289,25 +376,26 @@ export default {
           this.comments = this.movie.comment_set; // 이거붙어야 댓글새로고침 바로됨!!
           // this.movie.video_path = 'https://www.youtube.com/watch?v=' + this.movie.video_path
           this.likeMessage = res.data.isLiking ? "🖤" : "🤍";
-					console.log(this.movie)
+          console.log(this.movie);
 
-          this.actorIds.forEach((actorId) => {
-            axios({
-              method: "get",
-              url: `${API_URL}/api/v1/actors/${actorId}`,
-              headers: {
-                Authorization: `Token ${this.$store.state.token}`,
-              },
-            })
-              .then((res) => {
-                res.data.profile_path =
-                  "https://image.tmdb.org/t/p/original" + res.data.profile_path;
-                this.actors.push(res.data);
+          if (this.actors.length === 0) {
+            this.actorIds.forEach((actorId) => {
+              axios({
+                method: "get",
+                url: `${API_URL}/api/v1/actors/${actorId}`,
+                headers: {
+                  Authorization: `Token ${this.$store.state.token}`,
+                },
               })
-              .catch((err) => {
-                console.log(err);
-              });
-          });
+                .then((res) => {
+                    res.data.profile_path = "https://image.tmdb.org/t/p/original" + res.data.profile_path;
+                    this.actors.push(res.data);
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            });
+          }
         })
         .catch((err) => {
           console.log(err);
@@ -337,7 +425,7 @@ export default {
           this.getMovieDetail();
           this.content = null;
           this.rating = null;
-          this.$bvModal.hide('modal-prevent') // ok 버튼을 덮어씌워서 이거 써줘야 모달창 닫힘!!!
+          this.$bvModal.hide("modal-prevent"); // ok 버튼을 덮어씌워서 이거 써줘야 모달창 닫힘!!!
         })
         .catch((err) => {
           console.log(err);
@@ -372,7 +460,7 @@ export default {
     updateCommentPerfect() {
       // 댓글 업데이트 장고에 엑시오스할 메서드!!
       this.updatecomment.content = this.updatedcommentcontent;
-      this.rating= this.updatedcommentrating * 2;
+      this.rating = this.updatedcommentrating * 2;
       axios({
         method: "put",
         url: `${API_URL}/api/v1/comments/${this.updatecomment.id}/`,
@@ -386,7 +474,7 @@ export default {
       })
         .then(() => {
           this.getMovieDetail();
-          this.$bvModal.hide('modal-prevent-closing') // ok 버튼을 덮어씌워서 이거 써줘야 모달창 닫힘!!!
+          this.$bvModal.hide("modal-prevent-closing"); // ok 버튼을 덮어씌워서 이거 써줘야 모달창 닫힘!!!
           console.log(this.movie); // 승태한테물어보기. 위에메서드하고도 댓글셋에 있음
         })
         .catch((err) => {
@@ -439,7 +527,7 @@ export default {
       this.rating = rating;
     },
     replaceByDefault(e) {
-      e.target.src = img
+      e.target.src = img;
     },
   },
 };
@@ -447,7 +535,7 @@ export default {
 
 
 <style>
-#movie-detail-div{
+#movie-detail-div {
   background-color: #e0e7e9;
   padding: 3% 5%;
   display: flex;
@@ -481,7 +569,7 @@ button:hover {
   background-color: #d3ac2b;
 }
 
-#modal-center___BV_modal_content_{
+#modal-center___BV_modal_content_ {
   width: 1132px;
 }
 </style>
