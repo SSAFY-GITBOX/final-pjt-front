@@ -21,7 +21,7 @@
 
         <h2 class="mt-4">{{ changedUsername }}</h2>
         <div id="image-change">
-          <button id="delete-image" @clikc="deleteImage">이미지 삭제</button>
+          <button id="delete-image" @clikc="deleteImage" >이미지 삭제</button>
           <div class="filebox">
             <label for="file" class="ms-2">이미지 변경</label>
             <input
@@ -32,8 +32,7 @@
             /><br />
           </div>
         </div>
-
-        <input type="submit" value="적용하기" class="btn btn-warning mt-3" />
+        <input type="submit" value="적용하기" style="color: #F5F5DC" class="btn btn-warning mt-3" />
       </form>
     </div>
 
@@ -41,14 +40,20 @@
       <details>
         <summary>아이디 변경</summary>
         <form @submit.prevent="updateUsername">
-          <label for="username"></label>
+          <label for="username"> 새 아이디 : &nbsp; </label>
           <input
             type="text"
             id="username"
-            class="ms-1 mt-2 w-50"
+            class="ms-1 mt-2"
             v-model="inputUsername"
+            style="width: 200px;
+            border-radius: 20px;
+            border: none;
+            padding: 0px 20px;
+            display: inline;
+            text-align: center;"
           /><br /><br />
-          <input type="submit" value="적용하기" class="btn btn-warning" />
+          <input type="submit" value="적용하기" style="color: #F5F5DC"  class="btn btn-warning" />
         </form>
       </details>
     </div>
@@ -57,23 +62,33 @@
       <details>
         <summary>비밀번호 변경</summary>
         <form @submit.prevent="updatePassword">
-          <label for="new_password" class="mt-4"> 새 비밀번호 : &nbsp; </label>
+          <label for="new_password" class="mt-4">&nbsp; 새 비밀번호 : &nbsp; </label>
           <input
             type="password"
             id="new_password"
-						class="w-50"
             v-model="newPassword1"
+            style="width: 200px;
+            border-radius: 20px;
+            border: none;
+            padding: 0px 20px;
+            display: inline;
+            text-align: center;"
           /><br /><br />
 
           <label for="new_password_2"> 비밀번호 확인 : &nbsp; </label>
           <input
             type="password"
             id="new_password_2"
-						class="w-50"
             v-model="newPassword2"
+            style="width: 200px;
+            border-radius: 20px;
+            border: none;
+            padding: 0px 20px;
+            display: inline;
+            text-align: center;"
           /><br /><br />
 
-          <input type="submit" value="적용하기" class="btn btn-warning" />
+          <input type="submit" value="적용하기" style="color: #F5F5DC" class="btn btn-warning" />
         </form>
       </details>
     </div>
@@ -240,7 +255,7 @@ export default {
 
 <style>
 #edit-profile-view-div {
-  background-color: pink;
+  background-color: #F5F5DC ;
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
@@ -255,33 +270,37 @@ export default {
 #delete-image {
   display: inline-block;
   padding: 0.5em 0.75em;
-  color: #999;
+  color: #F5F5DC;
   font-size: inherit;
   line-height: normal;
   vertical-align: middle;
   background-color: #fdfdfd;
   cursor: pointer;
   border: 1px solid #ebebeb;
-  border-bottom-color: #e2e2e2;
-  border-radius: 0.25em;
+  background-color: rgba(51, 61, 81, 1.0);
+  border-radius: 20px;
+}
+
+#delete-image:hover {
+  transform: none;
+  background-color: rgb(255, 193, 7) ;
 }
 
 .filebox label {
   display: inline-block;
   padding: 0.5em 0.75em;
-  color: #999;
+  color: #F5F5DC;
   font-size: inherit;
   line-height: normal;
   vertical-align: middle;
-  background-color: #fdfdfd;
   cursor: pointer;
-  border: 1px solid #ebebeb;
-  border-bottom-color: #e2e2e2;
-  border-radius: 0.25em;
+  background-color: rgba(51, 61, 81, 1.0);
+  border-radius: 20px;
 }
 
 .filebox label:hover {
-  transform: scale(1.1);
+  transform: none;
+  background-color: rgb(255, 193, 7) ;
 }
 
 /* 인풋 파일 숨기기 */
