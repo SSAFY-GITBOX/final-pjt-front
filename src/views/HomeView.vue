@@ -15,7 +15,7 @@
           </div>
         </div>
         <div>
-          <button class="genre-more-btn" @click="goMovieListByGenre">더 보기  <i class="fas fa-angle-right fa-lg"></i> </button>
+          <button class="genre-more-btn" @click="goMovieListByGenre"><span style="font-size: 20px"> 더 보기  </span><i class="fas fa-angle-right fa-lg"></i> </button>
         </div>
       </div>
       <!-- 장르별 영화 응답 -->
@@ -285,48 +285,5 @@ export default {
 .selected-genre-btn{
   background-color: crimson;
   color: white;
-}
-
-.bn632-hover {
-  white-space: nowrap;
-  font-size: 16px;
-  /* font-weight: 600; */
-  color: #fff;
-  cursor: pointer;
-  /* margin: 20px; */
-  margin-top: 10px;
-  padding: 0px 20px;
-  height: 55px;
-  text-align:center;
-  border: none;
-  background-size: 300% 100%;
-  border-radius: 50px;
-  /* moz-transition: all .4s ease-in-out; */
-  -o-transition: all .4s ease-in-out;
-  -webkit-transition: all .4s ease-in-out;
-  transition: all .4s ease-in-out;
-}
-
-.bn632-hover:hover {
-  background-position: 100% 0;
-  /* moz-transition: all .4s ease-in-out; */
-  -o-transition: all .4s ease-in-out;
-  -webkit-transition: all .4s ease-in-out;
-  transition: all .4s ease-in-out;
-}
-
-.bn632-hover:focus {
-  outline: none;
-}
-
-.bn632-hover.bn20 {
-  background-image: linear-gradient(
-    to right,
-    #667eea,
-    #764ba2,
-    #6b8dd6,
-    #8e37d7
-  );
-  box-shadow: 0 4px 15px 0 rgba(116, 79, 168, 0.75);
 }
 </style>
