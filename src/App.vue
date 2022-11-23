@@ -94,23 +94,23 @@ export default {
 }
 
 /* nav {
-  padding: 30px;
-  font-size: x-large;
-  height: 60px;
-  /* background-color: #2e3133; */
-/* } */
+  color: white;
+} */
 
 /* nav a {
-  font-weight: bold;
-  /* color: white !important; */
-  /* color: #2c3e50; */
-/* } */
+  color: white;
+} */
 
-/* 
-nav a.router-link-exact-active {
-  /* font-weight: bold; */
-  /* color: pink !important; */
-  /* color: #2c3e50; */
-/* } */
+/* nav a.nav-link {
+  color: white;
+} */
+
+/* nav a.router-link-exact-active {
+  color: white;
+} */
+
+nav a.router-link-active {
+  color: white;
+}
 
 </style>
