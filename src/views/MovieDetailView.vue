@@ -14,60 +14,64 @@
         <br>
         <div v-if="(user, movie)" style="display: flex">
           <h1 style="font-weight: bold;">{{ movie.title }}</h1>
-          <button class="button_css mb-2 ms-2" @click="likeMovie">
-            {{ this.likeMessage }}</button
-            ><span style="font-size: 20px; margin-top: 9px"
-            >({{ movie.like_count }})</span
+          <button class="button_css ms-2" @click="likeMovie">
+            <div v-if="(this.likeMessage) === '🖤'">
+              <p class="h3"><b-icon-hand-thumbs-up-fill></b-icon-hand-thumbs-up-fill></p>
+            </div>
+            <div v-else>
+              <p class="h3"><b-icon-hand-thumbs-up></b-icon-hand-thumbs-up></p>
+            </div>
+          </button>
+          <span style="font-size: 23px; margin-top: 11px">({{ movie.like_count }})</span>
+        </div>
+        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
+        <p>{{ movie.overview }}</p><br><br>
+        <div v-if="movie.video_path" style="display: flex;">
+          <div>
+            <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> Play Trailer</b-button>
+            <b-modal
+              id="modal-center" 
+              centered
+              size="xl"
+              :header-bg-variant="black"
+              :body-bg-variant="black"
+              :footer-bg-variant="black"
+              :header-border-variant="black"
+              :body-border-variant="black"
+              :footer-border-variant="black"
             >
-          </div>
-          <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
-          <p>{{ movie.overview }}</p><br><br>
-          <div v-if="movie.video_path" style="display: flex;">
-            <div>
-              <b-button v-b-modal.modal-center style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-caret-right-fill></b-icon-caret-right-fill> Play Trailer</b-button>
-              <b-modal
-                id="modal-center" 
-                centered
-                size="xl"
-                :header-bg-variant="black"
-                :body-bg-variant="black"
-                :footer-bg-variant="black"
-                :header-border-variant="black"
-                :body-border-variant="black"
-                :footer-border-variant="black"
+            <template #default="{ close }">
+              <div id="article-modal-header">
+                <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+                <b-icon-x-circle-fill></b-icon-x-circle-fill>
+                </b-button>
+              </div>
+              <iframe
+              :src="`https://www.youtube.com/embed/${movie.video_path}`"
+              width="1100"
+              height="650"
+              frameborder="0"
+              allowfullscreen
               >
-              <template #default="{ close }">
-                <div id="article-modal-header">
-                  <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-                  <b-icon-x-circle-fill></b-icon-x-circle-fill>
-                  </b-button>
-                </div>
-                <iframe
-                :src="`https://www.youtube.com/embed/${movie.video_path}`"
-                width="1100"
-                height="650"
-                frameborder="0"
-                allowfullscreen
-                >
-              </iframe>
+            </iframe>
+          </template>
+            <template #modal-header>
+              <div></div>
             </template>
-              <template #modal-header>
-                <div></div>
-              </template>
-              <template #modal-footer>
-                <p></p>
-              </template>
-              </b-modal>
-            </div>
-            <div>
-              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
-            </div>
+            <template #modal-footer>
+              <p></p>
+            </template>
+            </b-modal>
           </div>
-          <div v-else>
-            <div>
-              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
-            </div>
+          <div>
+            <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
           </div>
+        </div>
+        <div v-else>
+          <div>
+            <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
+          </div>
+        </div>
         <br><br><br><br>
       </div>
     </div>
@@ -151,12 +155,13 @@
           <b-form-group
             label="댓글"
             label-for="comment-input"
-            label-size="lg"
+            label-size="xl"
             invalid-feedback="Comment is required"
           >
             <!-- 엔터 눌렀을 때도 createComment 호출시킬려고 했는데 안됨... -->
             <b-form-textarea
               @keyup.enter="createComment"
+              placeholder="고객님의 소중한 댓글을 기다리고 있어요"
               id="comment-input"
               v-model="content"
               required
@@ -224,6 +229,7 @@
           </b-form-group>
         </form>
         <template #modal-header="{ close }">
+          <span size="lg" style="margin-right: auto; text-align: left;">댓글 수정</span>
           <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
             <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
           </b-button>
@@ -488,10 +494,22 @@ button:hover {
 }
 
 .myclass > .modal-dialog > .modal-content > .modal-header {
-  background-color: #d3ac2b;
+  font-size: x-large;
 }
 
 #modal-center___BV_modal_content_{
   width: 1132px;
+}
+
+#modal-prevent___BV_modal_body_, #modal-prevent___BV_modal_header_, #modal-prevent___BV_modal_footer_ {
+  background-color: #e0e7e9;
+  font-family: "DOHYEON";
+  border: none;
+}
+
+#modal-prevent-closing___BV_modal_header_, #modal-prevent-closing___BV_modal_body_, #modal-prevent-closing___BV_modal_footer_ {
+  background-color: #e0e7e9;
+  font-family: "DOHYEON";
+  border: none;
 }
 </style>
