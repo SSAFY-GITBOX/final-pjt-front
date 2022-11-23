@@ -195,7 +195,7 @@ export default {
     infiniteHandler($state) {
       axios({
         method: 'get',
-        url: `${API_URL}/api/v2/search/`,
+        url: `${API_URL}/api/v2/`,
         headers: {
           Authorization: `Token ${ this.$store.state.token }`
         },
@@ -284,5 +284,8 @@ export default {
   color: #F5F5DC;
 }
 
+.loading-default {
+  visibility: hidden;
+}
 
 </style>
