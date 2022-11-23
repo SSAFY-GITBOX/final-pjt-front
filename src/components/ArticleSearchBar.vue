@@ -7,7 +7,7 @@
       align-items: center;
     "
   >
-    <div id="article-search-div">
+    <div id="article-search-div" class="visible-lg">
       <b-form-input
         @keyup.enter="getSearchArticle"
         size="lg"
@@ -60,6 +60,12 @@ export default {
 </script>
 
 <style>
+@media (max-width: 768px) {
+  .visible-lg {
+    visibility: hidden;
+  }
+}
+
 #article-search-div {
   display: flex;
   align-items: center;
@@ -68,4 +74,5 @@ export default {
   height: 0px;
   width: 400px;
 }
+
 </style>

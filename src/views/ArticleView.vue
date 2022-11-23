@@ -1,6 +1,6 @@
 <template>
   <div id="article-view-div">
-    <h1>GITBOX 커뮤니티</h1>
+    <h1 style="margin-bottom: 50px">GITBOX 커뮤니티</h1>
     <!-- 게시글작성 모달창 구현하는 부분 -->
     <div>
       <div>
