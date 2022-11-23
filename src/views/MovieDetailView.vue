@@ -39,7 +39,7 @@
               <template #default="{ close }">
                 <div id="article-modal-header">
                   <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-                    ✖
+                  <b-icon-x-circle-fill></b-icon-x-circle-fill>
                   </b-button>
                 </div>
                 <iframe
@@ -60,12 +60,12 @@
               </b-modal>
             </div>
             <div>
-              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;">댓글 쓰기</b-button>
+              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large; margin-left: 30px;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
             </div>
           </div>
           <div v-else>
             <div>
-              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;">댓글 쓰기</b-button>
+              <b-button v-b-modal.modal-prevent style="background-color: #d3ac2b; border: white; width: 200px; height: 70px; font-size: x-large;"><b-icon-star-fill></b-icon-star-fill> 댓글 쓰기</b-button>
             </div>
           </div>
         <br><br><br><br>
@@ -86,20 +86,20 @@
         <div style="display: flex;">
           <div style="margin-right: 60px;">
             <a :href="`https://www.themoviedb.org/person/${actors[0].actor_id}`">
-              <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="200" height="210">
+              <img :src="actors[0].profile_path" alt="" @error="replaceByDefault" width="140" height="210">
             </a>
             <p>{{ actors[0].name }}</p>
           </div>
           <div style="margin-right: 60px;">
             <a :href="`https://www.themoviedb.org/person/${actors[1].actor_id}`">
-              <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="200" height="210" />
+              <img :src="actors[1].profile_path" alt="" @error="replaceByDefault" width="140" height="210" />
             </a>
             <p>{{ actors[1].name }}</p>
           </div>
           <!-- 패딩입혀줘야 화면 줄어들 때 3번째 배우 이미지가 딱 안 맞고 오른쪽에 여백생김 -->
           <div style="padding-right: 60px;">
             <a :href="`https://www.themoviedb.org/person/${actors[2].actor_id}`">
-              <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="200" height="210" />
+              <img :src="actors[2].profile_path" alt="" @error="replaceByDefault" width="140" height="210" />
             </a>
             <p>{{ actors[2].name }}</p>
           </div>
@@ -164,8 +164,9 @@
           </b-form-group>
         </form>
         <template #modal-header="{ close }">
-          <b-button size="sm" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-            ✖
+          <span size="lg" style="margin-right: auto; text-align: left;">댓글 작성</span>
+          <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
+            <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
           </b-button>
         </template>
         <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
@@ -224,7 +225,7 @@
         </form>
         <template #modal-header="{ close }">
           <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-            ✖
+            <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
           </b-button>
         </template>
         <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
@@ -484,6 +485,10 @@ button:hover {
 .myclass > .modal-dialog > .modal-content > .modal-footer > button {
   background-color: #d3ac2b;
   border: white;
+}
+
+.myclass > .modal-dialog > .modal-content > .modal-header {
+  background-color: #d3ac2b;
 }
 
 #modal-center___BV_modal_content_{

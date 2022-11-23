@@ -1,8 +1,10 @@
 <template>
   <div id="app">
     <b-navbar toggleable="lg" type="dark" style="padding-right: 20px; background-color: #2e3133;">
-      <!-- <b-navbar-brand href="#">GITBOX</b-navbar-brand> -->
-      <img src="./assets/gitlogo.png" alt="" height="50">
+      <img src="./assets/gitbox_logo2.png" alt="" height="50">
+      <b-navbar-brand href="#" style="margin-left:3px; color: white; font-size: xx-large; font-family:'Times New Roman', Times, serif">
+        <router-link class="nav-link" :to="{ name: 'HomeView' }">GITBOX</router-link>
+      </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -14,7 +16,7 @@
 
         <!-- <b-navbar-nav class="ml-auto"> -->
         <!-- 검색창 부분 -->
-        <b-navbar-nav v-if="$store.getters.isLogin" style="width: 300px; margin: auto;">
+        <b-navbar-nav v-if="$store.getters.isLogin" style="width: 400px; margin: auto;">
           <TheMovieSearchBar @get-search-movie="getSearchMovie"/>
         </b-navbar-nav>
 
