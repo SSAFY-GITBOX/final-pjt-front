@@ -51,6 +51,6 @@ export default {
 
 <style>
 #articlelist-item-div a{
-  color: black;
+  color: #F5F5DC;
 }
 </style>

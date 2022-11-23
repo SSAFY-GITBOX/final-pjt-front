@@ -226,10 +226,11 @@ export default {
 }
 
 .genre-icon-div {
-  width: 30px;
+  width: 40px;
   height: 40px;
+  border-radius: 20px;
   padding: 5px 5px 5px 5px;
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: #D3AC2B
 }
 
 .genre-icon-div:hover{

@@ -3,8 +3,8 @@
     <h1>GITBOX 커뮤니티</h1>
     <!-- 게시글작성 모달창 구현하는 부분 -->
     <div>
-      <div style="text-align: end; padding-right: 20px">
-        <b-button v-b-modal.modal-center>게시글 작성</b-button>
+      <div style="text-align: end; padding-right: 20px;">
+        <b-button v-b-modal.modal-center style="background-color: #2e3133; color: #F5F5DC;">게시글 작성</b-button>
       </div>
 
       <b-modal
@@ -28,7 +28,9 @@
           <div id="article-modal-header">
             <h5>게시글 작성</h5>
             <b-button size="sm" id="header-button" @click="close()">
-              <b-icon-x-circle-fill style="color: black"></b-icon-x-circle-fill>
+              <div style="width: 25px; height: 25px; border-radius: 15px; background-color: #F5F5DC;">
+                <b-icon-x-circle-fill style="color: #D3AC2B; width: 100%; height: 100%;"></b-icon-x-circle-fill>
+              </div>
             </b-button>
           </div>
 
@@ -41,6 +43,7 @@
             <b-form-input
               id="article-title-input"
               v-model.trim="title"
+              placeholder="게시글의 제목을 적어주세요"
               required
             ></b-form-input>
           </b-form-group>
@@ -56,6 +59,7 @@
                 <b-form-textarea
                   id="article-content-input"
                   v-model.trim="content"
+                  placeholder="고객님이 소통하고 싶은 내용을 적어주세요"
                   required
                   rows="20"
                 ></b-form-textarea>
@@ -66,12 +70,12 @@
           <!-- 푸터 -->
           <div id="article-modal-footer">
             <div style="padding-left: 16px; padding-top: 16px">
-              <b-button size="sm" variant="primary" @click="ok()">
+              <b-button size="sm" style="background-color:#D3AC2B; width: 56px;" @click="ok()">
                 OK
               </b-button>
             </div>
             <div style="padding-left: 16px; padding-top: 16px">
-              <b-button size="sm" variant="danger" @click="cancel()"
+              <b-button size="sm" style="background-color:#D3AC2B" @click="cancel()"
                 >Cancel</b-button
               >
             </div>
@@ -84,8 +88,10 @@
         </template>
       </b-modal>
     </div>
-    <hr />
-    <ArticleList />
+
+    <div id="articleview-articlelist-div">
+      <ArticleList />
+    </div>
   </div>
 </template>
 
@@ -174,11 +180,12 @@ export default {
 }
 
 #article-view-div {
-  background-color: pink;
+  background-color: #F5F5DC;
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
   text-align: center;
+  color: #333D51
 }
 
 #modal-center___BV_modal_header_ {
@@ -204,16 +211,28 @@ export default {
 }
 
 #modal-center___BV_modal_body_ {
-  background-color: yellow;
-  border-radius: 0.5rem;
+  background-color: rgba(51, 61, 81, 0.9);
   font-family: "DOHYEON";
+  color: #F5F5DC;
 }
 
 #article-title-input {
-  background-color: pink;
+  background-color: white;
 }
 
 #article-content-input {
-  background-color: pink;
+  background-color: white;
 }
+
+#articleview-articlelist-div{
+  box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
+  border-radius: 20px;
+  padding:20px;
+  background-color: rgba(46, 49, 51);
+  margin-top: 20px;
+  color: #F5F5DC;
+}
+
+
 </style>

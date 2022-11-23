@@ -6,7 +6,7 @@
         :to="{ name: 'ArticleDetailView', params: { id: article.id } }"
 				class="btn shadow-sm p-3 mb-2 rounded"
       >
-				<span style="font-size: 20px; font-weight: bold;">{{ article.title }}</span>
+				<span style="font-size: 20px;">{{ article.title }}</span>
 				<span>{{ article.created_at.substr(0, 10) }}</span>
       </router-link>
     </div>
@@ -33,24 +33,28 @@ export default {
 
 <style>
 #like-articles-div {
-  background-color: plum;
-  padding: 3% 5%;
-  display: flex;
   flex-direction: column;
-  text-align: start;
-	border-radius: 15px;
+  flex-wrap: wrap;
+  background-color: rgba(51, 61, 81, 1.0);
+  color: #F5F5DC;
+  padding: 3% 3%;
+  display: flex;
+
+  box-shadow : rgba(0, 0, 0, 0.8) 0px 6px 12px -2px, rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
+  border-radius: 20px;
 }
 
 #like-articles-div a {
 	display: flex;
 	justify-content: space-between;
-	transition: all 0.2s linear;
-	background-color: palevioletred;
+	/* transition: all 0.2s linear; */
+	background-color: #2e3133;
+  color: #F5F5DC;
 	text-decoration: none;
-	color: rgb(50, 50, 50);
 }
 
 #like-articles-div a:hover {
-	transform: scale(1.05);
+	/* transform: scale(1.05); */
+  background-color: #D3AC2B;
 }
 </style>

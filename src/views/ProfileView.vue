@@ -230,7 +230,7 @@ summary {
 }
 
 #profile-view-div {
-  background-color: pink;
+  background-color: #F5F5DC;
   padding: 3% 5%;
   display: flex;
   flex-direction: column;

@@ -1,7 +1,7 @@
 <!-- 자동포맷해서 세미콜론 있는거에요!! 엔터누를때 댓글작성되는거는 안됩니다 ㅠㅠㅠ 다시해보겠습니다 -->
 
 <template>
-  <div class="show-grid" id="movie-detail-div">
+  <div class="show-grid" id="movie-detail-div" :style="{'background-image': 'url(' + movie.poster_path + ')'}">
     <div
       style="
         display: flex;
@@ -9,9 +9,10 @@
         overflow: auto;
         padding: 30px 30px 30px 30px;
         font-size: x-large;
-        background-color: white;
+        background-color: rgba(51, 61, 81, 0.9);
+        color: #F5F5DC;
         border-radius: 20px;
-      "
+        "
       v-if="movie"
     >
       <div>
@@ -21,7 +22,7 @@
         <!-- v-if 안적으니까 typeerror 많이 남 -->
         <br />
         <div v-if="(user, movie)" style="display: flex">
-          <h1 style="font-weight: bold;">{{ movie.title }}</h1>
+          <h1 class="one-line" style="font-weight: bold;">{{ movie.title }}</h1>
           <button class="button_css ms-2" @click="likeMovie">
             <div v-if="(this.likeMessage) === '🖤'">
               <p class="h3"><b-icon-hand-thumbs-up-fill></b-icon-hand-thumbs-up-fill></p>
@@ -32,7 +33,7 @@
           </button>
           <span style="font-size: 23px; margin-top: 11px">({{ movie.like_count }})</span>
         </div>
-        <p>평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
+        <p class="one-line">평점 {{ movie.vote_average }} | 개봉일 {{ movie.release_date }}</p><br><br>
         <p>{{ movie.overview }}</p><br><br>
         <div v-if="movie.video_path" style="display: flex;">
           <div>
@@ -44,9 +45,6 @@
               :header-bg-variant="black"
               :body-bg-variant="black"
               :footer-bg-variant="black"
-              :header-border-variant="black"
-              :body-border-variant="black"
-              :footer-border-variant="black"
             >
             <template #default="{ close }">
               <div id="article-modal-header">
@@ -94,7 +92,8 @@
         overflow: auto;
         padding: 20px 30px;
         font-size: large;
-        background-color: white;
+        color: #F5F5DC;
+        background-color: rgba(51, 61, 81, 0.9);
         border-radius: 20px;
       "
     >
@@ -132,7 +131,8 @@
         style="
           padding: 20px 30px;
           font-size: large;
-          background-color: white;
+          background-color: rgba(51, 61, 81, 0.9);
+          color: #F5F5DC;
           border-radius: 20px;
         "
       >
@@ -203,7 +203,9 @@
             style="margin-left: auto; text-align: right"
             @click="close()"
           >
-            <b-icon-x-circle-fill style="color: black"></b-icon-x-circle-fill>
+          <div style="width: 25px; height: 25px; border-radius: 15px; background-color: #F5F5DC;">
+            <b-icon-x-circle-fill style="color: #D3AC2B"></b-icon-x-circle-fill>
+          </div>
           </b-button>
         </template>
         <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
@@ -263,7 +265,9 @@
         <template #modal-header="{ close }">
           <span size="lg" style="margin-right: auto; text-align: left;">댓글 수정</span>
           <b-button size="lg" id="header-button" style="margin-left: auto; text-align: right;" @click="close()">
-            <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
+            <div style="width: 25px; height: 25px; border-radius: 15px; background-color: #F5F5DC;">
+              <b-icon-x-circle-fill style="color: #D3AC2B"></b-icon-x-circle-fill>
+            </div>
           </b-button>
         </template>
         <!-- footer 쪽 접근하려고 아예 덮어씌워씀 -->
@@ -498,7 +502,7 @@ export default {
 
 <style>
 #movie-detail-div {
-  background-color: #e0e7e9;
+  /* background-color: #e0e7e9; */
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
@@ -515,9 +519,9 @@ button:hover {
 
 .button_css {
   font-size: x-large;
-  background-color: white;
+  background-color: rgba(51, 61, 81, 0);
   border-radius: 5px;
-  border: 1px solid white;
+  border: none;
   color: #dc3545;
 }
 
@@ -536,13 +540,16 @@ button:hover {
 }
 
 #modal-prevent___BV_modal_body_, #modal-prevent___BV_modal_header_, #modal-prevent___BV_modal_footer_ {
-  background-color: #e0e7e9;
+  /* background-color: #e0e7e9; */
+  background-color: rgba(51, 61, 81, 0.9);
+  color: #F5F5DC;
   font-family: "DOHYEON";
   border: none;
 }
 
 #modal-prevent-closing___BV_modal_header_, #modal-prevent-closing___BV_modal_body_, #modal-prevent-closing___BV_modal_footer_ {
-  background-color: #e0e7e9;
+  background-color: rgba(51, 61, 81, 0.9);
+  color: #F5F5DC;
   font-family: "DOHYEON";
   border: none;
 }

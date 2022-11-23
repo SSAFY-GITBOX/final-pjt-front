@@ -172,7 +172,8 @@ export default {
   padding: 10px;
   min-height: 72px;
 
-  background-color: yellow;
+  background-color: rgba(51, 61, 81, 1.0);
+  color: #F5F5DC;
   /* background-color: rgba(255, 255, 255, 0.5); */
 }
 
@@ -182,13 +183,14 @@ export default {
 
   border-radius: 20px;
   border: none;
-  background-color: yellow;
+  background-color: #2e3133;
+  color: #F5F5DC;
 }
 
 #comment-update-submit:hover {
   cursor: pointer;
-  background-color: crimson;
-  color: white;
+  background-color: #D3AC2B;
+  color: #F5F5DC;
   transform: none;
 }
 </style>

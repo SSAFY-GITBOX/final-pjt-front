@@ -51,6 +51,7 @@ export default {
 
 #profile-navbar .nav-item {
   margin-right: 1rem;
+
 }
 
 #profile-navbar .nav-item:active {
@@ -59,6 +60,7 @@ export default {
 
 #profile-navbar a {
   font-size: 22px;
+  color: #2e3133;
 }
 
 #profile-navbar .nav-item:hover {
@@ -67,6 +69,6 @@ export default {
 
 #profile-navbar .selected {
 	font-weight: bold !important;
-	color: black !important;
+	color: #2e3133 !important;
 }
 </style>

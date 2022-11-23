@@ -77,4 +77,7 @@ export default {
 </script>
 
 <style>
+.infinite-status-prompt{
+  color: #F5F5DC !important;
+}
 </style>

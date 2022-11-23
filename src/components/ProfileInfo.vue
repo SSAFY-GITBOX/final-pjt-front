@@ -31,7 +31,7 @@
         </button>
       </div>
       <div v-else>
-        <button class="btn btn-secondary" @click="editProfile">
+        <button class="genre-btn" @click="editProfile">
           프로필 수정
         </button>
       </div>
@@ -84,11 +84,12 @@ export default {
 
 <style>
 #profile-div {
-  background-color: plum;
+  /* background-color: plum; */
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  color: #2e3133;
 }
 
 #profile-div button:hover {

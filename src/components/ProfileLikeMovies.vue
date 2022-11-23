@@ -25,9 +25,13 @@ export default {
 
 <style>
 #like-movies-div{
-	display: flex;
 	flex-wrap: wrap;
+  background-color: rgba(51, 61, 81, 1.0);
+  color: #F5F5DC;
+  padding: 3% 3%;
+  display: flex;
 
-  background-color: plum;
+  box-shadow : rgba(0, 0, 0, 0.8) 0px 6px 12px -2px, rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
+  border-radius: 20px;
 }
 </style>

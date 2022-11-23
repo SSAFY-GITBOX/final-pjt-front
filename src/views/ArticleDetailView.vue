@@ -54,8 +54,8 @@
     
     <!-- 본인 게시글일 때 -->
     <div v-if="$store.state.userPk === article?.user" style="display: flex; justify-content: flex-end;">
-      <b-button v-b-modal.modal-center>수정</b-button>
-      <b-button @click="deleteArticle" style="margin-left: 10px">삭제</b-button>
+      <button class="genre-btn" v-b-modal.modal-center style="margin-right: 10px;">수정</button>
+      <button class="genre-btn" @click="deleteArticle">삭제</button>
     </div>
 
 
@@ -96,7 +96,9 @@
           <div id="article-modal-header">
             <h5>게시글 작성</h5>
             <b-button size="sm" id="header-button" @click="close()">
-              <b-icon-x-circle-fill style="color: black;"></b-icon-x-circle-fill>
+              <div style="width: 25px; height: 25px; border-radius: 15px; background-color: #F5F5DC;">
+                <b-icon-x-circle-fill style="color: #D3AC2B; width: 100%; height: 100%;"></b-icon-x-circle-fill>
+              </div>
             </b-button>
           </div>
           <b-form-group
@@ -133,12 +135,12 @@
           <!-- 푸터 -->
           <div id="article-modal-footer">
             <div style="padding-left: 16px; padding-top: 16px">
-              <b-button size="sm" variant="primary" @click="ok()">
+              <b-button size="sm" style="background-color:#D3AC2B; width: 56px;" @click="ok()">
                 OK
               </b-button>
             </div>
             <div style="padding-left: 16px; padding-top: 16px">
-              <b-button size="sm" variant="danger" @click="cancel()"
+              <b-button size="sm" style="background-color:#D3AC2B" @click="cancel()"
                 >Cancel</b-button
               >
             </div>
@@ -348,7 +350,7 @@ export default {
 
 <style>
 #article-detail-div {
-  background-color: pink;
+  background-color: #F5F5DC;
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
@@ -356,7 +358,8 @@ export default {
 }
 
 #article-div {
-  background-color: yellow;
+  background-color: rgba(51, 61, 81, 1.0);
+  color: #F5F5DC;
   padding: 20px;
   border-radius: 20px;
   margin-bottom: 16px;

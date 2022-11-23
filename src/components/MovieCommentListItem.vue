@@ -21,8 +21,9 @@
     <p style="margin-left: 3px; font-size: x-large;">{{ comment.content }}</p>
     <p style="font-size: large; margin-left: 2px;">{{ comment.username }} | {{ comment.created_at.substr(0, 10) }}</p>
     <div v-if="$store.state.userPk === comment.user">
-      <b-button @click="updateComment" class="mx-1">수정</b-button>
-      <b-button @click="deleteComment">삭제</b-button>
+      <button class="genre-btn" @click="updateComment" style="margin-right: 10px;">수정</button>
+      <button class="genre-btn" @click="deleteComment">삭제</button>
+      <span style="padding: 10px"></span>
     </div>
     <br><br><br><br>
   </div>
@@ -56,7 +57,6 @@ export default {
       this.$emit('update-comment', this.comment)
     },
     getRating() {
-      // console.log(this.comment)
       this.rating = this.comment.rating / 2
     }
   }

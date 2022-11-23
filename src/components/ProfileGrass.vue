@@ -18,8 +18,8 @@
 
     <!-- 활동 내역 for 잔디 -->
     <div id="acts">
-			<h4 class="ms-2">상세 활동 내역</h4>
-			<!-- 영화 감상평 -->
+      <h4 class="ms-2">상세 활동 내역</h4>
+      <!-- 영화 감상평 -->
       <details>
         <summary>영화 감상평</summary>
         <div v-for="comment in orderdMovieComments" :key="comment.id">
@@ -33,7 +33,7 @@
         </div>
         <br />
       </details>
-			<!-- 작성 게시글 -->
+      <!-- 작성 게시글 -->
       <details>
         <summary>작성 게시글</summary>
         <div v-for="(article, index) in orderdArticles" :key="index">
@@ -46,7 +46,7 @@
         </div>
         <br />
       </details>
-			<!-- 작성 댓글 -->
+      <!-- 작성 댓글 -->
       <details>
         <summary>작성 댓글</summary>
         <div
@@ -109,26 +109,31 @@ export default {
 
 <style>
 #grass-div {
-  background-color: plum;
+  background-color: rgba(51, 61, 81, 1);
+  color: #f5f5dc;
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
   text-align: start;
+
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
+  border-radius: 20px;
 }
 
 #acts details {
-	margin-left: 1rem;
+  margin-left: 1rem;
 }
 
 #acts a {
   text-decoration: none;
-  color: black;
+  color: #f5f5dc;
   margin-left: 2rem;
 }
 
 #acts #movie-title {
   font-size: 19px;
-  color: blue;
+  color: #D3AC2B;
   margin-right: 0.5rem;
 }
 

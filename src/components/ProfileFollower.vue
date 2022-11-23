@@ -5,6 +5,7 @@
     <div v-for="user in followerList" :key="user.id">
       <!-- 팔로워 프로필로 이동할 수 있도록 router-link 사용 -->
       <router-link
+        id="follower-link"
         :to="{
           name: 'ProfileView',
           params: { id: user.id },
@@ -62,16 +63,15 @@ export default {
 
 <style>
 #follower-div {
-  background-color: rgb(250, 167, 206);
-  padding: 3% 5%;
-  display: flex;
   flex-direction: column;
-  text-align: start;
-  border-radius: 15px;
-}
+  flex-wrap: wrap;
+  background-color: rgba(51, 61, 81, 1.0);
+  color: #F5F5DC;
+  padding: 3% 3%;
+  display: flex;
 
-#follower-div a:hover {
-  transform: scale(1.02);
+  box-shadow : rgba(0, 0, 0, 0.8) 0px 6px 12px -2px, rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
+  border-radius: 20px;
 }
 
 #follower-profile-img img {
@@ -87,5 +87,15 @@ export default {
   margin-left: 1rem;
   font-weight: bold;
   font-size: 18px;
+}
+
+#follower-link {
+	background-color: #2e3133;
+  color: #F5F5DC;
+	text-decoration: none;
+}
+
+#follower-link:hover{
+  background-color: #D3AC2B;
 }
 </style>
