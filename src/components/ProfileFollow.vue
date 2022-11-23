@@ -5,6 +5,7 @@
     <div v-for="(user, index) in followList" :key="index">
       <!-- 팔로우 하는 유저 프로필로 이동할 수 있도록 router-link 사용 -->
       <router-link
+        id="follow-link"
         :to="{
           name: 'ProfileView',
           params: { id: user.id },
@@ -24,7 +25,7 @@
           </div>
         </div>
         <!-- 팔로우하는 유저 이름 -->
-        <div id="follwer-name">
+        <div id="follow-name">
           <p class="mb-0">{{ user.username }}</p>
         </div>
       </router-link>
@@ -36,13 +37,13 @@
 export default {
   name: "ProfileFollow",
 
-  created() {
-    console.log(this.followList);
-    this.preTreat();
-  },
-
+  
   props: {
     followList: Array,
+  },
+  
+  created() {
+    this.preTreat();
   },
 
   methods: {
@@ -55,7 +56,6 @@ export default {
           follow.profile_image_url =
             "http://127.0.0.1:8000" + follow.profile_image_url;
         }
-        console.log(this.followList);
       });
     },
   },
@@ -64,16 +64,15 @@ export default {
 
 <style>
 #follow-div {
-  background-color: rgb(250, 167, 206);
-  padding: 3% 5%;
-  display: flex;
   flex-direction: column;
-  text-align: start;
-  border-radius: 15px;
-}
-
-#follow-div a:hover {
-  transform: scale(1.02);
+  flex-wrap: wrap;
+  background-color: rgba(51, 61, 81, 1);
+  color: #f5f5dc;
+  padding: 3% 3%;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
+  border-radius: 20px;
 }
 
 #follow-profile-img img {
@@ -83,11 +82,21 @@ export default {
   height: 70px;
 }
 
-#follwer-name {
+#follow-name {
   display: flex;
   align-items: center;
   margin-left: 1rem;
   font-weight: bold;
   font-size: 18px;
+}
+
+#follow-link {
+  background-color: #2e3133;
+  color: #f5f5dc;
+  text-decoration: none;
+}
+
+#follow-link:hover {
+  background-color: #d3ac2b;
 }
 </style>

@@ -25,7 +25,7 @@
           </div>
         </div>
         <!-- 팔로워 유저 이름 -->
-        <div id="follwer-name">
+        <div id="follower-name">
           <p class="mb-0">{{ user.username }}</p>
         </div>
       </router-link>
@@ -37,12 +37,20 @@
 export default {
   name: "ProfileFollower",
 
-  created() {
-    this.preTreat();
-  },
-
+  
   props: {
     followerList: Array,
+  },
+  
+  created() {
+    this.preTreat();
+
+    this.$watch(
+      () => this.followerList,
+      () => {
+        this.preTreat();
+      }
+    );
   },
 
   methods: {
@@ -65,12 +73,12 @@ export default {
 #follower-div {
   flex-direction: column;
   flex-wrap: wrap;
-  background-color: rgba(51, 61, 81, 1.0);
-  color: #F5F5DC;
+  background-color: rgba(51, 61, 81, 1);
+  color: #f5f5dc;
   padding: 3% 3%;
   display: flex;
-
-  box-shadow : rgba(0, 0, 0, 0.8) 0px 6px 12px -2px, rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 12px -2px,
+    rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
   border-radius: 20px;
 }
 
@@ -81,7 +89,7 @@ export default {
   height: 70px;
 }
 
-#follwer-name {
+#follower-name {
   display: flex;
   align-items: center;
   margin-left: 1rem;
@@ -90,12 +98,12 @@ export default {
 }
 
 #follower-link {
-	background-color: #2e3133;
-  color: #F5F5DC;
-	text-decoration: none;
+  background-color: #2e3133;
+  color: #f5f5dc;
+  text-decoration: none;
 }
 
-#follower-link:hover{
-  background-color: #D3AC2B;
+#follower-link:hover {
+  background-color: #d3ac2b;
 }
 </style>
