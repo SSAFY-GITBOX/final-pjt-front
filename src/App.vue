@@ -2,7 +2,7 @@
   <div id="app">
     <b-navbar toggleable="lg" type="dark" style="padding-right: 20px; background-color: #2e3133;">
       <!-- <b-navbar-brand href="#">GITBOX</b-navbar-brand> -->
-      <img src="./assets/gitlogo.png" alt="" height="50">
+      <img src="./assets/gitlogo.png" alt="" height="50" @click="clickLogo">
 
       <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
@@ -58,7 +58,11 @@ export default {
 		logOut() {
 			this.$store.dispatch('logOut')
 			this.$router.go()
-		}
+		},
+    
+    clickLogo() {
+      this.$router.push({ name: 'HomeView' })
+    }
   }
 }
 </script>
