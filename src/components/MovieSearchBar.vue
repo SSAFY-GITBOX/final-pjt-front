@@ -1,13 +1,4 @@
 <template>
-  <!-- div 없앴음 -->
-  <!-- div 없앴음 -->
-  <!-- div 없앴음 -->
-    <!-- <form class="d-flex" @submit.prevent="getSearchMovie">
-      <input class="form-control me-2" type="search" placeholder="Search"
-        v-model="inputData"
-      >
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form> -->
     <b-nav-form @submit.prevent="getSearchMovie">
       <b-navbar-nav>
         <b-navbar-nav style="position: relative; text-align: center; width: 400px; margin: 0 auto;">
@@ -23,12 +14,13 @@
 
 <script>
 export default {
-  name: 'TheMovieSearchBar',
+  name: 'MovieSearchBar',
   data() {
     return {
       inputData: null,
     }
   },
+  
   methods: {
     getSearchMovie() {
       const content = this.inputData

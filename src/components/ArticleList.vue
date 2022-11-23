@@ -18,29 +18,27 @@
     </div>
     <hr>
     <ArticleListItem
-      v-for="(article, index) in articles"
+      v-for="(article, index) in searchedArticle"
       :key="index"
       :article="article"
       :index="index"
     />
 
-    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
 <script>
 import ArticleListItem from "@/components/ArticleListItem.vue";
-import InfiniteLoading from 'vue-infinite-loading';
-import axios from 'axios';
-
-const API_URL = 'http://127.0.0.1:8000'
 
 export default {
   name: "ArticleList",
 
   components: {
     ArticleListItem,
-    InfiniteLoading,
+  },
+
+  props: {
+    searchedArticle: null,
   },
 
   data() {
@@ -48,30 +46,6 @@ export default {
       page: 1,
       articles: [],
     };
-  },
-
-  methods: {
-    infiniteHandler($state) {
-      axios({
-        method: 'get',
-        url: `${API_URL}/api/v2/`,
-        headers: {
-          Authorization: `Token ${ this.$store.state.token }`
-        },
-        params: {
-          page: this.page,
-        },
-      })
-      .then(({ data }) => {
-        if (data.length) {
-          this.page += 1;
-          this.articles.push(...data);
-          $state.loaded();
-        } else {
-          $state.complete();
-        }
-      });
-    },
   },
 };
 </script>

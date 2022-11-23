@@ -3,6 +3,12 @@
     <h1>GITBOX 커뮤니티</h1>
     <!-- 게시글작성 모달창 구현하는 부분 -->
     <div>
+      <div>
+        <ArticleSearchBar
+          @get-search-article="getSearchArticle"
+        />
+      </div>
+
       <div style="text-align: end; padding-right: 20px;">
         <b-button v-b-modal.modal-center style="background-color: #2e3133; color: #F5F5DC;">게시글 작성</b-button>
       </div>
@@ -90,13 +96,18 @@
     </div>
 
     <div id="articleview-articlelist-div">
-      <ArticleList />
+      <ArticleList 
+        :searchedArticle="searchedArticles"
+      />
     </div>
+    <infinite-loading @infinite="infiniteHandler"></infinite-loading>
   </div>
 </template>
 
 <script>
 import ArticleList from "@/components/ArticleList.vue";
+import ArticleSearchBar from "@/components/ArticleSearchBar.vue";
+import InfiniteLoading from 'vue-infinite-loading';
 import axios from "axios";
 
 const API_URL = "http://127.0.0.1:8000";
@@ -106,13 +117,21 @@ export default {
 
   data() {
     return {
+      // 게시글 작성
       title: null,
       content: null,
+
+      // 검색 결과
+      searchData: null,
+      searchedArticles: [],
+      page: 1,
     };
   },
 
   components: {
     ArticleList,
+    ArticleSearchBar,
+    InfiniteLoading,
   },
 
   computed: {
@@ -149,20 +168,51 @@ export default {
           Authorization: `Token ${this.$store.state.token}`,
         },
       })
-        .then((res) => {
-          console.log(res);
+        .then(() => {
           this.$router.go();
         })
         .catch((err) => {
           console.log(err);
         });
     },
+
+    getSearchArticle(content) {
+      this.page = 1
+      this.searchData = content
+      this.searchedArticles = []
+      console.log(this)
+      this.infiniteHandler()
+    },
+
     resetModal() {
       this.title = null;
       this.content = null;
     },
     hideModal() {
       this.$root.$emit("bv::hide::modal", "modal-1", "#btnShow");
+    },
+
+    infiniteHandler($state) {
+      axios({
+        method: 'get',
+        url: `${API_URL}/api/v2/search/`,
+        headers: {
+          Authorization: `Token ${ this.$store.state.token }`
+        },
+        params: {
+          page: this.page,
+          content: this.searchData != null ? this.searchData : ''
+        },
+      })
+      .then(({ data }) => {
+        if (data.length) {
+          this.page += 1;
+          this.searchedArticles.push(...data);
+          $state.loaded();
+        } else {
+          return
+        }
+      });
     },
   },
 };
