@@ -6,7 +6,7 @@
 
     <div id="home-genre-movie-div">
       <!-- 장르별 영화 버튼 -->
-      <h4 style="padding:20px 20px 0px 20px; margin: 0px">장르별 영화를 감상해 보세요!</h4>
+      <h4 style="padding:20px 20px 0px 20px; margin: 0px"><span style="color: crimson;">장르별 영화</span>를 감상해 보세요!</h4>
       <div id="genre-movie-header">
         <div style="display: flex" class="genre-btn-div">
           <div v-for="(genre, genre_id) in genres" :key="genre_id" id="genre-btn-div">
