@@ -18,7 +18,7 @@
       v-model="rating"
     >
     </star-rating><br>
-    <p style="margin-left: 3px; font-size: x-large;">{{ comment.content }}</p>
+    <p style="margin-left: 3px; font-size: x-large; white-space: pre-wrap;">{{ comment.content }}</p>
     <p style="font-size: large; margin-left: 2px;">{{ comment.username }} | {{ comment.created_at.substr(0, 10) }}</p>
     <div v-if="$store.state.userPk === comment.user">
       <button class="genre-btn" @click="updateComment" style="margin-right: 10px;">수정</button>
