@@ -19,7 +19,10 @@
           v-model="password"
         /><br />
 
-        <input type="submit" value="로그인" class="btn btn-secondary" />
+				<div id="oneline">
+					<input type="submit" value="로그인" class="btn btn-secondary" />
+					<router-link class="btn btn-secondary ms-3" :to="{ name: 'SignUpView' }">회원가입</router-link>
+				</div>
       </form>
     </div>
   </div>
@@ -66,5 +69,10 @@ export default {
 
 #login-div input {
 	border-radius: 5px;
+}
+
+#oneline {
+	display: flex;
+	justify-content: center;
 }
 </style>
