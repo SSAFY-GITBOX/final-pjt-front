@@ -229,7 +229,7 @@ export default {
   height: 40px;
   border-radius: 20px;
   padding: 5px 5px 5px 5px;
-  background-color: #D3AC2B
+  background-color: rgba(255, 193, 7, 0.5)
 }
 
 .genre-icon-div:hover{
