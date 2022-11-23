@@ -177,8 +177,8 @@ export default {
 
 <style>
 #home-view-div {
-  background-image: url("../assets/back-image.png");
-  /* background-color: #6C7A89; */
+  /* background-image: url("../assets/back-image.png"); */
+  background-color: #F5F5DC;
   padding: 3% 5%;
 }
 
@@ -187,8 +187,7 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   padding: 20px 20px;
-  background-color: rgba(51, 61, 81, 0.9);
-  /* opacity: 0.9; */
+  background-color: rgba(51, 61, 81);
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 20px;
