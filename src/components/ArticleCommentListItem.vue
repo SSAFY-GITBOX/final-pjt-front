@@ -3,7 +3,7 @@
     <div v-if="!isUpdate">
       <div style="display: flex; flex-direction: column">
         <div style="padding-bottom: 10px">
-          {{ comment.username }}
+          {{ comment.username }} | {{ comment.created_at.substr(0, 10)}}
         </div>
 
         <div
@@ -36,7 +36,7 @@
     </div>
     <div v-else>
       <div style="padding-bottom: 10px">
-        {{ comment.username }}
+        {{ comment.username }} | {{ comment.created_at.substr(0, 10)}}
       </div>
       <div>
         <textarea
