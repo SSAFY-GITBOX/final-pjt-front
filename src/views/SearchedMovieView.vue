@@ -105,7 +105,8 @@ export default {
 
 <style>
 #searched-movie-view-div {
-  background-color: pink;
+  color: #F5F5DC;
+  /* background-color: #F5F5DC; */
   padding: 3% 5%;
   display: flex;
   flex-direction: column;
@@ -114,7 +115,7 @@ export default {
 
 #searched-movie-div {
   display: flex;
-  background-color: yellow;
+  background-color: rgba(51, 61, 81, 0.9);
   padding: 10px 10px;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;

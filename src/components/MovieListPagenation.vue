@@ -61,20 +61,20 @@ export default {
   margin-top: 20px;
   margin-right: 20px;
   padding-top: 16px;
-  background-color : yellow;
+  /* background-color : yellow; */
   display : flex;
   justify-content: center;
   align-items : center;
 }
 
 #pageBtn{
-  background-color: pink;
+  background-color: #2e3133;
   border: 0;
-  color: white;
+  color: #F5F5DC;
 }
 
 #pageBtn:hover{
-  background-color: red;
+  background-color: #D3AC2B;
 }
 
 .selectedBtn{

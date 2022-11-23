@@ -177,7 +177,8 @@ export default {
 
 <style>
 #home-view-div {
-  background-color: pink;
+  background-image: url("../assets/back-image.png");
+  /* background-color: #6C7A89; */
   padding: 3% 5%;
 }
 
@@ -186,10 +187,12 @@ export default {
   flex-direction: column;
   align-items: flex-start;
   padding: 20px 20px;
-  background-color: yellow;
+  background-color: rgba(51, 61, 81, 0.9);
+  /* opacity: 0.9; */
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
   border-radius: 20px;
+  color: #F5F5DC;
 }
 
 #genre-movie-header {
@@ -253,20 +256,19 @@ export default {
   border: none;
   padding: 0px 16px;
   margin-top: 10px;
-  background-color: pink;
+  background-color: #2e3133;
+  color: #F5F5DC;
 }
 
 .genre-btn:hover{
   transform: none;
-  background-color: crimson;
-  color: white;
+  background-color: #D3AC2B;
 }
 
 .genre-more-btn{
   white-space: nowrap;
   font-size: 16px;
-  color: black;
-  background-color: pink;
+  background-color: #2e3133;
   cursor: pointer;
   margin-top: 10px;
   padding: 0px 20px;
@@ -275,15 +277,15 @@ export default {
   border: none;
   background-size: 300% 100%;
   border-radius: 50px;
+  color: #F5F5DC;
+
 }
 
 .genre-more-btn:hover{
-  background-color: crimson;
-  color: white;
+  background-color: #D3AC2B;
 }
 
 .selected-genre-btn{
-  background-color: crimson;
-  color: white;
+  background-color: #D3AC2B;
 }
 </style>

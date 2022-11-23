@@ -1,11 +1,13 @@
 <template>
   <div id="movie-view-div">
-    <!-- 무비 리스트 아이템 컴포넌트 호출 -->
-    <h2>
+    <div id="movie-view-div-div">
+
+      <!-- 무비 리스트 아이템 컴포넌트 호출 -->
+      <h2>
       <b
-        >'<span style="color: crimson">{{ genre?.name }}</span
+      >'<span style="color: crimson">{{ genre?.name }}</span
         >' 장르 전체 보기</b
-      >
+        >
     </h2>
     <div class="container text-center">
       <div class="row" id="movielist-body-div">
@@ -14,12 +16,13 @@
         </div>
       </div>
     </div>
-
+    
     <!-- 페이지네이션 컴포넌트 호출 -->
     <div>
       <MovieListPagenation :page="page" @click-pagenation="clickPagenation" />
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -100,13 +103,22 @@ export default {
 
 <style>
 #movie-view-div{
-  background-color: pink;
+  /* background-color: pink; */
+  color: #F5F5DC;
   padding: 3% 5%;
   padding-left: auto;
   padding-right: auto;
   display: flex;
   flex-direction: column;
   /* text-align: start; */
+}
+
+#movie-view-div-div{
+  width: 100%;
+  padding: 2% 3%;
+  background-color: rgba(51, 61, 81, 0.9);
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 #movielist-body-div{
