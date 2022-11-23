@@ -10,12 +10,12 @@
       <div id="genre-movie-header">
         <div style="display: flex" class="genre-btn-div">
           <div v-for="(genre, genre_id) in genres" :key="genre_id" id="genre-btn-div">
-            <button class="bn632-hover bn20" @click="getGenreMovie(genre.id)">{{ genre.name }}</button>
+            <button class="genre-btn" :class="{'selected-genre-btn': selectedGenreBtnIndex === genre_id }" @click="getGenreMovie(genre.id, genre_id)">{{ genre.name }}</button>
             <span style="padding: 10px"></span>
           </div>
         </div>
         <div>
-          <button class="bn632-hover bn20" @click="goMovieListByGenre">더 보기  <i class="fas fa-angle-right fa-lg"></i> </button>
+          <button class="genre-more-btn" @click="goMovieListByGenre">더 보기  <i class="fas fa-angle-right fa-lg"></i> </button>
         </div>
       </div>
       <!-- 장르별 영화 응답 -->
@@ -56,6 +56,7 @@ export default {
   data() {
     return {
       selectedGenreMovies: [],
+      selectedGenreBtnIndex: 0,
     };
   },
 
@@ -116,7 +117,8 @@ export default {
     },
 
     // 장르 선택 했을 때
-    getGenreMovie(genreId) {
+    getGenreMovie(genreId, genre_index) {
+      this.selectedGenreBtnIndex = genre_index
       axios({
         method: "get",
         url: `${API_URL}/api/v1/movies/genres/${genreId}/init/`,
@@ -167,7 +169,7 @@ export default {
     if (this.$store.state.genres.length === 0) {
       this.init();
     } else {
-      this.getGenreMovie(this.$store.state.selectedGenre);
+      this.getGenreMovie(this.$store.state.selectedGenre, 0);
     }
   },
 };
@@ -242,6 +244,47 @@ export default {
   overflow: hidden;
   display: flex;
   flex-wrap: wrap;
+}
+
+.genre-btn{
+  height: 32px;
+
+  border-radius: 20px;
+  border: none;
+  padding: 0px 16px;
+  margin-top: 10px;
+  background-color: pink;
+}
+
+.genre-btn:hover{
+  transform: none;
+  background-color: crimson;
+  color: white;
+}
+
+.genre-more-btn{
+  white-space: nowrap;
+  font-size: 16px;
+  color: black;
+  background-color: pink;
+  cursor: pointer;
+  margin-top: 10px;
+  padding: 0px 20px;
+  height: 55px;
+  text-align:center;
+  border: none;
+  background-size: 300% 100%;
+  border-radius: 50px;
+}
+
+.genre-more-btn:hover{
+  background-color: crimson;
+  color: white;
+}
+
+.selected-genre-btn{
+  background-color: crimson;
+  color: white;
 }
 
 .bn632-hover {

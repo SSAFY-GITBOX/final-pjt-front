@@ -50,7 +50,9 @@ export default {
 		if (!this.$store.getters.isLogin) {
 			this.$router.push({ name: 'LogInView' })
 		} else {
-      this.$router.push({ name: 'HomeView' })
+      if (this.$router.history.current.name === null) {
+        this.$router.push({ name: 'HomeView' })
+      }
     }
 	},
 	
