@@ -10,6 +10,7 @@ import MovieDetailView from '../views/MovieDetailView.vue'
 import ArticleDetailView from '../views/ArticleDetailView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import EditProfileView from '../views/EditProfileView.vue'
+import TmpView from '../views/TmpView.vue'
 
 // const originalPush = VueRouter.prototype.push;
 // VueRouter.prototype.push = function push(location) {
@@ -80,6 +81,12 @@ const routes = [
     name: 'EditProfileView',
     component: EditProfileView
   },
+
+  {
+    path: '/tmp/:id',
+    name: 'TmpView',
+    component: TmpView
+  }
 ]
 
 const router = new VueRouter({
