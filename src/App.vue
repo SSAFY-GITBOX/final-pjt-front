@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" style="z-index: 1000; padding-right: 20px; background-color: #2e3133; position: -webkit-sticky; position: sticky; top: 0px;">
+    <b-navbar toggleable="lg" type="dark" style="z-index: 1000; padding-right: 20px; background-color: #2B2D31; position: -webkit-sticky; position: sticky; top: 0px;">
 
-      <img src="./assets/gitbox_logo2.png" alt="" height="50" @click="clickLogo">
+      <img src="./assets/gitbox_logo2.png" alt="" height="50" @click="clickLogo" id="gitbox-logo">
       <b-navbar-brand href="#" style="margin-left:3px; color: white; font-size: xx-large; font-family:'Times New Roman', Times, serif">
         <router-link class="nav-link" :to="{ name: 'HomeView' }">GITBOX</router-link>
       </b-navbar-brand>
@@ -19,7 +19,7 @@
         <!-- <b-navbar-nav class="ml-auto"> -->
         <!-- 검색창 부분 -->
         <b-navbar-nav v-if="$store.getters.isLogin" style="width: 400px; margin: auto;">
-          <TheMovieSearchBar @get-search-movie="getSearchMovie"/>
+          <MovieSearchBar @get-search-movie="getSearchMovie"/>
         </b-navbar-nav>
 
         <b-navbar-nav v-if="$store.getters.isLogin" style="display: flex;">
@@ -39,11 +39,11 @@
 </template>
 
 <script>
-import TheMovieSearchBar from '@/components/TheMovieSearchBar'
+import MovieSearchBar from '@/components/MovieSearchBar'
 
 export default {
   components: {
-    TheMovieSearchBar,
+    MovieSearchBar,
   },
 
 	created() {
@@ -86,31 +86,13 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  /* color: #2c3e50; */
   font-family: "DOHYEON";
 
-  /* background-image: url("./assets/back-image.png"); */
   background-color: #F5F5DC;
 }
 
-/* nav {
-  padding: 30px;
-  font-size: x-large;
-  height: 60px;
-  /* background-color: #2e3133; */
-/* } */
-
-/* nav a {
-  font-weight: bold;
-  /* color: white !important; */
-  /* color: #2c3e50; */
-/* } */
-
-/* 
-nav a.router-link-exact-active {
-  /* font-weight: bold; */
-  /* color: pink !important; */
-  /* color: #2c3e50; */
-/* } */
+#gitbox-logo:hover {
+  cursor: pointer;
+}
 
 </style>

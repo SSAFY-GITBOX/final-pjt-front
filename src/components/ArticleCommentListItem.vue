@@ -35,6 +35,9 @@
       </div>
     </div>
     <div v-else>
+      <div style="padding-bottom: 10px">
+        {{ comment.username }}
+      </div>
       <div>
         <textarea
           name=""
@@ -90,10 +93,6 @@ export default {
 
   methods: {
     clickUpdateBtn() {
-      // const selectedEle = document.querySelector('#read-comment-div')
-      // console.log(selectedEle)
-      // console.log(selectedEle.clientHeight)
-      // this.textareaHeight = selectedEle.clientHeight
       this.isUpdate = true;
     },
 
