@@ -126,7 +126,6 @@ export default {
           ) {
             this.user.profile_image_url = `http://127.0.0.1:8000${this.user?.profile_image_url}`;
           }
-          // console.log(this.user)
           this.userInfo.push(this.user);
         })
         .catch((err) => {
@@ -142,8 +141,6 @@ export default {
         },
       })
         .then((res) => {
-          // console.log('-----여기 밑에 한줄이 사용자 알고리즘')
-          // console.log(res.data)
           this.userInfo.push(res.data.genreScore);
 
           res.data.recommended.forEach((movie) => {
@@ -158,9 +155,6 @@ export default {
 
           this.recommendMovies.push(...res.data.recommended);
           this.recommendMovies.push(...res.data.random);
-
-          console.log(this.recommendMovies);
-          console.log(this.userInfo);
         })
         .catch((err) => {
           console.log(err);

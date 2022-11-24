@@ -49,14 +49,7 @@ export default {
 <style>
 #home-user-movie-div {
   width: 100%;
-  /* height: 300px; */
-  /* margin: 20px; */
   padding: 20px;
-  /* background-color: pink; */
-  /* background-color: rgba(51, 61, 81, 1.0); */
-  /* box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 12px -2px,
-    rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
-  border-radius: 20px; */
 }
 
 #recommeded-movie-list-body {

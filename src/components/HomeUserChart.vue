@@ -60,17 +60,8 @@ export default {
     };
   },
 
-  watch: {
-    userChartInfo(value, oldvalue) {
-      console.log(value, oldvalue)
-      this.fillData();
-    }
-  },
-
   methods: {
     fillData() {
-      console.log(this.userChartInfo)
-      
       var ctx = document.querySelector("#myChart").getContext("2d");
       new Chart(ctx, {
         type: "bar",
@@ -112,9 +103,9 @@ export default {
       });
     },
   },
-  // mounted() {
-  //   this.fillData()
-  // }
+  mounted() {
+    this.fillData()
+  }
 };
 </script>
 
