@@ -22,8 +22,9 @@
       </div>
       <div>
         <h4 class="m-0 mt-3"><span style="color: crimson">{{ userProfile?.followings_cnt }}</span> 명의 Following</h4>
-        <h4 class="m-0 mt-3"><span style="color: crimson">{{ userProfile?.like_movies.length }}</span> 편의 찜한 영화를</h4>
-        <h4 class="m-0 mt-3">기반으로 정보를 조합했어요!</h4>
+        <h4 class="m-0 mt-3"><span style="color: crimson">{{ userProfile?.like_movies.length }}</span> 편의 찜한 영화</h4>
+        <h4 class="m-0 mt-3"><span style="color: crimson">{{ userProfile?.comment_set.length }}</span> 개의 영화 감상평을</h4>
+        <h4 class="m-0 mt-3">참고했어요!</h4>
       </div>
     </div>
     <div id="user-chart-info-div">

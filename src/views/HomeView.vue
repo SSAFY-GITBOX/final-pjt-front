@@ -127,38 +127,41 @@ export default {
             this.user.profile_image_url = `http://127.0.0.1:8000${this.user?.profile_image_url}`;
           }
           this.userInfo.push(this.user);
+          axios({
+            method: "get",
+            url: `${API_URL}/api/v1/movies/recommend/${this.$store.state.userPk}/`,
+            headers: {
+              Authorization: `Token ${this.$store.state.token}`,
+            },
+          })
+            .then((res2) => {
+              this.userInfo.push(res2.data.genreScore);
+    
+              res2.data.recommended.forEach((movie) => {
+                movie.poster_path =
+                  "https://image.tmdb.org/t/p/original" + movie.poster_path;
+              });
+    
+              res2.data.random.forEach((movie) => {
+                movie.poster_path =
+                  "https://image.tmdb.org/t/p/original" + movie.poster_path;
+              });
+    
+              this.recommendMovies.push(...res2.data.recommended);
+              this.recommendMovies.push(...res2.data.random);
+    
+              console.log(this.userInfo)
+              console.log(this.recommendMovies)
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((err) => {
           console.log(err);
         });
 
       // 사용자 알고리즘 요청
-      axios({
-        method: "get",
-        url: `${API_URL}/api/v1/movies/recommend/${this.$store.state.userPk}/`,
-        headers: {
-          Authorization: `Token ${this.$store.state.token}`,
-        },
-      })
-        .then((res) => {
-          this.userInfo.push(res.data.genreScore);
-
-          res.data.recommended.forEach((movie) => {
-            movie.poster_path =
-              "https://image.tmdb.org/t/p/original" + movie.poster_path;
-          });
-
-          res.data.random.forEach((movie) => {
-            movie.poster_path =
-              "https://image.tmdb.org/t/p/original" + movie.poster_path;
-          });
-
-          this.recommendMovies.push(...res.data.recommended);
-          this.recommendMovies.push(...res.data.random);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     },
 
     // 장르 초기 정보 요청
