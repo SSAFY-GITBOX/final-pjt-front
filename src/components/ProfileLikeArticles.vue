@@ -4,7 +4,7 @@
     <div v-for="article in orderdLikeArticles" :key="article.id" class="ms-2">
       <router-link
         :to="{ name: 'ArticleDetailView', params: { id: article.id } }"
-				class="btn shadow-sm p-3 mb-2 rounded"
+				class="btn shadow p-3 mb-2 rounded"
       >
 				<span style="font-size: 20px;">{{ article.title }}</span>
 				<span>{{ article.created_at.substr(0, 10) }}</span>

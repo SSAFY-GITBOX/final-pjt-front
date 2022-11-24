@@ -10,7 +10,7 @@
           name: 'ProfileView',
           params: { id: user.id },
         }"
-        class="btn shadow-sm p-2 mb-2 rounded d-flex flex-nowrap"
+        class="btn shadow p-2 mb-2 rounded d-flex flex-nowrap"
       >
         <!-- 팔로워 유저 이미지 -->
         <div id="follower-profile-img">

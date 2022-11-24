@@ -27,8 +27,11 @@
             :to="{ name: 'MovieDetailView', params: { id: comment.movie } }"
             class="btn shadow-sm p-1 mt-1 mb-2 rounded"
           >
-            <span id="movie-title">{{ comment.movie_title }}</span>
-            {{ comment.content }} - {{ comment.created_at.substr(0, 10) }}
+						<div>
+							<span id="movie-title">{{ comment.movie_title }} ⭐{{ comment.rating }}</span>
+             {{ comment.content }} - {{ comment.created_at.substr(0, 10) }}
+						</div>
+            
           </router-link>
         </div>
         <br />
@@ -115,7 +118,6 @@ export default {
   display: flex;
   flex-direction: column;
   text-align: start;
-
   box-shadow: rgba(0, 0, 0, 0.8) 0px 6px 12px -2px,
     rgba(0, 0, 0, 0.8) 0px 3px 7px -3px;
   border-radius: 20px;
@@ -126,8 +128,9 @@ export default {
 }
 
 #acts a {
-  text-decoration: none;
-  color: #f5f5dc;
+	background-color: #2e3133;
+  color: #F5F5DC;
+	text-decoration: none;
   margin-left: 2rem;
 }
 
