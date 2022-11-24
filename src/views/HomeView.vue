@@ -150,8 +150,6 @@ export default {
               this.recommendMovies.push(...res2.data.recommended);
               this.recommendMovies.push(...res2.data.random);
     
-              console.log(this.userInfo)
-              console.log(this.recommendMovies)
             })
             .catch((err) => {
               console.log(err);

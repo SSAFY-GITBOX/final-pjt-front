@@ -12,7 +12,6 @@ export default {
   },
   methods: {
     goDetail() {
-      console.log(this.movie)
       this.$router.push({ name: "MovieDetailView", params: { id: this.movie.movie_id }})
     }
   }

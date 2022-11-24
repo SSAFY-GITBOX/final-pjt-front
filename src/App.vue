@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <b-navbar toggleable="lg" type="dark" style="z-index: 1000; padding-right: 20px; background-color: #2B2D31; position: -webkit-sticky; position: sticky; top: 0px;">
+    <b-navbar toggleable="lg" type="dark" style="z-index: 1000; padding-right: 20px; background-color: rgb(36, 41, 47); position: -webkit-sticky; position: sticky; top: 0px;">
 
-      <img src="./assets/gitbox_logo2.png" alt="" height="50" @click="clickLogo" id="gitbox-logo">
+      <img src="./assets/gitbox_logo.png" alt="" height="50" @click="clickLogo" id="gitbox-logo">
       <b-navbar-brand href="#" style="margin-left:3px; color: white; font-size: xx-large; font-family:'Times New Roman', Times, serif">
         <router-link class="nav-link" :to="{ name: 'HomeView' }">GITBOX</router-link>
       </b-navbar-brand>
