@@ -103,14 +103,13 @@ export default {
 
 <style>
 #movie-view-div{
-  /* background-color: pink; */
+  background-color: #F5F5DC;
   color: #F5F5DC;
   padding: 3% 5%;
   padding-left: auto;
   padding-right: auto;
   display: flex;
   flex-direction: column;
-  /* text-align: start; */
 }
 
 #movie-view-div-div{
