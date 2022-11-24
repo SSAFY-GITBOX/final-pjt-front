@@ -117,7 +117,7 @@ export default {
   margin: 20px;
   padding: 20px;
   display: flex;
-  justify-content: start;
+  justify-content: flex-start;
 }
 
 #user-chart-profile-div {

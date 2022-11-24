@@ -1,6 +1,6 @@
 <template>
   <div id="signup-view-div">
-    <div id="signup-div" class="w-50">
+    <div id="signup-div">
       <h1 class="mb-5">회원가입</h1>
     <form @submit.prevent="signUp">
       <label for="username">아이디</label><br>
@@ -60,6 +60,7 @@ export default {
 }
 
 #signup-div {
+	width: 30%;
 	background-color: #333D51;
 	padding: 3% 3%;
 	border-radius: 15px;
@@ -73,7 +74,7 @@ export default {
 
 #signup-view-div input {
   margin-bottom: 2rem;
-  width: 70%;
+  width: 85%;
 }
 
 .signup-btn {

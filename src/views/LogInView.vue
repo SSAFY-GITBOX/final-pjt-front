@@ -1,6 +1,6 @@
 <template>
   <div id="login-view-div">
-    <div id="login-div" class="w-50">
+    <div id="login-div">
 			<h1 class="mb-5">로그인</h1>
       <form @submit.prevent="logIn">
         <label for="username">아이디</label><br />
@@ -57,6 +57,7 @@ export default {
 }
 
 #login-div {
+	width: 30%;
 	background-color: #333D51;
 	padding: 3% 3%;
 	border-radius: 15px;
@@ -70,7 +71,7 @@ export default {
 
 #login-view-div input {
   margin-bottom: 2rem;
-  width: 70%;
+  width: 85%;
 }
 
 #login-div input {
